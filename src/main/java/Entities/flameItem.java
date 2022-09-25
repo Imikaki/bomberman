@@ -1,2 +1,16 @@
-package Entities;public class flameItem {
+package Entities;
+
+import javafx.scene.image.Image;
+
+public class flameItem extends Item{
+    private static final int flameRangeUp = 1;
+
+    public flameItem(int xUnit, int yUnit, Image img) {
+        super(xUnit, yUnit, img);
+    }
+
+    @Override
+    public void powerUp() {
+        // TODO
+    }
 }
