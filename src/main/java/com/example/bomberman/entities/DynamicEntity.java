@@ -1,8 +1,8 @@
-package Entities;
+package com.example.bomberman.entities;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import System.Control.CONTROL;
+import com.example.bomberman.system.Control.CONTROL;
 
 public abstract class DynamicEntity extends Entity{
     protected CONTROL control;

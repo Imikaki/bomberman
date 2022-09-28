@@ -1,4 +1,4 @@
-package System;
+package com.example.bomberman.system;
 
 public class Control {
     public static enum CONTROL {

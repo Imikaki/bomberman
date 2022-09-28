@@ -1,9 +1,9 @@
-package Entities;
+package com.example.bomberman.entities;
 
 import javafx.scene.image.Image;
 
-public class Enemy extends DestroyableEntity{
-    public Enemy(int xUnit, int yUnit, Image img) {
+public class Bomber extends DestroyableEntity{
+    public Bomber(int xUnit, int yUnit, Image img) {
         super(xUnit, yUnit, img);
     }
 

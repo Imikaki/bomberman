@@ -1,4 +1,4 @@
-package Entities;
+package com.example.bomberman.entities;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
