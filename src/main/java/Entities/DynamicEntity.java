@@ -2,9 +2,10 @@ package Entities;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import System.Control.CONTROL;
 
 public abstract class DynamicEntity extends Entity{
-    protected System.Control.CONTROL control;
+    protected CONTROL control;
     protected boolean run;
     protected double speed;
 
@@ -26,5 +27,5 @@ public abstract class DynamicEntity extends Entity{
         // TODO
     }
 
-    public abstract void chooseSprite();
+    public abstract Image chooseSprite();
 }
