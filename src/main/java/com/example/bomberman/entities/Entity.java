@@ -1,5 +1,6 @@
 package com.example.bomberman.entities;
 
+import com.example.bomberman.graphics.Sprite;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 //import uet.oop.bomberman.graphics.Sprite;
@@ -14,9 +15,13 @@ public abstract class Entity {
     protected Image img;
 
     //Khởi tạo đối tượng, chuyển từ tọa độ đơn vị sang tọa độ trong canvas
-    public Entity( int xUnit, int yUnit, Image img) {
-        //this.x = xUnit * Sprite.SCALED_SIZE;
-        //this.y = yUnit * Sprite.SCALED_SIZE;
+    public Entity() {
+
+    }
+
+    public Entity(int xUnit, int yUnit, Image img) {
+        this.x = xUnit * Sprite.SCALED_SIZE;
+        this.y = yUnit * Sprite.SCALED_SIZE;
         this.img = img;
     }
 
@@ -24,7 +29,7 @@ public abstract class Entity {
         return x;
     }
 
-    public void setX(int x){
+    public void setX(int x) {
         this.x = x;
     }
 
@@ -32,7 +37,7 @@ public abstract class Entity {
         return y;
     }
 
-    public void setY(int y){
+    public void setY(int y) {
         this.y = y;
     }
 
@@ -41,5 +46,8 @@ public abstract class Entity {
     }
 
     public abstract void update();
+    public boolean coordiantes(int x, int y) {
+        return this.x == x && this.y == y;
+    }
 }
 

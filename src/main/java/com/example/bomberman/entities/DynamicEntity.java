@@ -1,31 +1,30 @@
 package com.example.bomberman.entities;
 
-import javafx.scene.canvas.GraphicsContext;
+import com.example.bomberman.graphics.Sprite;
 import javafx.scene.image.Image;
-import com.example.bomberman.system.Control.CONTROL;
 
-public abstract class DynamicEntity extends Entity{
-    protected CONTROL control;
-    protected boolean run;
-    protected double speed;
 
-    public DynamicEntity(int xUnit, int yUnit, Image img) {
-        super(xUnit, yUnit, img);
+public abstract class DynamicEntity extends AnimatedEntity {
+    private int speed = Sprite.SCALED_SIZE;
+
+    public DynamicEntity(int x, int y, Image img) {
+        super(x, y, img);
     }
 
-    @Override
-    public void render(GraphicsContext gc) {
-        // TODO
+    public DynamicEntity(int x, int y, Image img, int speed) {
+        super(x, y, img);
+        this.speed = speed;
     }
 
-    @Override
-    public void update() {
-        // TODO
+    public int getSpeed() {
+        return this.speed;
     }
 
-    public void updateControl() {
-        // TODO
+    public void setSpeed(int speed) {
+        this.speed = speed;
     }
 
-    public abstract Image chooseSprite();
+    protected boolean collide(Entity entity) {
+        return false;
+    }
 }

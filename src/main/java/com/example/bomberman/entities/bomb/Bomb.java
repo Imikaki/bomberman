@@ -1,0 +1,57 @@
+package com.example.bomberman.entities.bomb;
+
+import com.example.bomberman.entities.AnimatedEntity;
+import com.example.bomberman.entities.Entity;
+import javafx.scene.image.Image;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Bomb extends AnimatedEntity {
+	private int timeExplode = 90;
+	public static int bombSize = 1;
+
+	/**
+	 * direction
+	 * 0 left
+	 * 1 right
+	 * 2 up
+	 * 3 down
+	 */
+
+	private int[] around = {x, x, y, y};
+	private boolean[] walled = new boolean[4];
+	Entity center;
+	List<Entity> entitiesLeft;
+	List<Entity> entitiesRight;
+	List<Entity> entitiesUp;
+	List<Entity> entitiesDown;
+	List<Entity> explosion;
+	public Bomb(int x, int y, Image img) {
+		super(x, y, img);
+		explosion = new ArrayList<Entity>();
+	}
+
+	public void checkEntities() {
+
+	}
+
+	public void addExplosion() {
+
+	}
+
+	public void bombExplodes() {
+
+	}
+
+	@Override
+	public void update() {
+		if (timeExplode > 0) {
+			timeExplode--;
+		} else {
+			checkEntities();
+			addExplosion();
+
+		}
+	}
+}

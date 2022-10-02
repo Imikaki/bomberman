@@ -2,7 +2,7 @@
 
 ## Nhóm 1
 
-### Thành viên: 
+### Thành viên:
 
 - Hoàng Minh Tú - MSV: 21020029
 
