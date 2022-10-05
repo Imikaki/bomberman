@@ -13,7 +13,7 @@ public abstract class Entity {
     protected int y;
 
     protected Image img;
-
+    protected boolean isRemoved = false;
     //Khởi tạo đối tượng, chuyển từ tọa độ đơn vị sang tọa độ trong canvas
     public Entity() {
 
@@ -46,6 +46,9 @@ public abstract class Entity {
     }
 
     public abstract void update();
+    public void remove() {
+        isRemoved = true;
+    }
     public boolean coordiantes(int x, int y) {
         return this.x == x && this.y == y;
     }

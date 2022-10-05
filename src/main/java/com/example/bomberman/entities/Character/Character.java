@@ -1,10 +1,10 @@
-package com.example.bomberman.entities.Enemies;
+package com.example.bomberman.entities.Character;
 
 import com.example.bomberman.entities.DynamicEntity;
 import javafx.scene.image.Image;
 
-public abstract class Enemies extends DynamicEntity {
-	public Enemies(int x, int y, Image img) {
+public abstract class Character extends DynamicEntity {
+	public Character(int x, int y, Image img) {
 		super(x, y, img);
 	}
 
