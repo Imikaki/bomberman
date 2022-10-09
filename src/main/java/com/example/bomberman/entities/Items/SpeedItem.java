@@ -1,4 +1,4 @@
 package com.example.bomberman.entities.Items;
 
-public class Grass {
+public class SpeedItem {
 }
