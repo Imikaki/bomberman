@@ -5,8 +5,12 @@ import com.example.bomberman.entities.Entity;
 import com.example.bomberman.system.Direction;
 import javafx.scene.image.Image;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public abstract class Character extends DynamicEntity {
     protected boolean alive = true;
+    protected boolean killed = false;
     protected boolean moving = false;
     protected Direction direction;
 
@@ -18,6 +22,18 @@ public abstract class Character extends DynamicEntity {
 
     @Override
     public void update() {
+    }
+
+    public void kill() {
+        killed = true;
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                alive = false;
+                killed = false;
+            }
+        }, 750L);
     }
 
     public abstract void handleMove();
@@ -39,8 +55,6 @@ public abstract class Character extends DynamicEntity {
     public void setDirection(Direction direction) {
         this.direction = direction;
     }
-
-    public abstract boolean isColliding(Entity other);
 
     @Override
     public int getX() {

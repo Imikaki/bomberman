@@ -70,6 +70,7 @@ public class Bomber extends Character {
     public boolean isColliding(Entity other) {
         // to do
         // create rect box ?
+
         return false;
     }
 }
