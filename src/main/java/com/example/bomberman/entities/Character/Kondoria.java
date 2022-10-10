@@ -2,8 +2,8 @@ package com.example.bomberman.entities.Character;
 
 import javafx.scene.image.Image;
 
-public class Ovapi extends Character {
-    public Ovapi(int x, int y, Image img) {
+public class Kondoria extends Character {
+    public Kondoria(int x, int y, Image img) {
         super(x, y, img);
     }
 

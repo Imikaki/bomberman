@@ -9,6 +9,11 @@ import com.example.bomberman.entities.Entity;
 import com.example.bomberman.entities.Character.*;
 import com.example.bomberman.graphics.*;
 import com.example.bomberman.system.KeyManager;
+import javafx.animation.AnimationTimer;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -26,6 +31,12 @@ public final class Map {
     public static boolean isWin = false;
     Stage windows;
     public static int level = 1;
+    private AnimationTimer timer;
+
+    private GraphicsContext gc;
+    private Canvas cv;
+    private Group root;
+    private Scene scene;
     public void mapLoading(int levels) {
         String mapPath = "./res/levels/Level" + levels + ".txt";
         File map = new File(mapPath);
@@ -74,6 +85,21 @@ public final class Map {
                         entities.add(enemy);
                         break;
                     }
+                    case '3': {
+                        enemy = new Doll(i, j, Sprite.doll_left1.getFxImage());
+                        entities.add(enemy);
+                        break;
+                    }
+                    case '4': {
+                        enemy = new Minvo(i, j, Sprite.minvo_left1.getFxImage());
+                        entities.add(enemy);
+                        break;
+                    }
+                    case '5': {
+                        enemy = new Kondoria(i, j, Sprite.kondoria_left1.getFxImage());
+                        entities.add(enemy);
+                        break;
+                    }
                     case 'x': {
                         object = new Portal(i, j, Sprite.portal.getFxImage());
                         staticEntities.add(object);
@@ -82,5 +108,42 @@ public final class Map {
                 }
             }
         }
+    }
+
+    public void update() {
+        bomberman.update();
+        for (Entity e : entities) {
+            e.update();
+        }
+    }
+
+    public void render() {
+        gc.clearRect(0, 0, 1280, 720);
+        for (Entity e : staticEntities) {
+            e.render(gc);
+        }
+        for (Entity e : entities) {
+            e.render(gc);
+        }
+        bomberman.render(gc);
+    }
+
+    private void createGameLoop() {
+        timer = new AnimationTimer() {
+            long lastTick = 0;
+            @Override
+            public void handle(long now) {
+                if (now - lastTick > 1000000000 / 60) {
+                    update();
+                    render();
+                    lastTick = now;
+                    if (!bomberman.isAlive()) {
+                        mainStage.close();
+                        timer.stop();
+                    }
+                }
+            }
+        };
+        timer.start();
     }
 }
