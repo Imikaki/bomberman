@@ -2,6 +2,8 @@ package com.example.bomberman.entities.Character;
 
 import com.example.bomberman.Map;
 import com.example.bomberman.entities.Entity;
+import com.example.bomberman.entities.Object.Brick;
+import com.example.bomberman.entities.Object.Wall;
 import com.example.bomberman.entities.bomb.Bomb;
 import com.example.bomberman.system.Direction;
 import com.example.bomberman.system.KeyManager;
@@ -66,11 +68,17 @@ public class Bomber extends Character {
         return bombs;
     }
 
-    @Override
-    public boolean isColliding(Entity other) {
-        // to do
-        // create rect box ?
+    public boolean checkSafe(int x, int y) {
+        for (Entity entity : map.getStaticEntities()) {
+            if (entity instanceof Wall || entity instanceof Brick) {
+                if (isColliding(entity)) {
+                    return true;
+                }
+            }
+        }
+        for (Bomb bomb : bombs) {
 
+        }
         return false;
     }
 }
