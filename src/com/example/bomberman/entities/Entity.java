@@ -1,10 +1,10 @@
 package com.example.bomberman.entities;
 
+import com.example.bomberman.graphics.HitBox;
 import com.example.bomberman.graphics.Sprite;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import com.example.bomberman.graphics.Sprite;
-import javafx.scene.image.ImageView;
+//import uet.oop.bomberman.graphics.Sprite;
 
 public abstract class Entity {
     //Tọa độ X tính từ góc trái trên trong Canvas
@@ -14,10 +14,13 @@ public abstract class Entity {
     protected int y;
 
     protected Image img;
-    protected ImageView imgView;
+    protected boolean isRemoved = false;
+    private HitBox borderBox;
 
     //Khởi tạo đối tượng, chuyển từ tọa độ đơn vị sang tọa độ trong canvas
-    public Entity() {}
+    public Entity() {
+
+    }
 
     public Entity(int xUnit, int yUnit, Image img) {
         this.x = xUnit * Sprite.SCALED_SIZE;
@@ -41,12 +44,12 @@ public abstract class Entity {
         this.y = y;
     }
 
-    public void setImgView(Image imgView) {
-        this.imgView.setImage(imgView);
+    public HitBox getBorderBox() {
+        return borderBox;
     }
 
-    public ImageView getImgView() {
-        return imgView;
+    public void setBorderBox(HitBox borderBox) {
+        this.borderBox = borderBox;
     }
 
     public void render(GraphicsContext gc) {
@@ -54,8 +57,17 @@ public abstract class Entity {
     }
 
     public abstract void update();
-    public boolean coordinates(int x, int y) {
+
+    public void remove() {
+        isRemoved = true;
+    }
+
+    public boolean coordiantes(int x, int y) {
         return this.x == x && this.y == y;
+    }
+
+    public boolean isColliding(Entity other) {
+        return borderBox.checkCollision(other.getBorderBox());
     }
 }
 

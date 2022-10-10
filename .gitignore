@@ -12,9 +12,6 @@ target/
 *.iml
 *.ipr
 
-pom.xml
-src/main/java/module-info.java
-
 ### Eclipse ###
 .apt_generated
 .classpath

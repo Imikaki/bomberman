@@ -1,10 +1,10 @@
 package com.example.bomberman.entities.Items;
 
-import com.example.bomberman.entities.Entity;
 import javafx.scene.image.Image;
 
-public class Brick extends Entity {
-    public Brick(int x, int y, Image img) {
+
+public class BombItem extends Item {
+    public BombItem(int x, int y, Image img) {
         super(x, y, img);
     }
 
