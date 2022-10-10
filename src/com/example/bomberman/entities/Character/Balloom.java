@@ -1,5 +1,6 @@
 package com.example.bomberman.entities.Character;
 
+import com.example.bomberman.entities.Entity;
 import javafx.scene.image.Image;
 
 public class Balloom extends Character {
@@ -19,6 +20,11 @@ public class Balloom extends Character {
 
     @Override
     public boolean canMove(int x, int y) {
+        return false;
+    }
+
+    @Override
+    public boolean isColliding(Entity other) {
         return false;
     }
 }

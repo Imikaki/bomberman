@@ -6,7 +6,9 @@ public abstract class AnimatedEntity extends Entity {
     protected final int MAX_ANIMATE = 600;
     protected int frame = 0;
 
-    public AnimatedEntity() {}
+    public AnimatedEntity() {
+    }
+
     public AnimatedEntity(int x, int y, Image img) {
         super(x, y, img);
     }

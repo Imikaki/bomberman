@@ -1,13 +1,13 @@
 package com.example.bomberman;
 
-import com.example.bomberman.entities.Items.FlameItem;
+import com.example.bomberman.entities.Character.*;
+import com.example.bomberman.entities.Entity;
 import com.example.bomberman.entities.Object.Brick;
 import com.example.bomberman.entities.Object.Grass;
 import com.example.bomberman.entities.Object.Portal;
 import com.example.bomberman.entities.Object.Wall;
-import com.example.bomberman.entities.Entity;
-import com.example.bomberman.entities.Character.*;
-import com.example.bomberman.graphics.*;
+import com.example.bomberman.entities.bomb.Bomb;
+import com.example.bomberman.graphics.Sprite;
 import com.example.bomberman.system.KeyManager;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Group;
@@ -23,37 +23,58 @@ import java.util.List;
 import java.util.Scanner;
 
 public final class Map {
-    private static List<Entity> staticEntities = new ArrayList<Entity>();
-    private static List<Entity> entities = new ArrayList<Entity>();
-
-    private KeyManager keys;
     public static Bomber bomberman;
     public static boolean isWin = false;
-    Stage windows;
     public static int level = 1;
+    private static List<Entity> staticEntities = new ArrayList<Entity>();
+    private static List<Entity> entities = new ArrayList<Entity>();
+    Stage windows;
+    private int row;
+    private int col;
+    private KeyManager keys;
     private AnimationTimer timer;
 
     private GraphicsContext gc;
     private Canvas cv;
     private Group root;
     private Scene scene;
+    private Stage mainStage;
+
+    public Map() {
+        loadNewGame();
+        initializeMap();
+        createKeyListener();
+    }
+
+    public void initializeMap() {
+        cv = new Canvas(Sprite.SCALED_SIZE * getCol(), Sprite.SCALED_SIZE * getRow());
+        gc = cv.getGraphicsContext2D();
+        root = new Group();
+        root.getChildren().add(cv);
+        scene = new Scene(root, Sprite.SCALED_SIZE * Sprite.SCALED_SIZE * getCol(), Sprite.SCALED_SIZE * getRow());
+        mainStage = new Stage();
+        mainStage.setScene(scene);
+    }
+
     public void mapLoading(int levels) {
-        String mapPath = "./res/levels/Level" + levels + ".txt";
+        String mapPath = "res/levels/Level2.txt";
         File map = new File(mapPath);
         Scanner sc = null;
         try {
             sc = new Scanner(map);
-        } catch(FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             System.out.println("File reading error: Error loading map");
             e.printStackTrace();
         }
 
-        int level = sc.nextInt();
-        int row = sc.nextInt();
-        int col = sc.nextInt();
+        level = sc.nextInt();
+        row = sc.nextInt();
+        col = sc.nextInt();
 
         Entity object;
         Entity enemy;
+
+        sc.nextLine();
 
         for (int i = 0; i < row; ++i) {
             String line = sc.nextLine();
@@ -108,6 +129,10 @@ public final class Map {
                 }
             }
         }
+
+        for (Bomb bomb : bomberman.getBombs()) {
+            entities.add(bomb);
+        }
     }
 
     public void update() {
@@ -131,6 +156,7 @@ public final class Map {
     private void createGameLoop() {
         timer = new AnimationTimer() {
             long lastTick = 0;
+
             @Override
             public void handle(long now) {
                 if (now - lastTick > 1000000000 / 60) {
@@ -141,9 +167,42 @@ public final class Map {
                         mainStage.close();
                         timer.stop();
                     }
+
                 }
             }
         };
         timer.start();
+    }
+
+    private void createKeyListener() {
+        scene.setOnKeyPressed(event -> keys.pressed(event));
+        scene.setOnKeyReleased(event -> keys.released(event));
+    }
+
+    public void loadNewGame() {
+        entities = new ArrayList<>();
+        staticEntities = new ArrayList<>();
+        mapLoading(1);
+        createGameLoop();
+    }
+
+    public Scene getScene() {
+        return scene;
+    }
+
+    public List<Entity> getStaticEntities() {
+        return staticEntities;
+    }
+
+    public List<Entity> getEntities() {
+        return entities;
+    }
+
+    public int getCol() {
+        return this.col;
+    }
+
+    public int getRow() {
+        return this.row;
     }
 }
