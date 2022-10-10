@@ -1,9 +1,10 @@
 package com.example.bomberman.entities.Character;
 
+import com.example.bomberman.entities.Entity;
 import javafx.scene.image.Image;
 
-public class Kondoria extends Character {
-    public Kondoria(int x, int y, Image img) {
+public class Oneal extends Character {
+    public Oneal(int x, int y, Image img) {
         super(x, y, img);
     }
 
@@ -21,4 +22,10 @@ public class Kondoria extends Character {
     public boolean canMove(int x, int y) {
         return false;
     }
+
+    @Override
+    public boolean isColliding(Entity other) {
+        return false;
+    }
 }
+
