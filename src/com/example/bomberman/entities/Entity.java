@@ -1,5 +1,6 @@
 package com.example.bomberman.entities;
 
+import com.example.bomberman.graphics.HitBox;
 import com.example.bomberman.graphics.Sprite;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -14,6 +15,7 @@ public abstract class Entity {
 
     protected Image img;
     protected boolean isRemoved = false;
+    private HitBox borderBox;
 
     //Khởi tạo đối tượng, chuyển từ tọa độ đơn vị sang tọa độ trong canvas
     public Entity() {
@@ -42,6 +44,14 @@ public abstract class Entity {
         this.y = y;
     }
 
+    public HitBox getBorderBox() {
+        return borderBox;
+    }
+
+    public void setBorderBox(HitBox borderBox) {
+        this.borderBox = borderBox;
+    }
+
     public void render(GraphicsContext gc) {
         gc.drawImage(img, x, y);
     }
@@ -54,6 +64,10 @@ public abstract class Entity {
 
     public boolean coordiantes(int x, int y) {
         return this.x == x && this.y == y;
+    }
+
+    public boolean isColliding(Entity other) {
+        return borderBox.checkCollision(other.getBorderBox());
     }
 }
 
