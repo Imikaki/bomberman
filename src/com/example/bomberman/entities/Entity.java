@@ -15,7 +15,7 @@ public abstract class Entity {
 
     protected Image img;
     protected boolean isRemoved = false;
-    private HitBox borderBox;
+    protected HitBox borderBox;
 
     //Khởi tạo đối tượng, chuyển từ tọa độ đơn vị sang tọa độ trong canvas
     public Entity() {
@@ -67,7 +67,7 @@ public abstract class Entity {
     }
 
     public boolean isColliding(Entity other) {
-        return borderBox.checkCollision(other.getBorderBox());
+        return borderBox.collideWith(other.getBorderBox());
     }
 }
 

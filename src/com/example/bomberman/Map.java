@@ -99,30 +99,47 @@ public final class Map {
                     case '1': {
                         enemy = new Balloom(i, j, Sprite.balloom_left1.getFxImage());
                         entities.add(enemy);
+                        object = new Grass(i, j, Sprite.grass.getFxImage());
+                        staticEntities.add(object);
                         break;
                     }
                     case '2': {
                         enemy = new Oneal(i, j, Sprite.oneal_left1.getFxImage());
                         entities.add(enemy);
+                        object = new Grass(i, j, Sprite.grass.getFxImage());
+                        staticEntities.add(object);
                         break;
                     }
                     case '3': {
                         enemy = new Doll(i, j, Sprite.doll_left1.getFxImage());
                         entities.add(enemy);
+                        object = new Grass(i, j, Sprite.grass.getFxImage());
+                        staticEntities.add(object);
                         break;
                     }
                     case '4': {
                         enemy = new Minvo(i, j, Sprite.minvo_left1.getFxImage());
                         entities.add(enemy);
+                        object = new Grass(i, j, Sprite.grass.getFxImage());
+                        staticEntities.add(object);
                         break;
                     }
                     case '5': {
                         enemy = new Kondoria(i, j, Sprite.kondoria_left1.getFxImage());
                         entities.add(enemy);
+                        object = new Grass(i, j, Sprite.grass.getFxImage());
+                        staticEntities.add(object);
                         break;
                     }
                     case 'x': {
                         object = new Portal(i, j, Sprite.portal.getFxImage());
+                        staticEntities.add(object);
+                        object = new Brick(i, j, Sprite.brick.getFxImage());
+                        staticEntities.add(object);
+                        break;
+                    }
+                    default: {
+                        object = new Grass(i, j, Sprite.grass.getFxImage());
                         staticEntities.add(object);
                         break;
                     }
