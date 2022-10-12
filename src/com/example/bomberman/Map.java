@@ -2,11 +2,11 @@ package com.example.bomberman;
 
 import com.example.bomberman.entities.Character.*;
 import com.example.bomberman.entities.Entity;
-import com.example.bomberman.entities.Object.Brick;
-import com.example.bomberman.entities.Object.Grass;
-import com.example.bomberman.entities.Object.Portal;
-import com.example.bomberman.entities.Object.Wall;
-import com.example.bomberman.entities.bomb.Bomb;
+import com.example.bomberman.entities.staticEntity.StaticEntity.Brick;
+import com.example.bomberman.entities.staticEntity.StaticEntity.Grass;
+import com.example.bomberman.entities.staticEntity.StaticEntity.Portal;
+import com.example.bomberman.entities.staticEntity.StaticEntity.Wall;
+import com.example.bomberman.entities.staticEntity.CarriableEntity.Bomb;
 import com.example.bomberman.graphics.Sprite;
 import com.example.bomberman.system.KeyManager;
 import javafx.animation.AnimationTimer;
@@ -26,8 +26,8 @@ public final class Map {
     public static Bomber bomberman;
     public static boolean isWin = false;
     public static int level = 1;
-    private static List<Entity> staticEntities = new ArrayList<Entity>();
-    private static List<Entity> entities = new ArrayList<Entity>();
+    private List<Entity> staticEntities = new ArrayList<Entity>();
+    private List<Entity> entities = new ArrayList<Entity>();
     Stage windows;
     private int row;
     private int col;

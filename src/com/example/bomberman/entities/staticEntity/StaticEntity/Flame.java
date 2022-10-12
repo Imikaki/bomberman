@@ -1,4 +1,4 @@
-package com.example.bomberman.entities.Object;
+package com.example.bomberman.entities.staticEntity.StaticEntity;
 
 import com.example.bomberman.entities.Entity;
 import com.example.bomberman.graphics.HitBox;

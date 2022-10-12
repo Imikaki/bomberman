@@ -1,4 +1,4 @@
-package com.example.bomberman.entities.bomb;
+package com.example.bomberman.entities.staticEntity.CarriableEntity;
 
 import com.example.bomberman.entities.AnimatedEntity;
 import com.example.bomberman.entities.Entity;
