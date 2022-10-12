@@ -2,8 +2,10 @@ package com.example.bomberman.entities;
 
 import com.example.bomberman.graphics.HitBox;
 import com.example.bomberman.graphics.Sprite;
+import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 //import uet.oop.bomberman.graphics.Sprite;
 
 public abstract class Entity {
@@ -14,6 +16,7 @@ public abstract class Entity {
     protected int y;
 
     protected Image img;
+    protected ImageView imageView;
     protected boolean isRemoved = false;
     protected HitBox borderBox;
 
@@ -26,6 +29,9 @@ public abstract class Entity {
         this.x = xUnit * Sprite.SCALED_SIZE;
         this.y = yUnit * Sprite.SCALED_SIZE;
         this.img = img;
+        this.imageView = new ImageView(this.img);
+        imageView.setX(this.y);
+        imageView.setY(this.x);
     }
 
     public int getX() {
@@ -44,6 +50,13 @@ public abstract class Entity {
         this.y = y;
     }
 
+    public Image getImage() {
+        return img;
+    }
+
+    public void setImage(Image img) {
+        this.img = img;
+    }
     public HitBox getBorderBox() {
         return borderBox;
     }
@@ -56,7 +69,7 @@ public abstract class Entity {
         gc.drawImage(img, x, y);
     }
 
-    public abstract void update();
+    public abstract void update(Scene scene);
 
     public void remove() {
         isRemoved = true;
@@ -68,6 +81,10 @@ public abstract class Entity {
 
     public boolean isColliding(Entity other) {
         return borderBox.collideWith(other.getBorderBox());
+    }
+
+    public ImageView getImageView() {
+        return imageView;
     }
 }
 

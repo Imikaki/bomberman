@@ -4,6 +4,7 @@ import com.example.bomberman.entities.Entity;
 import com.example.bomberman.graphics.HitBox;
 import com.example.bomberman.graphics.Sprite;
 import com.example.bomberman.system.Direction;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 
 public class Flame extends Entity {
@@ -24,7 +25,7 @@ public class Flame extends Entity {
     }
 
     @Override
-    public void update() {
+    public void update(Scene scene) {
         
     }
 }

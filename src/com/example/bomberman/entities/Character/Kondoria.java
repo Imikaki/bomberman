@@ -1,6 +1,7 @@
 package com.example.bomberman.entities.Character;
 
 import com.example.bomberman.entities.Entity;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 
 public class Kondoria extends Character {
@@ -9,12 +10,7 @@ public class Kondoria extends Character {
     }
 
     @Override
-    public void update() {
-
-    }
-
-    @Override
-    public void handleMove() {
+    public void update(Scene scene) {
 
     }
 
