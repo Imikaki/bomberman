@@ -1,10 +1,7 @@
 package com.example.bomberman.entities.Character;
 
 import com.example.bomberman.Map;
-import com.example.bomberman.entities.Entity;
-import com.example.bomberman.entities.Object.Brick;
-import com.example.bomberman.entities.Object.Wall;
-import com.example.bomberman.entities.bomb.Bomb;
+import com.example.bomberman.entities.staticEntity.CarriableEntity.Bomb;
 import com.example.bomberman.system.Direction;
 import com.example.bomberman.system.KeyManager;
 import javafx.scene.image.Image;
@@ -15,7 +12,6 @@ import java.util.List;
 
 public class Bomber extends Character {
     KeyManager input;
-    Map map;
     private Direction currentDirection = Direction.NONE;
     private int placedBomb = 0;
     private int haveBomb = 0;
@@ -30,7 +26,6 @@ public class Bomber extends Character {
     public Bomber(int x, int y, Image img, KeyManager input, Map map) {
         super(x, y, img);
         this.input = input;
-        this.map = map;
     }
 
     @Override
@@ -68,17 +63,5 @@ public class Bomber extends Character {
         return bombs;
     }
 
-    public boolean checkSafe(int x, int y) {
-        for (Entity entity : map.getStaticEntities()) {
-            if (entity instanceof Wall || entity instanceof Brick) {
-                if (isColliding(entity)) {
-                    return true;
-                }
-            }
-        }
-        for (Bomb bomb : bombs) {
 
-        }
-        return false;
-    }
 }

@@ -1,36 +1,47 @@
 package com.example.bomberman.graphics;
 
-import javafx.geometry.Rectangle2D;
-
 public class HitBox {
     private int x;
     private int y;
     private int width;
     private int height;
-    Rectangle2D border;
 
     public HitBox(int xUnit, int yUnit, int width, int height) {
         this.x = xUnit * Sprite.SCALED_SIZE;
         this.y = yUnit * Sprite.SCALED_SIZE;
         this.width = width;
         this.height = height;
-        this.border = new Rectangle2D(x, y, this.width, this.height);
-        border = new Rectangle2D(x, y, this.width, this.height);
     }
 
-    public Rectangle2D getBorder() {
-        return border;
+
+    public int getX() {
+        return x;
     }
 
-    public void setBorder(Rectangle2D border) {
-        this.border = border;
+    public int getY() {
+        return y;
     }
 
-    public boolean checkCollision(HitBox box) {
-        return box.getBorder().intersects(this.getBorder());
+    public int getWidth() {
+        return width;
     }
 
-    public void setPosition(int x, int y, int _width, int _height) {
-        border = new Rectangle2D(x, y, _width, _height);
+    public int getHeight() {
+        return height;
+    }
+
+    private boolean inside(int otherX, int otherY) {
+        return otherX >= x && otherX <= x + width && otherY >= y && otherY <= y + height;
+    }
+
+    public boolean collideWith(HitBox other) {
+        return inside(other.x, other.y)
+                || inside(other.x + other.width, other.y)
+                || inside(other.x, other.y + other.height)
+                || inside(other.x + other.width, other.y + other.height)
+                || other.inside(x, y)
+                || other.inside(x + width, y)
+                || other.inside(x, y + height)
+                || other.inside(x + width, y + height);
     }
 }

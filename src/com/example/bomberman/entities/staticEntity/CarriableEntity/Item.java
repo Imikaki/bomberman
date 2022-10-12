@@ -1,4 +1,4 @@
-package com.example.bomberman.entities.Items;
+package com.example.bomberman.entities.staticEntity.CarriableEntity;
 
 import com.example.bomberman.entities.AnimatedEntity;
 import javafx.scene.image.Image;

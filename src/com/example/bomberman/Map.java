@@ -2,11 +2,11 @@ package com.example.bomberman;
 
 import com.example.bomberman.entities.Character.*;
 import com.example.bomberman.entities.Entity;
-import com.example.bomberman.entities.Object.Brick;
-import com.example.bomberman.entities.Object.Grass;
-import com.example.bomberman.entities.Object.Portal;
-import com.example.bomberman.entities.Object.Wall;
-import com.example.bomberman.entities.bomb.Bomb;
+import com.example.bomberman.entities.staticEntity.StaticEntity.Brick;
+import com.example.bomberman.entities.staticEntity.StaticEntity.Grass;
+import com.example.bomberman.entities.staticEntity.StaticEntity.Portal;
+import com.example.bomberman.entities.staticEntity.StaticEntity.Wall;
+import com.example.bomberman.entities.staticEntity.CarriableEntity.Bomb;
 import com.example.bomberman.graphics.Sprite;
 import com.example.bomberman.system.KeyManager;
 import javafx.animation.AnimationTimer;
@@ -26,8 +26,8 @@ public final class Map {
     public static Bomber bomberman;
     public static boolean isWin = false;
     public static int level = 1;
-    private static List<Entity> staticEntities = new ArrayList<Entity>();
-    private static List<Entity> entities = new ArrayList<Entity>();
+    private List<Entity> staticEntities = new ArrayList<Entity>();
+    private List<Entity> entities = new ArrayList<Entity>();
     Stage windows;
     private int row;
     private int col;
@@ -99,30 +99,47 @@ public final class Map {
                     case '1': {
                         enemy = new Balloom(i, j, Sprite.balloom_left1.getFxImage());
                         entities.add(enemy);
+                        object = new Grass(i, j, Sprite.grass.getFxImage());
+                        staticEntities.add(object);
                         break;
                     }
                     case '2': {
                         enemy = new Oneal(i, j, Sprite.oneal_left1.getFxImage());
                         entities.add(enemy);
+                        object = new Grass(i, j, Sprite.grass.getFxImage());
+                        staticEntities.add(object);
                         break;
                     }
                     case '3': {
                         enemy = new Doll(i, j, Sprite.doll_left1.getFxImage());
                         entities.add(enemy);
+                        object = new Grass(i, j, Sprite.grass.getFxImage());
+                        staticEntities.add(object);
                         break;
                     }
                     case '4': {
                         enemy = new Minvo(i, j, Sprite.minvo_left1.getFxImage());
                         entities.add(enemy);
+                        object = new Grass(i, j, Sprite.grass.getFxImage());
+                        staticEntities.add(object);
                         break;
                     }
                     case '5': {
                         enemy = new Kondoria(i, j, Sprite.kondoria_left1.getFxImage());
                         entities.add(enemy);
+                        object = new Grass(i, j, Sprite.grass.getFxImage());
+                        staticEntities.add(object);
                         break;
                     }
                     case 'x': {
                         object = new Portal(i, j, Sprite.portal.getFxImage());
+                        staticEntities.add(object);
+                        object = new Brick(i, j, Sprite.brick.getFxImage());
+                        staticEntities.add(object);
+                        break;
+                    }
+                    default: {
+                        object = new Grass(i, j, Sprite.grass.getFxImage());
                         staticEntities.add(object);
                         break;
                     }
