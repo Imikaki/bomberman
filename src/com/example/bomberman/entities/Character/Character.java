@@ -3,6 +3,7 @@ package com.example.bomberman.entities.Character;
 import com.example.bomberman.entities.DynamicEntity;
 import com.example.bomberman.entities.Entity;
 import com.example.bomberman.system.Direction;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 
 import java.util.Timer;
@@ -21,7 +22,7 @@ public abstract class Character extends DynamicEntity {
     }
 
     @Override
-    public void update() {
+    public void update(Scene scene) {
     }
 
     public void kill() {
@@ -35,8 +36,6 @@ public abstract class Character extends DynamicEntity {
             }
         }, 750L);
     }
-
-    public abstract void handleMove();
 
     public abstract boolean canMove(int x, int y);
 
@@ -63,5 +62,21 @@ public abstract class Character extends DynamicEntity {
 
     public int getY() {
         return super.getY();
+    }
+
+    protected void moveUp() {
+        y-= getSpeed();
+    }
+
+    protected  void moveDown() {
+        y += getSpeed();
+    }
+
+    protected void moveRight() {
+        x += getSpeed();
+    }
+
+    protected void moveLeft() {
+        x -= getSpeed();
     }
 }

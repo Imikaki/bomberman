@@ -1,6 +1,7 @@
 package com.example.bomberman.entities.staticEntity.CarriableEntity;
 
 import com.example.bomberman.entities.AnimatedEntity;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 
 public abstract class Item extends AnimatedEntity {
@@ -9,7 +10,7 @@ public abstract class Item extends AnimatedEntity {
     }
 
     @Override
-    public void update() {
+    public void update(Scene scene) {
 
     }
 }

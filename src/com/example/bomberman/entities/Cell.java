@@ -34,10 +34,4 @@ public class Cell {
         stack.push(entity);
     }
 
-    public void remove() {
-        if (stack.peek().canDestroy()) {
-            BreakableEntity top = (BreakableEntity) stack.peek();
-            top.breakEntity();
-        }
-    }
 }

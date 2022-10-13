@@ -6,15 +6,10 @@ import com.example.bomberman.entities.staticEntity.StaticEntity.Brick;
 import com.example.bomberman.entities.staticEntity.StaticEntity.Grass;
 import com.example.bomberman.entities.staticEntity.StaticEntity.Portal;
 import com.example.bomberman.entities.staticEntity.StaticEntity.Wall;
-import com.example.bomberman.entities.staticEntity.CarriableEntity.Bomb;
 import com.example.bomberman.graphics.Sprite;
-import com.example.bomberman.system.KeyManager;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -26,38 +21,14 @@ public final class Map {
     public static Bomber bomberman;
     public static boolean isWin = false;
     public static int level = 1;
-    private List<Entity> staticEntities = new ArrayList<Entity>();
-    private List<Entity> entities = new ArrayList<Entity>();
-    Stage windows;
+    private final List<Entity> staticEntities = new ArrayList<Entity>();
+    private final List<Entity> entities = new ArrayList<Entity>();
     private int row;
     private int col;
-    private KeyManager keys;
     private AnimationTimer timer;
 
-    private GraphicsContext gc;
-    private Canvas cv;
-    private Group root;
-    private Scene scene;
-    private Stage mainStage;
-
-    public Map() {
-        loadNewGame();
-        initializeMap();
-        createKeyListener();
-    }
-
-    public void initializeMap() {
-        cv = new Canvas(Sprite.SCALED_SIZE * getCol(), Sprite.SCALED_SIZE * getRow());
-        gc = cv.getGraphicsContext2D();
-        root = new Group();
-        root.getChildren().add(cv);
-        scene = new Scene(root, Sprite.SCALED_SIZE * Sprite.SCALED_SIZE * getCol(), Sprite.SCALED_SIZE * getRow());
-        mainStage = new Stage();
-        mainStage.setScene(scene);
-    }
-
     public void mapLoading(int levels) {
-        String mapPath = "res/levels/Level2.txt";
+        String mapPath = "res/levels/Level" + levels + ".txt";
         File map = new File(mapPath);
         Scanner sc = null;
         try {
@@ -92,7 +63,7 @@ public final class Map {
                         break;
                     }
                     case 'p': {
-                        bomberman = new Bomber(i, j, Sprite.player_right.getFxImage(), keys, this);
+                        bomberman = new Bomber(i, j, Sprite.player_right.getFxImage(), this);
                         object = new Grass(i, j, Sprite.grass.getFxImage());
                         staticEntities.add(object);
                     }
@@ -146,65 +117,45 @@ public final class Map {
                 }
             }
         }
-
-        for (Bomb bomb : bomberman.getBombs()) {
-            entities.add(bomb);
-        }
+        entities.add(bomberman);
     }
 
-    public void update() {
-        bomberman.update();
+    public void update(Scene scene) {
         for (Entity e : entities) {
-            e.update();
+            e.update(scene);
         }
     }
 
-    public void render() {
-        gc.clearRect(0, 0, 1280, 720);
+    public void render(Group group) {
         for (Entity e : staticEntities) {
-            e.render(gc);
+            group.getChildren().add(e.getImageView());
         }
         for (Entity e : entities) {
-            e.render(gc);
+            group.getChildren().add(e.getImageView());
         }
-        bomberman.render(gc);
     }
 
-    private void createGameLoop() {
+    public void createGameLoop(Group group, Scene scene) {
+        render(group);
         timer = new AnimationTimer() {
-            long lastTick = 0;
 
             @Override
             public void handle(long now) {
-                if (now - lastTick > 1000000000 / 60) {
-                    update();
-                    render();
-                    lastTick = now;
-                    if (!bomberman.isAlive()) {
-                        mainStage.close();
-                        timer.stop();
-                    }
-
-                }
+                bomberman.update(scene);
             }
         };
         timer.start();
     }
 
-    private void createKeyListener() {
+   /* private void createKeyListener() {
         scene.setOnKeyPressed(event -> keys.pressed(event));
         scene.setOnKeyReleased(event -> keys.released(event));
-    }
+    }*/
 
-    public void loadNewGame() {
-        entities = new ArrayList<>();
-        staticEntities = new ArrayList<>();
+    public void loadNewGame(Group group, Scene scene) {
+
         mapLoading(1);
-        createGameLoop();
-    }
-
-    public Scene getScene() {
-        return scene;
+        createGameLoop(group, scene);
     }
 
     public List<Entity> getStaticEntities() {

@@ -3,7 +3,6 @@ package com.example.bomberman.entities;
 import com.example.bomberman.graphics.Sprite;
 import javafx.scene.image.Image;
 
-
 public abstract class DynamicEntity extends AnimatedEntity {
     private int speed = Sprite.SCALED_SIZE;
 

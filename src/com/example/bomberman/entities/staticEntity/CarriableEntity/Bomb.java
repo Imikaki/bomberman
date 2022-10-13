@@ -2,6 +2,7 @@ package com.example.bomberman.entities.staticEntity.CarriableEntity;
 
 import com.example.bomberman.entities.AnimatedEntity;
 import com.example.bomberman.entities.Entity;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 
 import java.util.ArrayList;
@@ -32,6 +33,11 @@ public class Bomb extends AnimatedEntity {
         explosion = new ArrayList<Entity>();
     }
 
+    @Override
+    public void update(Scene scene) {
+
+    }
+
     public void checkEntities() {
 
     }
@@ -44,7 +50,7 @@ public class Bomb extends AnimatedEntity {
 
     }
 
-    @Override
+
     public void update() {
         if (timeExplode > 0) {
             timeExplode--;
