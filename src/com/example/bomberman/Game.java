@@ -5,11 +5,13 @@ import com.example.bomberman.entities.Entity;
 import com.example.bomberman.graphics.Sprite;
 import javafx.application.Application;
 import javafx.scene.Group;
+
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+
 import javafx.stage.Stage;
 
 import static javafx.application.Platform.exit;
@@ -29,6 +31,7 @@ public class Game extends Application {
     @Override
     public void start(Stage entryStage) {
         stage = entryStage;
+
         // create background
         loadBackground();
         Group bg = new Group();
@@ -38,6 +41,7 @@ public class Game extends Application {
         stage.setScene(bg_scene);
         // create game
         Canvas canvas = new Canvas(width,height);
+
         Group group = new Group();
         group.getChildren().add(canvas);
         Scene scene = new Scene(group);
@@ -46,7 +50,9 @@ public class Game extends Application {
 
         play.setOnAction(e -> stage.setScene(scene));
         exit.setOnAction(e -> exit());
+
         stage.show();
+
     }
 
     public void loadBackground() {
