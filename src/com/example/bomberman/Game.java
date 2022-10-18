@@ -5,12 +5,23 @@ import com.example.bomberman.entities.Entity;
 import com.example.bomberman.graphics.Sprite;
 import javafx.application.Application;
 import javafx.scene.Group;
-import javafx.scene.Parent;
+
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
 import javafx.stage.Stage;
 
+import static javafx.application.Platform.exit;
+
 public class Game extends Application {
+    private static final int width = 1000;
+    private static final int height = 600;
+    private static Button play = new Button();
+    private static Button exit = new Button();
+    private static ImageView background = new ImageView(new Image("Lobby/BG.png",width, height, false, false));
     private static Stage stage;
 
     public static void main(String[] args) {
@@ -20,14 +31,43 @@ public class Game extends Application {
     @Override
     public void start(Stage entryStage) {
         stage = entryStage;
-        Canvas canvas = new Canvas(920,430);
+
+        // create background
+        loadBackground();
+        Group bg = new Group();
+        bg.getChildren().addAll(background, play, exit);
+        Scene bg_scene = new Scene(bg);
+        loadBackground();
+        stage.setScene(bg_scene);
+        // create game
+        Canvas canvas = new Canvas(width,height);
+
         Group group = new Group();
         group.getChildren().add(canvas);
         Scene scene = new Scene(group);
         Map map = new Map();
         map.loadNewGame(group,scene);
-        stage.setScene(scene);
+
+        play.setOnAction(e -> stage.setScene(scene));
+        exit.setOnAction(e -> exit());
+
         stage.show();
 
+    }
+
+    public void loadBackground() {
+        // create imageView play and exit
+        ImageView imgPlay = new ImageView(new Image("Lobby/Play.png"));
+        ImageView imgExit = new ImageView(new Image("Lobby/Exit.png"));
+
+        // set button play
+        play.setGraphic(imgPlay);
+        play.setLayoutX(270);
+        play.setLayoutY(280);
+
+        //set button exit
+        exit.setGraphic(imgExit);
+        exit.setLayoutX(270);
+        exit.setLayoutY(450);
     }
 }
