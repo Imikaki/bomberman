@@ -45,8 +45,7 @@ public class Game extends Application {
         Group group = new Group();
         group.getChildren().add(canvas);
         Scene scene = new Scene(group);
-        Map map = new Map();
-        map.loadNewGame(group,scene);
+        Map.loadNewGame(group,scene);
 
         play.setOnAction(e -> stage.setScene(scene));
         exit.setOnAction(e -> exit());

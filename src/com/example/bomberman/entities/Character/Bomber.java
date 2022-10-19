@@ -25,7 +25,7 @@ public class Bomber extends Character {
     private boolean isSpeedBuff = false;
     private boolean isBombBuff = false;
     private boolean isFlameBuff = false;
-    public Bomber(int x, int y, Image img, Map map) {
+    public Bomber(int x, int y, Image img) {
         super(x, y, img);
     }
 
@@ -40,6 +40,8 @@ public class Bomber extends Character {
                 moveLeft();
             } else if (event.getCode() == KeyCode.RIGHT) {
                 moveRight();
+            } else if (event.getCode() == KeyCode.SPACE) {
+                placeBomb();
             }
         });
         imageView.relocate(x, y);
@@ -48,6 +50,10 @@ public class Bomber extends Character {
     @Override
     public boolean canMove(int x, int y) {
         return false;
+    }
+
+    public void placeBomb() {
+
     }
 
     public List<Bomb> getBombs() {

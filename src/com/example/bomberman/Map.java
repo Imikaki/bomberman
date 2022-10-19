@@ -2,6 +2,10 @@ package com.example.bomberman;
 
 import com.example.bomberman.entities.Character.*;
 import com.example.bomberman.entities.Entity;
+import com.example.bomberman.entities.staticEntity.CarriableEntity.BombItem;
+import com.example.bomberman.entities.staticEntity.CarriableEntity.FlameItem;
+import com.example.bomberman.entities.staticEntity.CarriableEntity.Item;
+import com.example.bomberman.entities.staticEntity.CarriableEntity.SpeedItem;
 import com.example.bomberman.entities.staticEntity.StaticEntity.Brick;
 import com.example.bomberman.entities.staticEntity.StaticEntity.Grass;
 import com.example.bomberman.entities.staticEntity.StaticEntity.Portal;
@@ -21,13 +25,14 @@ public final class Map {
     public static Bomber bomberman;
     public static boolean isWin = false;
     public static int level = 1;
-    private final List<Entity> staticEntities = new ArrayList<Entity>();
-    private final List<Entity> entities = new ArrayList<Entity>();
-    private int row;
-    private int col;
-    private AnimationTimer timer;
+    private static final List<Entity> staticEntities = new ArrayList<Entity>();
+    private static final List<Entity> entities = new ArrayList<Entity>();
+    private static final List<Entity> items = new ArrayList<Entity>();
+    private static int row;
+    private static int col;
+    private static AnimationTimer timer;
 
-    public void mapLoading(int levels) {
+    public static void mapLoading(int levels) {
         String mapPath = "res/levels/Level" + levels + ".txt";
         File map = new File(mapPath);
         Scanner sc = null;
@@ -63,7 +68,7 @@ public final class Map {
                         break;
                     }
                     case 'p': {
-                        bomberman = new Bomber(i, j, Sprite.player_right.getFxImage(), this);
+                        bomberman = new Bomber(i, j, Sprite.player_right.getFxImage());
                         object = new Grass(i, j, Sprite.grass.getFxImage());
                         staticEntities.add(object);
                     }
@@ -109,6 +114,27 @@ public final class Map {
                         staticEntities.add(object);
                         break;
                     }
+                    case 'b': {
+                        Item item = new BombItem(i, j, Sprite.powerup_bombs.getFxImage());
+                        items.add(item);
+                        object = new Grass(i, j, Sprite.grass.getFxImage());
+                        staticEntities.add(object);
+                        break;
+                    }
+                    case 'f': {
+                        Item item = new FlameItem(i, j, Sprite.powerup_flames.getFxImage());
+                        items.add(item);
+                        object = new Grass(i, j, Sprite.grass.getFxImage());
+                        staticEntities.add(object);
+                        break;
+                    }
+                    case 's': {
+                        Item item = new SpeedItem(i, j, Sprite.powerup_speed.getFxImage());
+                        items.add(item);
+                        object = new Grass(i, j, Sprite.grass.getFxImage());
+                        staticEntities.add(object);
+                        break;
+                    }
                     default: {
                         object = new Grass(i, j, Sprite.grass.getFxImage());
                         staticEntities.add(object);
@@ -120,22 +146,25 @@ public final class Map {
         entities.add(bomberman);
     }
 
-    public void update(Scene scene) {
+    public static void update(Scene scene) {
         for (Entity e : entities) {
             e.update(scene);
         }
     }
 
-    public void render(Group group) {
+    public static void render(Group group) {
         for (Entity e : staticEntities) {
             group.getChildren().add(e.getImageView());
         }
         for (Entity e : entities) {
             group.getChildren().add(e.getImageView());
         }
+        for (Entity e : items) {
+            group.getChildren().add(e.getImageView());
+        }
     }
 
-    public void createGameLoop(Group group, Scene scene) {
+    public static void createGameLoop(Group group, Scene scene) {
         render(group);
         timer = new AnimationTimer() {
 
@@ -152,25 +181,43 @@ public final class Map {
         scene.setOnKeyReleased(event -> keys.released(event));
     }*/
 
-    public void loadNewGame(Group group, Scene scene) {
+    public static void loadNewGame(Group group, Scene scene) {
 
         mapLoading(1);
         createGameLoop(group, scene);
     }
 
-    public List<Entity> getStaticEntities() {
+    public static List<Entity> getStaticEntities() {
         return staticEntities;
     }
 
-    public List<Entity> getEntities() {
+    public static List<Entity> getEntities() {
         return entities;
     }
 
-    public int getCol() {
-        return this.col;
+    public static int getCol() {
+        return col;
     }
 
-    public int getRow() {
-        return this.row;
+    public static int getRow() {
+        return row;
+    }
+
+    public static Entity getEntity(int x, int y) {
+        for (Entity e : entities) {
+            if (e.getX() == x && e.getY() == y) {
+                return e;
+            }
+        }
+        for (Entity e : staticEntities) {
+            if (e.getX() == x && e.getY() == y) {
+                return e;
+            }
+        }
+        return null;
+    }
+
+    public static void bombExplode(List<Entity> explosion) {
+
     }
 }
