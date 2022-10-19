@@ -162,6 +162,9 @@ public final class Map {
         for (Entity e : items) {
             group.getChildren().add(e.getImageView());
         }
+        bomberman.getBombs().forEach(bomb -> {
+            group.getChildren().add(bomb.getImageView());
+        });
     }
 
     public static void createGameLoop(Group group, Scene scene) {
@@ -195,6 +198,10 @@ public final class Map {
         return entities;
     }
 
+    public static void addEntity(Entity e) {
+        entities.add(e);
+    }
+
     public static int getCol() {
         return col;
     }
@@ -204,12 +211,17 @@ public final class Map {
     }
 
     public static Entity getEntity(int x, int y) {
-        for (Entity e : entities) {
+        for (Entity e : staticEntities) {
             if (e.getX() == x && e.getY() == y) {
                 return e;
             }
         }
-        for (Entity e : staticEntities) {
+        for (Entity e : items) {
+            if (e.getX() == x && e.getY() == y) {
+                return e;
+            }
+        }
+        for (Entity e : entities) {
             if (e.getX() == x && e.getY() == y) {
                 return e;
             }

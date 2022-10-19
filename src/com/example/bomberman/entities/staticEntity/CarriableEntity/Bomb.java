@@ -38,6 +38,7 @@ public class Bomb extends AnimatedEntity {
     private boolean rightWalled = false;
     private boolean topWalled = false;
     private boolean bottomWalled = false;
+    private boolean exploded = false;
 
     public Bomb(int x, int y, Image img) {
         super(x, y, img);
@@ -176,7 +177,7 @@ public class Bomb extends AnimatedEntity {
             b = entity.getY() / Sprite.SCALED_SIZE;
             ++i;
             if (i == entitiesDown.size()) {
-                explosion.add(new Flame(a, b, Sprite.explosion_vertical_down_last.getFxImage()));
+                explosion.add(new Flame(a, b, Sprite.explosion_vertical_top_last.getFxImage()));
             } else {
                 explosion.add(new Flame(a, b, Sprite.explosion_vertical.getFxImage()));
             }
@@ -207,6 +208,11 @@ public class Bomb extends AnimatedEntity {
                 entitiesDown.get(i).remove();
             }
         }
+        exploded = true;
+    }
+
+    public boolean isExploded() {
+        return exploded;
     }
 
     public void update() {
