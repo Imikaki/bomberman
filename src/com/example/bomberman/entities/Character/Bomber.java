@@ -40,26 +40,49 @@ public class Bomber extends Character {
     }
 
     public void handleEvent(Scene scene) {
+        int _x = this.x;
+        int _y = this.y;
         scene.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.SPACE) {
                 placeBomb();
             }
             if (event.getCode() == KeyCode.UP) {
-                moveUp();
+                if (canMove(x, y - getSpeed())) {
+                    direction = Direction.UP;
+                    moving = true;
+                    moveUp();
+                }
             } else if (event.getCode() == KeyCode.DOWN) {
-                moveDown();
+                if (canMove(x, y + getSpeed())) {
+                    direction = Direction.DOWN;
+                    moving = true;
+                    moveDown();
+                }
             } else if (event.getCode() == KeyCode.LEFT) {
-                moveLeft();
+                if (canMove(x - getSpeed(), y)) {
+                    direction = Direction.LEFT;
+                    moving = true;
+                    moveLeft();
+                }
             } else if (event.getCode() == KeyCode.RIGHT) {
-                moveRight();
+                if (canMove(x + getSpeed(), y)) {
+                    direction = Direction.RIGHT;
+                    moving = true;
+                    moveRight();
+                }
             }
         });
         imageView.relocate(x, y);
+        moving = false;
     }
 
     @Override
     public boolean canMove(int x, int y) {
-        return false;
+        Entity entity = Map.getEntity(x, y);
+        if (entity instanceof Bomb) {
+            return false;
+        }
+        return super.collide(entity);
     }
 
     public void placeBomb() {

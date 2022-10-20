@@ -156,15 +156,15 @@ public final class Map {
         for (Entity e : staticEntities) {
             group.getChildren().add(e.getImageView());
         }
-        for (Entity e : entities) {
-            group.getChildren().add(e.getImageView());
-        }
         for (Entity e : items) {
             group.getChildren().add(e.getImageView());
         }
         bomberman.getBombs().forEach(bomb -> {
             group.getChildren().add(bomb.getImageView());
         });
+        for (Entity e : entities) {
+            group.getChildren().add(e.getImageView());
+        }
     }
 
     public static void createGameLoop(Group group, Scene scene) {
@@ -216,12 +216,12 @@ public final class Map {
                 return e;
             }
         }
-        for (Entity e : items) {
+        for (Entity e : entities) {
             if (e.getX() == x && e.getY() == y) {
                 return e;
             }
         }
-        for (Entity e : entities) {
+        for (Entity e : items) {
             if (e.getX() == x && e.getY() == y) {
                 return e;
             }
