@@ -159,10 +159,10 @@ public final class Map {
         for (Entity e : items) {
             group.getChildren().add(e.getImageView());
         }
-        bomberman.getBombs().forEach(bomb -> {
-            group.getChildren().add(bomb.getImageView());
-        });
         for (Entity e : entities) {
+            group.getChildren().add(e.getImageView());
+        }
+        for (Entity e : bomberman.getBombs()) {
             group.getChildren().add(e.getImageView());
         }
     }

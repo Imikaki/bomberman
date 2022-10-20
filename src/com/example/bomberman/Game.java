@@ -3,15 +3,19 @@ package com.example.bomberman;
 import com.example.bomberman.entities.Character.Bomber;
 import com.example.bomberman.entities.Entity;
 import com.example.bomberman.graphics.Sprite;
+import com.sun.corba.se.impl.orbutil.graph.Graph;
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
 
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import static javafx.application.Platform.exit;
@@ -41,13 +45,21 @@ public class Game extends Application {
         stage.setScene(bg_scene);
         // create game
         Canvas canvas = new Canvas(width,height);
+        VBox root = new VBox();
 
         Group group = new Group();
         group.getChildren().add(canvas);
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        canvas.requestFocus();
+        canvas.setFocusTraversable(true);
+
         Scene scene = new Scene(group);
         Map.loadNewGame(group,scene);
 
+        root.getChildren().addAll(canvas);
+
         play.setOnAction(e -> stage.setScene(scene));
+
         exit.setOnAction(e -> exit());
 
         stage.show();
