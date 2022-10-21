@@ -41,7 +41,6 @@ public class Game extends Application {
         Group bg = new Group();
         bg.getChildren().addAll(background, play, exit);
         Scene bg_scene = new Scene(bg);
-        loadBackground();
         stage.setScene(bg_scene);
         // create game
         Canvas canvas = new Canvas(width,height);

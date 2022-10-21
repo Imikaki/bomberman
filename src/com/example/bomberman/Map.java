@@ -28,6 +28,7 @@ public final class Map {
     private static final List<Entity> staticEntities = new ArrayList<Entity>();
     private static final List<Entity> entities = new ArrayList<Entity>();
     private static final List<Entity> items = new ArrayList<Entity>();
+    private static Portal portal;
     private static int row;
     private static int col;
     private static AnimationTimer timer;
@@ -108,8 +109,7 @@ public final class Map {
                         break;
                     }
                     case 'x': {
-                        object = new Portal(i, j, Sprite.portal.getFxImage());
-                        staticEntities.add(object);
+                        portal = new Portal(i, j, Sprite.portal.getFxImage());
                         object = new Brick(i, j, Sprite.brick.getFxImage());
                         staticEntities.add(object);
                         break;
@@ -143,7 +143,7 @@ public final class Map {
                 }
             }
         }
-        entities.add(bomberman);
+        //entities.add(bomberman);
     }
 
     public static void update(Scene scene) {
@@ -153,18 +153,31 @@ public final class Map {
     }
 
     public static void render(Group group) {
-        for (Entity e : staticEntities) {
-            group.getChildren().add(e.getImageView());
+        // add grass vao toan bo map
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                Grass grass = new Grass(i, j, Sprite.grass.getFxImage());
+                group.getChildren().add(grass.getImageView());
+            }
         }
+        // add portal
+        group.getChildren().add(portal.getImageView());
+        // add item
         for (Entity e : items) {
             group.getChildren().add(e.getImageView());
         }
+        // add brick and wall
+        for (Entity e : staticEntities) {
+            group.getChildren().add(e.getImageView());
+        }
+        // add enemy
         for (Entity e : entities) {
             group.getChildren().add(e.getImageView());
         }
-        for (Entity e : bomberman.getBombs()) {
+        group.getChildren().add(bomberman.getImageView());
+        /*for (Entity e : bomberman.getBombs()) {
             group.getChildren().add(e.getImageView());
-        }
+        }*/
     }
 
     public static void createGameLoop(Group group, Scene scene) {
