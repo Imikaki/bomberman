@@ -11,11 +11,13 @@ import java.net.URL;
  */
 public class SpriteSheet {
 
-    public static SpriteSheet tiles = new SpriteSheet("/textures/classic.png", 256);
+    private String _path;
     public final int SIZE;
     public int[] _pixels;
     public BufferedImage image;
-    private String _path;
+
+    public static SpriteSheet tiles = new SpriteSheet("/textures/classic.png", 256);
+    public static SpriteSheet tilesBomber = new SpriteSheet("/textures/multibomber.png", 1024);
 
     public SpriteSheet(String path, int size) {
         _path = path;
@@ -27,7 +29,6 @@ public class SpriteSheet {
     private void load() {
         try {
             URL a = SpriteSheet.class.getResource(_path);
-            assert a != null;
             image = ImageIO.read(a);
             int w = image.getWidth();
             int h = image.getHeight();

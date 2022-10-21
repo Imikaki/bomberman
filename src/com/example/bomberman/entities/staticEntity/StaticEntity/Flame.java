@@ -8,24 +8,19 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 
 public class Flame extends Entity {
-    public static final int explosionZone = 2;
-    private Direction direction;
-    private boolean exploded = false;
-    private int state = 0; // explosion state 0 brick 1 middle 2 end
-
+    private int time = 20;
 
     public Flame(int x, int y, Image img) {
 
         super(x, y, img);
-        direction = Direction.NONE;
-        exploded = false;
-        state = 0;
-        borderBox = new HitBox(x + explosionZone, y + explosionZone,
-                Sprite.SCALED_SIZE - 2 * explosionZone, Sprite.SCALED_SIZE - 2 * explosionZone);
     }
 
     @Override
     public void update(Scene scene) {
-        
+        if (time > 0) {
+            time--;
+        } else {
+            this.remove();
+        }
     }
 }

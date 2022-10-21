@@ -2,6 +2,9 @@ package com.example.bomberman.entities.Character;
 
 import com.example.bomberman.entities.DynamicEntity;
 import com.example.bomberman.entities.Entity;
+import com.example.bomberman.entities.staticEntity.CarriableEntity.Bomb;
+import com.example.bomberman.entities.staticEntity.CarriableEntity.Item;
+import com.example.bomberman.entities.staticEntity.StaticEntity.Grass;
 import com.example.bomberman.system.Direction;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -38,6 +41,10 @@ public abstract class Character extends DynamicEntity {
     }
 
     public abstract boolean canMove(int x, int y);
+
+    public boolean collide(Entity e) {
+        return (e instanceof Grass || e instanceof Character || e instanceof Item || e instanceof Bomb);
+    }
 
     public boolean isAlive() {
         return alive;
