@@ -4,7 +4,7 @@ import com.example.bomberman.entities.Entity;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 
-public class Kondoria extends Character {
+public class Kondoria extends Enemies {
     public Kondoria(int x, int y, Image img) {
         super(x, y, img);
     }

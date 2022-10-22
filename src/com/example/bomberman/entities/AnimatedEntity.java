@@ -1,5 +1,6 @@
 package com.example.bomberman.entities;
 
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 
 public abstract class AnimatedEntity extends Entity {
@@ -18,4 +19,6 @@ public abstract class AnimatedEntity extends Entity {
             frame = 0;
         }
     }
+
+    public abstract void update(Scene scene);
 }

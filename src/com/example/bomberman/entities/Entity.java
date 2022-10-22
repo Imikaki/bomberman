@@ -29,9 +29,9 @@ public abstract class Entity {
         this.x = xUnit * Sprite.SCALED_SIZE;
         this.y = yUnit * Sprite.SCALED_SIZE;
         this.img = img;
-        this.imageView = new ImageView(this.img);
-        imageView.setX(this.y);
-        imageView.setY(this.x);
+        imageView = new ImageView(img);
+        imageView.setX(x);
+        imageView.setY(y);
     }
 
     public int getX() {

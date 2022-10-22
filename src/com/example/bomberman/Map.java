@@ -15,8 +15,7 @@ import javafx.animation.AnimationTimer;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -28,166 +27,122 @@ public final class Map {
     private static final List<Entity> staticEntities = new ArrayList<Entity>();
     private static final List<Entity> entities = new ArrayList<Entity>();
     private static final List<Entity> items = new ArrayList<Entity>();
+    private static final List<Entity> enemies = new ArrayList<Entity>();
     private static Portal portal;
     private static int row;
     private static int col;
     private static AnimationTimer timer;
 
-    public static void mapLoading(int levels) {
+    public static void mapLoading(int levels) throws IOException {
         String mapPath = "res/levels/Level" + levels + ".txt";
         File map = new File(mapPath);
-        Scanner sc = null;
-        try {
-            sc = new Scanner(map);
-        } catch (FileNotFoundException e) {
-            System.out.println("File reading error: Error loading map");
-            e.printStackTrace();
-        }
+        BufferedReader sc = new BufferedReader(new InputStreamReader(new FileInputStream(mapPath)));
 
-        level = sc.nextInt();
-        row = sc.nextInt();
-        col = sc.nextInt();
+        String line;
+        line = sc.readLine();
+        String[] args = line.split(" ");
+        level = Integer.parseInt(args[0]);
+        row = Integer.parseInt(args[1]);
+        col = Integer.parseInt(args[2]);
 
-        Entity object;
-        Entity enemy;
+        int i = -1;
 
-        sc.nextLine();
-
-        for (int i = 0; i < row; ++i) {
-            String line = sc.nextLine();
-            for (int j = 0; j < col; ++j) {
-                char t = line.charAt(j);
-                switch (t) {
-                    case '#': {
-                        object = new Wall(i, j, Sprite.wall.getFxImage());
-                        staticEntities.add(object);
+        while((line = sc.readLine()) != null) {
+            ++i;
+            for (int j = 0; j < line.length(); ++j) {
+                if (line.charAt(j) == '#') {
+                    staticEntities.add(new Wall(j, i, Sprite.wall.getFxImage()));
+                } else {
+                    staticEntities.add(new Grass(j, i, Sprite.grass.getFxImage()));
+                }
+            }
+            for (int j = 0; j < line.length(); ++j) {
+                switch(line.charAt(j)) {
+                    case '*': //brick
+                        entities.add(new Brick(j, i, Sprite.brick.getFxImage()));
                         break;
-                    }
-                    case '*': {
-                        object = new Brick(i, j, Sprite.brick.getFxImage());
-                        staticEntities.add(object);
+                    case 'x': //portal
+                        portal = new Portal(j, i, Sprite.portal.getFxImage());
+                        staticEntities.add(portal);
+                        entities.add(new Brick(j, i, Sprite.brick.getFxImage()));
                         break;
-                    }
-                    case 'p': {
-                        bomberman = new Bomber(i, j, Sprite.player_right.getFxImage());
-                        object = new Grass(i, j, Sprite.grass.getFxImage());
-                        staticEntities.add(object);
+                    case 'b': //bombItem
+                        items.add(new BombItem(j, i, Sprite.powerup_bombs.getFxImage()));
+                        entities.add(new Brick(j, i, Sprite.brick.getFxImage()));
                         break;
-                    }
-                    case '1': {
-                        enemy = new Balloom(i, j, Sprite.balloom_left1.getFxImage());
-                        entities.add(enemy);
-                        object = new Grass(i, j, Sprite.grass.getFxImage());
-                        staticEntities.add(object);
+                    case 'f': //flameItem
+                        items.add(new FlameItem(j, i, Sprite.powerup_flames.getFxImage()));
+                        entities.add(new Brick(j, i, Sprite.brick.getFxImage()));
                         break;
-                    }
-                    case '2': {
-                        enemy = new Oneal(i, j, Sprite.oneal_left1.getFxImage());
-                        entities.add(enemy);
-                        object = new Grass(i, j, Sprite.grass.getFxImage());
-                        staticEntities.add(object);
+                    case 's': //speedItem
+                        items.add(new SpeedItem(j, i, Sprite.powerup_speed.getFxImage()));
+                        entities.add(new Brick(j, i, Sprite.brick.getFxImage()));
                         break;
-                    }
-                    case '3': {
-                        enemy = new Doll(i, j, Sprite.doll_left1.getFxImage());
-                        entities.add(enemy);
-                        object = new Grass(i, j, Sprite.grass.getFxImage());
-                        staticEntities.add(object);
+                    case 'p': //player
+                        bomberman = new Bomber(j, i, Sprite.player_right.getFxImage());
+                        entities.add(bomberman);
                         break;
-                    }
-                    case '4': {
-                        enemy = new Minvo(i, j, Sprite.minvo_left1.getFxImage());
-                        entities.add(enemy);
-                        object = new Grass(i, j, Sprite.grass.getFxImage());
-                        staticEntities.add(object);
+                    case '1': //balloon
+                        enemies.add(new Balloom(j, i, Sprite.balloom_left1.getFxImage()));
                         break;
-                    }
-                    case '5': {
-                        enemy = new Kondoria(i, j, Sprite.kondoria_left1.getFxImage());
-                        entities.add(enemy);
-                        object = new Grass(i, j, Sprite.grass.getFxImage());
-                        staticEntities.add(object);
+                    case '2': //oneal
+                        enemies.add(new Oneal(j, i, Sprite.oneal_left1.getFxImage()));
                         break;
-                    }
-                    case 'x': {
-                        portal = new Portal(i, j, Sprite.portal.getFxImage());
-                        object = new Brick(i, j, Sprite.brick.getFxImage());
-                        staticEntities.add(object);
+                    case '3': //kondoria
+                        enemies.add(new Kondoria(j, i, Sprite.kondoria_left1.getFxImage()));
                         break;
-                    }
-                    case 'b': {
-                        Item item = new BombItem(i, j, Sprite.powerup_bombs.getFxImage());
-                        items.add(item);
-                        object = new Grass(i, j, Sprite.grass.getFxImage());
-                        staticEntities.add(object);
+                    case '4': //doll
+                        enemies.add(new Doll(j, i, Sprite.doll_left1.getFxImage()));
                         break;
-                    }
-                    case 'f': {
-                        Item item = new FlameItem(i, j, Sprite.powerup_flames.getFxImage());
-                        items.add(item);
-                        object = new Grass(i, j, Sprite.grass.getFxImage());
-                        staticEntities.add(object);
+                    case '5': //minvo
+                        enemies.add(new Minvo(j, i, Sprite.minvo_left1.getFxImage()));
                         break;
-                    }
-                    case 's': {
-                        Item item = new SpeedItem(i, j, Sprite.powerup_speed.getFxImage());
-                        items.add(item);
-                        object = new Grass(i, j, Sprite.grass.getFxImage());
-                        staticEntities.add(object);
-                        break;
-                    }
-                    default: {
-                        object = new Grass(i, j, Sprite.grass.getFxImage());
-                        staticEntities.add(object);
-                        break;
-                    }
                 }
             }
         }
-        //entities.add(bomberman);
+        sc.close();
     }
 
     public static void update(Scene scene) {
         for (Entity e : entities) {
             e.update(scene);
         }
+        for (Entity e : items) {
+            e.update(scene);
+        }
+        for (Entity e : enemies) {
+            e.update(scene);
+        }
+        bomberman.update(scene);
+        portal.update(scene);
     }
 
     public static void render(Group group) {
-        // add grass vao toan bo map
-        for (int i = 0; i < row; i++) {
-            for (int j = 0; j < col; j++) {
-                Grass grass = new Grass(i, j, Sprite.grass.getFxImage());
-                group.getChildren().add(grass.getImageView());
-            }
-        }
-        // add portal
-        group.getChildren().add(portal.getImageView());
-        // add item
-        for (Entity e : items) {
-            group.getChildren().add(e.getImageView());
-        }
-        // add brick and wall
-        for (Entity e : staticEntities) {
-            group.getChildren().add(e.getImageView());
-        }
-        // add enemy
-        for (Entity e : entities) {
-            group.getChildren().add(e.getImageView());
-        }
-        group.getChildren().add(bomberman.getImageView());
-        /*for (Entity e : bomberman.getBombs()) {
-            group.getChildren().add(e.getImageView());
-        }*/
+        group.getChildren().clear();
+        staticEntities.forEach(e -> group.getChildren().add(e.getImageView()));
+        entities.forEach(e -> group.getChildren().add(e.getImageView()));
+        items.forEach(e -> group.getChildren().add(e.getImageView()));
+        enemies.forEach(e -> group.getChildren().add(e.getImageView()));
+        bomberman.bombs.forEach(e -> group.getChildren().add(e.getImageView()));
     }
 
     public static void createGameLoop(Group group, Scene scene) {
         render(group);
         timer = new AnimationTimer() {
-
+            final double ns = 1000000000.0 / 60;
+            long lastTime = System.nanoTime();
+            double delta = 0;
+            int updates = 0;
             @Override
             public void handle(long now) {
-                bomberman.update(scene);
+                delta += (now - lastTime) / ns;
+                lastTime = now;
+                while (delta >= 1) {
+                    render(group);
+                    update(scene);
+                    delta--;
+                    updates++;
+                }
             }
         };
         timer.start();
@@ -200,7 +155,11 @@ public final class Map {
 
     public static void loadNewGame(Group group, Scene scene) {
 
-        mapLoading(1);
+        try {
+            mapLoading(1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         createGameLoop(group, scene);
     }
 
@@ -225,7 +184,7 @@ public final class Map {
     }
 
     public static Entity getEntity(int x, int y) {
-        for (Entity e : staticEntities) {
+        for (Entity e : enemies) {
             if (e.getX() == x && e.getY() == y) {
                 return e;
             }
@@ -235,7 +194,7 @@ public final class Map {
                 return e;
             }
         }
-        for (Entity e : items) {
+        for (Entity e : staticEntities) {
             if (e.getX() == x && e.getY() == y) {
                 return e;
             }

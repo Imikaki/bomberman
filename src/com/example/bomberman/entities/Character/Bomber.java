@@ -20,7 +20,7 @@ public class Bomber extends Character {
     private int haveBomb = 0;
     private int limitBomb = 3;
     private boolean canPlaceBomb = true; // can only place bomb after the amount of time
-    private List<Bomb> bombs = new ArrayList<>();
+    public List<Bomb> bombs = new ArrayList<>();
     // effect.
     private boolean isSpeedBuff = false;
     private boolean isBombBuff = false;
@@ -35,11 +35,11 @@ public class Bomber extends Character {
     }
 
     // xu li su kien ban phim
+    @Override
     public void update(Scene scene) {
-        if (direction != Direction.NONE) {
-            handleEvent(scene);
-        }
-
+        handleEvent(scene);
+        checkAlive();
+        countBomb();
     }
 
     public void handleEvent(Scene scene) {
@@ -48,6 +48,23 @@ public class Bomber extends Character {
         scene.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.SPACE) {
                 placeBomb();
+            }
+            switch (event.getCode()) {
+                case UP:
+                    direction = Direction.UP;
+                    break;
+                case DOWN:
+                    direction = Direction.DOWN;
+                    break;
+                case LEFT:
+                    direction = Direction.LEFT;
+                    break;
+                case RIGHT:
+                    direction = Direction.RIGHT;
+                    break;
+                default:
+                    direction = Direction.NONE;
+                    break;
             }
             if (event.getCode() == KeyCode.UP) {
                 if (canMove(x, y - getSpeed())) {
@@ -111,6 +128,69 @@ public class Bomber extends Character {
                 }
             }
         });
+//        if (direction == Direction.NONE) {
+//            moving = false;
+//        } else if (direction == Direction.UP) {
+//            if (canMove(x, y - getSpeed())) {
+//                    direction = Direction.UP;
+//                    moving = true;
+//                    if(SpriteNum == 1) {
+//                        imageView.setImage(Sprite.player_up.getFxImage());
+//                    }
+//                    else if(SpriteNum == 2) {
+//                        imageView.setImage(Sprite.player_up_1.getFxImage());
+//                    }
+//                    else if(SpriteNum == 3) {
+//                        imageView.setImage(Sprite.player_up_2.getFxImage());
+//                    }
+//                    moveUp();
+//                }
+//        } else if (direction == Direction.DOWN) {
+//            if (canMove(x, y + getSpeed())) {
+//                    direction = Direction.DOWN;
+//                    moving = true;
+//                    if(SpriteNum == 1) {
+//                        imageView.setImage(Sprite.player_down.getFxImage());
+//                    }
+//                    else if(SpriteNum == 2) {
+//                        imageView.setImage(Sprite.player_down_1.getFxImage());
+//                    }
+//                    else if(SpriteNum == 3) {
+//                        imageView.setImage(Sprite.player_down_2.getFxImage());
+//                    }
+//                    moveDown();
+//                }
+//        } else if (direction == Direction.LEFT) {
+//            if (canMove(x - getSpeed(), y)) {
+//                    direction = Direction.LEFT;
+//                    moving = true;
+//                    if(SpriteNum == 1) {
+//                        imageView.setImage(Sprite.player_left.getFxImage());
+//                    }
+//                    else if(SpriteNum == 2) {
+//                        imageView.setImage(Sprite.player_left_1.getFxImage());
+//                    }
+//                    else if(SpriteNum == 3) {
+//                        imageView.setImage(Sprite.player_left_2.getFxImage());
+//                    }
+//                    moveLeft();
+//                }
+//        } else if (direction == Direction.RIGHT) {
+//            if (canMove(x + getSpeed(), y)) {
+//                    direction = Direction.RIGHT;
+//                    moving = true;
+//                    if(SpriteNum == 1) {
+//                        imageView.setImage(Sprite.player_right.getFxImage());
+//                    }
+//                    else if(SpriteNum == 2) {
+//                        imageView.setImage(Sprite.player_right_1.getFxImage());
+//                    }
+//                    else if(SpriteNum == 3) {
+//                        imageView.setImage(Sprite.player_right_2.getFxImage());
+//                    }
+//                    moveRight();
+//                }
+//        }
         SpriteCounter++;
         if (SpriteCounter > 15) {
             if (SpriteNum == 1) {
@@ -131,8 +211,8 @@ public class Bomber extends Character {
     @Override
     public boolean canMove(int x, int y) {
         Entity entity = Map.getEntity(x, y);
-        if (entity instanceof Bomb) {
-            return false;
+        if (entity == null) {
+            return true;
         }
         return super.collide(entity);
     }
