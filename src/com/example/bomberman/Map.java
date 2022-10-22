@@ -123,7 +123,7 @@ public final class Map {
         entities.forEach(e -> group.getChildren().add(e.getImageView()));
         items.forEach(e -> group.getChildren().add(e.getImageView()));
         enemies.forEach(e -> group.getChildren().add(e.getImageView()));
-        bomberman.getBombs().forEach(e -> group.getChildren().add(e.getImageView()));
+        bomberman.bombs.forEach(e -> group.getChildren().add(e.getImageView()));
     }
 
     public static void createGameLoop(Group group, Scene scene) {
@@ -138,6 +138,7 @@ public final class Map {
                 delta += (now - lastTime) / ns;
                 lastTime = now;
                 while (delta >= 1) {
+                    render(group);
                     update(scene);
                     delta--;
                     updates++;

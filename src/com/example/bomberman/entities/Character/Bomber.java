@@ -20,7 +20,7 @@ public class Bomber extends Character {
     private int haveBomb = 0;
     private int limitBomb = 3;
     private boolean canPlaceBomb = true; // can only place bomb after the amount of time
-    private List<Bomb> bombs = new ArrayList<>();
+    public List<Bomb> bombs = new ArrayList<>();
     // effect.
     private boolean isSpeedBuff = false;
     private boolean isBombBuff = false;
