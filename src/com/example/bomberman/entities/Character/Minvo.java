@@ -4,7 +4,7 @@ import com.example.bomberman.entities.Entity;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 
-public class Minvo extends Character {
+public class Minvo extends Enemies {
     public Minvo(int x, int y, Image img) {
         super(x, y, img);
     }

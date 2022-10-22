@@ -4,7 +4,7 @@ import com.example.bomberman.entities.Entity;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 
-public class Doll extends Character {
+public class Doll extends Enemies {
     public Doll(int x, int y, Image img) {
         super(x, y, img);
     }

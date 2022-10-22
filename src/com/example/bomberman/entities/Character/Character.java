@@ -26,6 +26,7 @@ public abstract class Character extends DynamicEntity {
 
     @Override
     public void update(Scene scene) {
+
     }
 
     public void kill() {
@@ -42,8 +43,8 @@ public abstract class Character extends DynamicEntity {
 
     public abstract boolean canMove(int x, int y);
 
-    public boolean collide(Entity e) {
-        return (e instanceof Grass || e instanceof Character || e instanceof Item || e instanceof Bomb);
+    protected boolean collide(Entity entity) {
+        return (entity instanceof Grass || entity instanceof Character);
     }
 
     public boolean isAlive() {
