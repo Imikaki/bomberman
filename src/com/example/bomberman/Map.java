@@ -80,7 +80,6 @@ public final class Map {
                         break;
                     case 'p': //player
                         bomberman = new Bomber(j, i, Sprite.player_right.getFxImage());
-                        entities.add(bomberman);
                         break;
                     case '1': //balloon
                         enemies.add(new Balloom(j, i, Sprite.balloom_left1.getFxImage()));
@@ -119,10 +118,16 @@ public final class Map {
 
     public static void render(Group group) {
         group.getChildren().clear();
+        // add grass, portal and wall
         staticEntities.forEach(e -> group.getChildren().add(e.getImageView()));
-        entities.forEach(e -> group.getChildren().add(e.getImageView()));
+        // add item
         items.forEach(e -> group.getChildren().add(e.getImageView()));
+        // add brick
+        entities.forEach(e -> group.getChildren().add(e.getImageView()));
+        // add enemy
         enemies.forEach(e -> group.getChildren().add(e.getImageView()));
+        // add bomber
+        group.getChildren().add(bomberman.getImageView());
         bomberman.bombs.forEach(e -> group.getChildren().add(e.getImageView()));
     }
 
