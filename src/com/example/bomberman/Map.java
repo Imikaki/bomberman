@@ -72,6 +72,7 @@ public final class Map {
                         bomberman = new Bomber(i, j, Sprite.player_right.getFxImage());
                         object = new Grass(i, j, Sprite.grass.getFxImage());
                         staticEntities.add(object);
+                        break;
                     }
                     case '1': {
                         enemy = new Balloom(i, j, Sprite.balloom_left1.getFxImage());
