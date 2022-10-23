@@ -67,9 +67,15 @@ public class Bomber extends Character {
                     break;
             }
             if (event.getCode() == KeyCode.UP) {
-                if (canMove(x, y - getSpeed())) {
+                moving = true;
+                for (int i = -3; i <= 3; i++) {
+                    if (!canMove(x + i * getSpeed(), y - getSpeed())) {
+                        moving = false;
+                        break;
+                    }
+                }
+                if (moving) {
                     direction = Direction.UP;
-                    moving = true;
                     if(SpriteNum == 1) {
                         imageView.setImage(Sprite.player_up.getFxImage());
                     }
@@ -82,9 +88,15 @@ public class Bomber extends Character {
                     moveUp();
                 }
             } else if (event.getCode() == KeyCode.DOWN) {
-                if (canMove(x, y + getSpeed())) {
+                moving = true;
+                for (int i = -3; i <= 3; i++) {
+                    if (!canMove(x + i * getSpeed(), y + 4 * getSpeed())) {
+                        moving = false;
+                        break;
+                    }
+                }
+                if (moving) {
                     direction = Direction.DOWN;
-                    moving = true;
                     if(SpriteNum == 1) {
                         imageView.setImage(Sprite.player_down.getFxImage());
                     }
@@ -97,9 +109,15 @@ public class Bomber extends Character {
                     moveDown();
                 }
             } else if (event.getCode() == KeyCode.LEFT) {
-                if (canMove(x - getSpeed(), y)) {
+                moving = true;
+                for (int i = -3; i <= 3; i++) {
+                    if (!canMove(x - 4 * getSpeed(), y + i * getSpeed())) {
+                        moving = false;
+                        break;
+                    }
+                }
+                if (moving) {
                     direction = Direction.LEFT;
-                    moving = true;
                     if(SpriteNum == 1) {
                         imageView.setImage(Sprite.player_left.getFxImage());
                     }
@@ -112,9 +130,15 @@ public class Bomber extends Character {
                     moveLeft();
                 }
             } else if (event.getCode() == KeyCode.RIGHT) {
-                if (canMove(x + getSpeed(), y)) {
+                moving = true;
+                for (int i = -3; i <= 3; i++) {
+                    if (!canMove(x + 4 * getSpeed(), y + i * getSpeed())) {
+                        moving = false;
+                        break;
+                    }
+                }
+                if (moving) {
                     direction = Direction.RIGHT;
-                    moving = true;
                     if(SpriteNum == 1) {
                         imageView.setImage(Sprite.player_right.getFxImage());
                     }
@@ -128,69 +152,6 @@ public class Bomber extends Character {
                 }
             }
         });
-//        if (direction == Direction.NONE) {
-//            moving = false;
-//        } else if (direction == Direction.UP) {
-//            if (canMove(x, y - getSpeed())) {
-//                    direction = Direction.UP;
-//                    moving = true;
-//                    if(SpriteNum == 1) {
-//                        imageView.setImage(Sprite.player_up.getFxImage());
-//                    }
-//                    else if(SpriteNum == 2) {
-//                        imageView.setImage(Sprite.player_up_1.getFxImage());
-//                    }
-//                    else if(SpriteNum == 3) {
-//                        imageView.setImage(Sprite.player_up_2.getFxImage());
-//                    }
-//                    moveUp();
-//                }
-//        } else if (direction == Direction.DOWN) {
-//            if (canMove(x, y + getSpeed())) {
-//                    direction = Direction.DOWN;
-//                    moving = true;
-//                    if(SpriteNum == 1) {
-//                        imageView.setImage(Sprite.player_down.getFxImage());
-//                    }
-//                    else if(SpriteNum == 2) {
-//                        imageView.setImage(Sprite.player_down_1.getFxImage());
-//                    }
-//                    else if(SpriteNum == 3) {
-//                        imageView.setImage(Sprite.player_down_2.getFxImage());
-//                    }
-//                    moveDown();
-//                }
-//        } else if (direction == Direction.LEFT) {
-//            if (canMove(x - getSpeed(), y)) {
-//                    direction = Direction.LEFT;
-//                    moving = true;
-//                    if(SpriteNum == 1) {
-//                        imageView.setImage(Sprite.player_left.getFxImage());
-//                    }
-//                    else if(SpriteNum == 2) {
-//                        imageView.setImage(Sprite.player_left_1.getFxImage());
-//                    }
-//                    else if(SpriteNum == 3) {
-//                        imageView.setImage(Sprite.player_left_2.getFxImage());
-//                    }
-//                    moveLeft();
-//                }
-//        } else if (direction == Direction.RIGHT) {
-//            if (canMove(x + getSpeed(), y)) {
-//                    direction = Direction.RIGHT;
-//                    moving = true;
-//                    if(SpriteNum == 1) {
-//                        imageView.setImage(Sprite.player_right.getFxImage());
-//                    }
-//                    else if(SpriteNum == 2) {
-//                        imageView.setImage(Sprite.player_right_1.getFxImage());
-//                    }
-//                    else if(SpriteNum == 3) {
-//                        imageView.setImage(Sprite.player_right_2.getFxImage());
-//                    }
-//                    moveRight();
-//                }
-//        }
         SpriteCounter++;
         if (SpriteCounter > 15) {
             if (SpriteNum == 1) {
