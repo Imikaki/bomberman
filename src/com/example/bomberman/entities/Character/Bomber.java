@@ -3,6 +3,7 @@ package com.example.bomberman.entities.Character;
 import com.example.bomberman.Map;
 import com.example.bomberman.entities.Entity;
 import com.example.bomberman.entities.staticEntity.CarriableEntity.Bomb;
+import com.example.bomberman.entities.staticEntity.StaticEntity.Portal;
 import com.example.bomberman.graphics.Sprite;
 import com.example.bomberman.system.Direction;
 import com.example.bomberman.system.KeyManager;
@@ -19,7 +20,6 @@ public class Bomber extends Character {
     private int haveBomb = 0;
     private int limitBomb = 3;
     private boolean canPlaceBomb = true; // can only place bomb after the amount of time
-    public List<Bomb> bombs = new ArrayList<>();
     // effect.
     private boolean isSpeedBuff = false;
     private boolean isBombBuff = false;
@@ -58,12 +58,15 @@ public class Bomber extends Character {
                 }
                 if (moving) {
                     if(SpriteNum == 1) {
+                        img = Sprite.player_up.getFxImage();
                         imageView.setImage(Sprite.player_up.getFxImage());
                     }
                     else if(SpriteNum == 2) {
+                        img = Sprite.player_up_1.getFxImage();
                         imageView.setImage(Sprite.player_up_1.getFxImage());
                     }
                     else if(SpriteNum == 3) {
+                        img = Sprite.player_up_2.getFxImage();
                         imageView.setImage(Sprite.player_up_2.getFxImage());
                     }
                     moveUp();
@@ -78,12 +81,15 @@ public class Bomber extends Character {
                 }
                 if (moving) {
                     if(SpriteNum == 1) {
+                        img = Sprite.player_down.getFxImage();
                         imageView.setImage(Sprite.player_down.getFxImage());
                     }
                     else if(SpriteNum == 2) {
+                        img = Sprite.player_down_1.getFxImage();
                         imageView.setImage(Sprite.player_down_1.getFxImage());
                     }
                     else if(SpriteNum == 3) {
+                        img = Sprite.player_down_2.getFxImage();
                         imageView.setImage(Sprite.player_down_2.getFxImage());
                     }
                     moveDown();
@@ -98,12 +104,15 @@ public class Bomber extends Character {
                 }
                 if (moving) {
                     if(SpriteNum == 1) {
+                        img = Sprite.player_left.getFxImage();
                         imageView.setImage(Sprite.player_left.getFxImage());
                     }
                     else if(SpriteNum == 2) {
+                        img = Sprite.player_left_1.getFxImage();
                         imageView.setImage(Sprite.player_left_1.getFxImage());
                     }
                     else if(SpriteNum == 3) {
+                        img = Sprite.player_left_2.getFxImage();
                         imageView.setImage(Sprite.player_left_2.getFxImage());
                     }
                     moveLeft();
@@ -118,12 +127,15 @@ public class Bomber extends Character {
                 }
                 if (moving) {
                     if(SpriteNum == 1) {
+                        img = Sprite.player_right.getFxImage();
                         imageView.setImage(Sprite.player_right.getFxImage());
                     }
                     else if(SpriteNum == 2) {
+                        img = Sprite.player_right_1.getFxImage();
                         imageView.setImage(Sprite.player_right_1.getFxImage());
                     }
                     else if(SpriteNum == 3) {
+                        img = Sprite.player_right_2.getFxImage();
                         imageView.setImage(Sprite.player_right_2.getFxImage());
                     }
                     moveRight();
@@ -161,7 +173,7 @@ public class Bomber extends Character {
         int _x = x / Sprite.SCALED_SIZE;
         int _y = y / Sprite.SCALED_SIZE;
         if (placedBomb < limitBomb) {
-            for (Bomb bomb : bombs) {
+            for (Bomb bomb : Map.bombs) {
                 if (bomb.getX() == _x && bomb.getY() == _y) {
                     canPlace = false;
                     break;
@@ -169,7 +181,7 @@ public class Bomber extends Character {
             }
             if (canPlace && placedBomb < limitBomb) {
                 Bomb bomb = new Bomb(_x, _y, Sprite.bomb.getFxImage());
-                bombs.add(bomb);
+                Map.bombs.add(bomb);
                 placedBomb++;
                 System.out.println("Placed bomb " + placedBomb);
             }
@@ -191,9 +203,9 @@ public class Bomber extends Character {
 
     private void countBomb() {
         placedBomb = 0;
-        for (Bomb bomb : bombs) {
+        for (Bomb bomb : Map.bombs) {
             if (bomb.isExploded()) {
-                bombs.remove(bomb);
+                Map.bombs.remove(bomb);
             } else {
                 placedBomb++;
             }
@@ -201,6 +213,18 @@ public class Bomber extends Character {
     }
 
     public List<Bomb> getBombs() {
-        return bombs;
+        return Map.bombs;
+    }
+
+    public boolean isInPortal() {
+        return x == Map.mapPortal.getX() && y == Map.mapPortal.getY();
+    }
+
+    public void setPlacedBomb(int placedBomb) {
+        this.placedBomb = placedBomb;
+    }
+
+    public int getPlacedBomb() {
+        return placedBomb;
     }
 }
