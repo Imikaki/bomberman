@@ -16,7 +16,6 @@ public abstract class Character extends DynamicEntity {
     protected boolean alive = true;
     protected boolean killed = false;
     protected boolean moving = false;
-    protected Direction direction;
 
     public Character(int x, int y, Image img) {
         super(x, y, img);
@@ -55,14 +54,6 @@ public abstract class Character extends DynamicEntity {
         return moving;
     }
 
-    public Direction getDirection() {
-        return direction;
-    }
-
-    public void setDirection(Direction direction) {
-        this.direction = direction;
-    }
-
     @Override
     public int getX() {
         return super.getX();
@@ -76,7 +67,7 @@ public abstract class Character extends DynamicEntity {
         y-= getSpeed();
     }
 
-    protected  void moveDown() {
+    protected void moveDown() {
         y += getSpeed();
     }
 
