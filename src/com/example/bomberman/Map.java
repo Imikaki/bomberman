@@ -2,19 +2,14 @@ package com.example.bomberman;
 
 import com.example.bomberman.entities.Character.*;
 import com.example.bomberman.entities.Entity;
-import com.example.bomberman.entities.staticEntity.CarriableEntity.BombItem;
-import com.example.bomberman.entities.staticEntity.CarriableEntity.FlameItem;
-import com.example.bomberman.entities.staticEntity.CarriableEntity.Item;
-import com.example.bomberman.entities.staticEntity.CarriableEntity.SpeedItem;
-import com.example.bomberman.entities.staticEntity.StaticEntity.Brick;
-import com.example.bomberman.entities.staticEntity.StaticEntity.Grass;
-import com.example.bomberman.entities.staticEntity.StaticEntity.Portal;
-import com.example.bomberman.entities.staticEntity.StaticEntity.Wall;
+import com.example.bomberman.entities.staticEntity.CarriableEntity.*;
+import com.example.bomberman.entities.staticEntity.StaticEntity.*;
 import com.example.bomberman.graphics.Sprite;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 
+import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,10 +19,13 @@ public final class Map {
     public static Bomber bomberman;
     public static boolean isWin = false;
     public static int level = 1;
-    private static final List<Entity> staticEntities = new ArrayList<Entity>();
-    private static final List<Entity> entities = new ArrayList<Entity>();
-    private static final List<Entity> items = new ArrayList<Entity>();
-    private static final List<Entity> enemies = new ArrayList<Entity>();
+    public static Entity mapPortal;
+    public static List<Entity> staticEntities = new ArrayList<Entity>();
+    public static List<Entity> entities = new ArrayList<Entity>();
+    public static List<Entity> items = new ArrayList<Entity>();
+    public static List<Enemies> enemies = new ArrayList<Enemies>();
+    public static List<Flame> flames = new ArrayList<>();
+    public static List<Bomb> bombs = new ArrayList<Bomb>();
     private static Portal portal;
     private static int row;
     private static int col;
@@ -44,6 +42,8 @@ public final class Map {
         level = Integer.parseInt(args[0]);
         row = Integer.parseInt(args[1]);
         col = Integer.parseInt(args[2]);
+
+        reset();
 
         int i = -1;
 
@@ -62,8 +62,8 @@ public final class Map {
                         entities.add(new Brick(j, i, Sprite.brick.getFxImage()));
                         break;
                     case 'x': //portal
-                        portal = new Portal(j, i, Sprite.portal.getFxImage());
-                        staticEntities.add(portal);
+                        mapPortal = new Portal(j, i, Sprite.portal.getFxImage());
+                        staticEntities.add(mapPortal);
                         entities.add(new Brick(j, i, Sprite.brick.getFxImage()));
                         break;
                     case 'b': //bombItem
@@ -113,22 +113,33 @@ public final class Map {
             e.update(scene);
         }
         bomberman.update(scene);
-        portal.update(scene);
+        for (Entity e : bombs) {
+            e.update(scene);
+        }
+        for (Entity e : flames) {
+            e.update(scene);
+        }
+        if (bomberman.isAlive() == false) {
+            isWin = true;
+            timer.stop();
+            bombs.forEach(bomb -> bomb.breakEntity());
+            flames.forEach(flame -> flame.breakEntity());
+        }
+        if (bomberman.isInPortal() == true) {
+            isWin = true;
+            timer.stop();
+        }
     }
 
     public static void render(Group group) {
         group.getChildren().clear();
-        // add grass, portal and wall
-        staticEntities.forEach(e -> group.getChildren().add(e.getImageView()));
-        // add item
-        items.forEach(e -> group.getChildren().add(e.getImageView()));
-        // add brick
-        entities.forEach(e -> group.getChildren().add(e.getImageView()));
-        // add enemy
-        enemies.forEach(e -> group.getChildren().add(e.getImageView()));
-        // add bomber
-        group.getChildren().add(bomberman.getImageView());
-        bomberman.bombs.forEach(e -> group.getChildren().add(e.getImageView()));
+        staticEntities.forEach(e -> e.render(group));
+        items.forEach(e -> e.render(group));
+        entities.forEach(e -> e.render(group));
+        enemies.forEach(e -> e.render(group));
+        bomberman.render(group);
+        bombs.forEach(e -> e.render(group));
+        flames.forEach(e -> e.render(group));
     }
 
     public static void createGameLoop(Group group, Scene scene) {
@@ -194,6 +205,11 @@ public final class Map {
                 return e;
             }
         }
+        for (Entity e : items) {
+            if (e.getX() == x && e.getY() == y) {
+                return e;
+            }
+        }
         for (Entity e : entities) {
             if (e.getX() == x && e.getY() == y) {
                 return e;
@@ -207,7 +223,55 @@ public final class Map {
         return null;
     }
 
-    public static void bombExplode(List<Entity> explosion) {
+    public static boolean collide(Entity e1, Entity e2) {
+        Rectangle r1 = new Rectangle(e1.getX(), e1.getY(), Sprite.SCALED_SIZE, Sprite.SCALED_SIZE);
+        Rectangle r2 = new Rectangle(e2.getX(), e2.getY(), Sprite.SCALED_SIZE, Sprite.SCALED_SIZE);
+        return r1.intersects(r2);
+    }
+    public void bomberKill() {
+        if (bomberman.isAlive() == false) return;
+        bombs.forEach(bomb -> {
+            if (bomb.isExploded() && collide(bomberman, bomb)) {
+                bomberman.kill();
+            }
+        });
+        flames.forEach(flame -> {
+            if (collide(bomberman, flame)) {
+                bomberman.kill();
+            }
+        });
+        enemies.forEach(enemy -> {
+            if (collide(bomberman, enemy)) {
+                bomberman.kill();
+            }
+        });
+        if (bomberman.isAlive() == false) {
+            timer.stop();
+            System.out.println("Game Over");
+        }
+    }
 
+    public void enemyKill() {
+        enemies.forEach(enemy -> {
+            bombs.forEach(bomb -> {
+                if (bomb.isExploded() && collide(enemy, bomb)) {
+                    enemy.kill();
+                }
+            });
+            flames.forEach(flame -> {
+                if (collide(enemy, flame)) {
+                    enemy.kill();
+                }
+            });
+        });
+    }
+
+    public static void reset() {
+        staticEntities = new ArrayList<>();
+        entities = new ArrayList<>();
+        items = new ArrayList<>();
+        enemies = new ArrayList<>();
+        bombs = new ArrayList<>();
+        flames = new ArrayList<>();
     }
 }
