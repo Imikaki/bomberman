@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Bomber extends Character {
-    KeyManager input = new KeyManager();
     private Direction currentDirection = Direction.NONE;
     private int placedBomb = 0;
     private int haveBomb = 0;
@@ -49,33 +48,15 @@ public class Bomber extends Character {
             if (event.getCode() == KeyCode.SPACE) {
                 placeBomb();
             }
-            switch (event.getCode()) {
-                case UP:
-                    direction = Direction.UP;
-                    break;
-                case DOWN:
-                    direction = Direction.DOWN;
-                    break;
-                case LEFT:
-                    direction = Direction.LEFT;
-                    break;
-                case RIGHT:
-                    direction = Direction.RIGHT;
-                    break;
-                default:
-                    direction = Direction.NONE;
-                    break;
-            }
             if (event.getCode() == KeyCode.UP) {
                 moving = true;
                 for (int i = -3; i <= 3; i++) {
-                    if (!canMove(x + i * getSpeed(), y - getSpeed())) {
+                    if (!canMove(x + i * getSpeed(), y - 4 * getSpeed())) {
                         moving = false;
                         break;
                     }
                 }
                 if (moving) {
-                    direction = Direction.UP;
                     if(SpriteNum == 1) {
                         img = Sprite.player_up.getFxImage();
                         imageView.setImage(Sprite.player_up.getFxImage());
@@ -99,7 +80,6 @@ public class Bomber extends Character {
                     }
                 }
                 if (moving) {
-                    direction = Direction.DOWN;
                     if(SpriteNum == 1) {
                         img = Sprite.player_down.getFxImage();
                         imageView.setImage(Sprite.player_down.getFxImage());
@@ -123,7 +103,6 @@ public class Bomber extends Character {
                     }
                 }
                 if (moving) {
-                    direction = Direction.LEFT;
                     if(SpriteNum == 1) {
                         img = Sprite.player_left.getFxImage();
                         imageView.setImage(Sprite.player_left.getFxImage());
@@ -147,7 +126,6 @@ public class Bomber extends Character {
                     }
                 }
                 if (moving) {
-                    direction = Direction.RIGHT;
                     if(SpriteNum == 1) {
                         img = Sprite.player_right.getFxImage();
                         imageView.setImage(Sprite.player_right.getFxImage());
