@@ -30,12 +30,16 @@ public abstract class AnimatedEntity extends Entity {
             public void run() {
                 isExploded = false;
                 isRemoved = true;
-                clock.cancel();
             }
-        }, 1000);
+        }, 500L);
     }
 
     public boolean isExploded() {
         return isExploded;
+    }
+
+    @Override
+    public void remove() {
+        breakEntity();
     }
 }

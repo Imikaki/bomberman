@@ -16,6 +16,7 @@ import javafx.scene.image.Image;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
+import java.util.TimerTask;
 
 public class Bomb extends AnimatedEntity {
     public static int bombSize = 1;
@@ -26,7 +27,7 @@ public class Bomb extends AnimatedEntity {
     // left, right, up, down
     public static int[] dix = {-1, 1, 0, 0};
     public static int[] diy = {0, 0, -1, 1};
-    public static int explodeRange = 2;
+    public static int explodeRange = 1;
 
     public Bomb(int x, int y, Image img) {
         super(x, y, img);
@@ -45,11 +46,21 @@ public class Bomb extends AnimatedEntity {
     }
 
     @Override
+    public void breakEntity() {
+        isExploded = true;
+        animate = 0;
+        Timer clock = new Timer();
+        clock.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                isExploded = false;
+                isRemoved = true;
+            }
+        }, 5000L);
+    }
+
+    @Override
     public void update(Scene scene) {
-        if (isRemoved) {
-            Map.bombs.remove(this);
-            Map.bomberman.setPlacedBomb(Map.bombs.size());
-        }
         for (Flame flame : Map.flames) {
             if (Map.collide(this, flame)) {
                 bombExplodes();

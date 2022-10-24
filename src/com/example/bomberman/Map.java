@@ -156,6 +156,7 @@ public final class Map {
                 while (delta >= 1) {
                     render(group);
                     update(scene);
+                    remove();
                     delta--;
                     updates++;
                 }
@@ -273,5 +274,13 @@ public final class Map {
         enemies = new ArrayList<>();
         bombs = new ArrayList<>();
         flames = new ArrayList<>();
+    }
+
+    public static void remove() {
+        entities.removeIf(e -> e.isRemoved);
+        items.removeIf(e -> e.isRemoved);
+        enemies.removeIf(e -> e.isRemoved);
+        bombs.removeIf(e -> e.isRemoved);
+        flames.removeIf(e -> e.isRemoved);
     }
 }

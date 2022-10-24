@@ -21,7 +21,7 @@ public abstract class Entity {
     protected int y;
 
     protected Image img;
-    protected boolean isRemoved = false;
+    public boolean isRemoved = false;
     protected HitBox borderBox;
     protected int animate = 0;
     public static final int maxAnimate = 7500;
@@ -75,7 +75,6 @@ public abstract class Entity {
     }
 
     public void render(Group group) {
-        if (isRemoved == true) return;
         group.getChildren().add(this.getImageView());
     }
 

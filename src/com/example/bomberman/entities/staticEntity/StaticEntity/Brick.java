@@ -1,18 +1,19 @@
 package com.example.bomberman.entities.staticEntity.StaticEntity;
 
+import com.example.bomberman.entities.AnimatedEntity;
 import com.example.bomberman.entities.Entity;
 import com.example.bomberman.graphics.Sprite;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 
-public class Brick extends Entity {
+public class Brick extends AnimatedEntity {
     public Brick(int x, int y, Image img) {
         super(x, y, img);
     }
 
     @Override
     public void update(Scene scene) {
-        if (!this.isRemoved) {
+        if (this.isExploded == false) {
             return;
         }
         animate();
