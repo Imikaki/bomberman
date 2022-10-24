@@ -1,11 +1,17 @@
 package com.example.bomberman.entities;
 
+import com.example.bomberman.entities.staticEntity.StaticEntity.Grass;
+import com.example.bomberman.entities.staticEntity.StaticEntity.Wall;
 import com.example.bomberman.graphics.HitBox;
 import com.example.bomberman.graphics.Sprite;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import java.util.Timer;
+import java.util.TimerTask;
+
 
 public abstract class Entity {
     //Tọa độ X tính từ góc trái trên trong Canvas
@@ -15,9 +21,11 @@ public abstract class Entity {
     protected int y;
 
     protected Image img;
-    protected ImageView imageView;
     protected boolean isRemoved = false;
     protected HitBox borderBox;
+    protected int animate = 0;
+    public static final int maxAnimate = 7500;
+    protected ImageView imageView;
 
     //Khởi tạo đối tượng, chuyển từ tọa độ đơn vị sang tọa độ trong canvas
     public Entity() {
@@ -28,9 +36,11 @@ public abstract class Entity {
         this.x = xUnit * Sprite.SCALED_SIZE;
         this.y = yUnit * Sprite.SCALED_SIZE;
         this.img = img;
-        imageView = new ImageView(img);
-        imageView.setX(x);
-        imageView.setY(y);
+    }
+
+    public Entity(int x, int y) {
+        this.x = x * Sprite.SCALED_SIZE;
+        this.y = y * Sprite.SCALED_SIZE;
     }
 
     public int getX() {
@@ -64,8 +74,9 @@ public abstract class Entity {
         this.borderBox = borderBox;
     }
 
-    public void render(GraphicsContext gc) {
-        gc.drawImage(img, x, y);
+    public void render(Group group) {
+        if (isRemoved == true) return;
+        group.getChildren().add(this.getImageView());
     }
 
     public abstract void update(Scene scene);
@@ -77,13 +88,25 @@ public abstract class Entity {
     public boolean coordiantes(int x, int y) {
         return this.x == x && this.y == y;
     }
+    public boolean canBreak() {
+        return ((this instanceof Grass) || (this instanceof Wall)) == false;
+    }
 
     public boolean isColliding(Entity other) {
         return borderBox.collideWith(other.getBorderBox());
     }
 
     public ImageView getImageView() {
+        imageView = new ImageView(img);
+        imageView.setX(x);
+        imageView.setY(y);
         return imageView;
     }
+
+    public void animate() {
+        if (animate < maxAnimate) animate++;
+        else animate = 0;
+    }
+
 }
 
