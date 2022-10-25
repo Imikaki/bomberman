@@ -21,7 +21,7 @@ public abstract class Entity {
     protected int y;
 
     protected Image img;
-    protected boolean isRemoved = false;
+    public boolean isRemoved = false;
     protected HitBox borderBox;
     protected int animate = 0;
     public static final int maxAnimate = 7500;
