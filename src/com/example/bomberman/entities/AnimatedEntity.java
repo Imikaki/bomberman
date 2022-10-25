@@ -19,6 +19,7 @@ public abstract class AnimatedEntity extends Entity {
     public AnimatedEntity(int x, int y, Image img) {
         super(x, y, img);
     }
+
     public abstract void update(Scene scene);
 
     public void breakEntity() {
@@ -30,12 +31,16 @@ public abstract class AnimatedEntity extends Entity {
             public void run() {
                 isExploded = false;
                 isRemoved = true;
-                clock.cancel();
             }
-        }, 1000);
+        }, 500L);
     }
 
     public boolean isExploded() {
         return isExploded;
+    }
+
+    @Override
+    public void remove() {
+        breakEntity();
     }
 }

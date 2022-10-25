@@ -9,6 +9,7 @@ public class Portal extends AnimatedEntity {
     public Portal(int x, int y, Image img) {
         super(x, y, img);
     }
+
     public Portal(int x, int y) {
         super(x, y, Sprite.portal.getFxImage());
     }

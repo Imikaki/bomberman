@@ -2,8 +2,6 @@ package com.example.bomberman.entities.staticEntity.StaticEntity;
 
 import com.example.bomberman.Map;
 import com.example.bomberman.entities.AnimatedEntity;
-import com.example.bomberman.entities.Entity;
-import com.example.bomberman.graphics.HitBox;
 import com.example.bomberman.graphics.Sprite;
 import com.example.bomberman.system.Direction;
 import javafx.scene.Scene;
@@ -27,6 +25,7 @@ public class Flame extends AnimatedEntity {
         this.isLast = isLast;
         breakEntity();
     }
+
     @Override
     public void update(Scene scene) {
         if (isRemoved) {

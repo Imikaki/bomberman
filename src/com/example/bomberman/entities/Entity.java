@@ -6,25 +6,20 @@ import com.example.bomberman.graphics.HitBox;
 import com.example.bomberman.graphics.Sprite;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import java.util.Timer;
-import java.util.TimerTask;
 
 
 public abstract class Entity {
+    public static final int maxAnimate = 7500;
+    public boolean isRemoved = false;
     //Tọa độ X tính từ góc trái trên trong Canvas
     protected int x;
-
     //Tọa độ Y tính từ góc trái trên trong Canvas
     protected int y;
-
     protected Image img;
-    protected boolean isRemoved = false;
     protected HitBox borderBox;
     protected int animate = 0;
-    public static final int maxAnimate = 7500;
     protected ImageView imageView;
 
     //Khởi tạo đối tượng, chuyển từ tọa độ đơn vị sang tọa độ trong canvas
@@ -66,6 +61,7 @@ public abstract class Entity {
     public void setImage(Image img) {
         this.img = img;
     }
+
     public HitBox getBorderBox() {
         return borderBox;
     }
@@ -75,7 +71,6 @@ public abstract class Entity {
     }
 
     public void render(Group group) {
-        if (isRemoved == true) return;
         group.getChildren().add(this.getImageView());
     }
 
@@ -88,6 +83,7 @@ public abstract class Entity {
     public boolean coordiantes(int x, int y) {
         return this.x == x && this.y == y;
     }
+
     public boolean canBreak() {
         return ((this instanceof Grass) || (this instanceof Wall)) == false;
     }

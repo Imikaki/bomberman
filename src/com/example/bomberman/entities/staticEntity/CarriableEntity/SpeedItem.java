@@ -1,6 +1,5 @@
 package com.example.bomberman.entities.staticEntity.CarriableEntity;
 
-import com.example.bomberman.graphics.Sprite;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 

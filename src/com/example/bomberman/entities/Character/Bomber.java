@@ -3,15 +3,12 @@ package com.example.bomberman.entities.Character;
 import com.example.bomberman.Map;
 import com.example.bomberman.entities.Entity;
 import com.example.bomberman.entities.staticEntity.CarriableEntity.Bomb;
-import com.example.bomberman.entities.staticEntity.StaticEntity.Portal;
 import com.example.bomberman.graphics.Sprite;
 import com.example.bomberman.system.Direction;
-import com.example.bomberman.system.KeyManager;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Bomber extends Character {
@@ -25,7 +22,7 @@ public class Bomber extends Character {
     private boolean isBombBuff = false;
     private boolean isFlameBuff = false;
     private boolean alive = false;
-
+    public static int explodeRange = 1;
     private int SpriteCounter = 0;
     private int SpriteNum = 1;
 
@@ -57,15 +54,13 @@ public class Bomber extends Character {
                     }
                 }
                 if (moving) {
-                    if(SpriteNum == 1) {
+                    if (SpriteNum == 1) {
                         img = Sprite.player_up.getFxImage();
                         imageView.setImage(Sprite.player_up.getFxImage());
-                    }
-                    else if(SpriteNum == 2) {
+                    } else if (SpriteNum == 2) {
                         img = Sprite.player_up_1.getFxImage();
                         imageView.setImage(Sprite.player_up_1.getFxImage());
-                    }
-                    else if(SpriteNum == 3) {
+                    } else if (SpriteNum == 3) {
                         img = Sprite.player_up_2.getFxImage();
                         imageView.setImage(Sprite.player_up_2.getFxImage());
                     }
@@ -80,15 +75,13 @@ public class Bomber extends Character {
                     }
                 }
                 if (moving) {
-                    if(SpriteNum == 1) {
+                    if (SpriteNum == 1) {
                         img = Sprite.player_down.getFxImage();
                         imageView.setImage(Sprite.player_down.getFxImage());
-                    }
-                    else if(SpriteNum == 2) {
+                    } else if (SpriteNum == 2) {
                         img = Sprite.player_down_1.getFxImage();
                         imageView.setImage(Sprite.player_down_1.getFxImage());
-                    }
-                    else if(SpriteNum == 3) {
+                    } else if (SpriteNum == 3) {
                         img = Sprite.player_down_2.getFxImage();
                         imageView.setImage(Sprite.player_down_2.getFxImage());
                     }
@@ -103,15 +96,13 @@ public class Bomber extends Character {
                     }
                 }
                 if (moving) {
-                    if(SpriteNum == 1) {
+                    if (SpriteNum == 1) {
                         img = Sprite.player_left.getFxImage();
                         imageView.setImage(Sprite.player_left.getFxImage());
-                    }
-                    else if(SpriteNum == 2) {
+                    } else if (SpriteNum == 2) {
                         img = Sprite.player_left_1.getFxImage();
                         imageView.setImage(Sprite.player_left_1.getFxImage());
-                    }
-                    else if(SpriteNum == 3) {
+                    } else if (SpriteNum == 3) {
                         img = Sprite.player_left_2.getFxImage();
                         imageView.setImage(Sprite.player_left_2.getFxImage());
                     }
@@ -126,15 +117,13 @@ public class Bomber extends Character {
                     }
                 }
                 if (moving) {
-                    if(SpriteNum == 1) {
+                    if (SpriteNum == 1) {
                         img = Sprite.player_right.getFxImage();
                         imageView.setImage(Sprite.player_right.getFxImage());
-                    }
-                    else if(SpriteNum == 2) {
+                    } else if (SpriteNum == 2) {
                         img = Sprite.player_right_1.getFxImage();
                         imageView.setImage(Sprite.player_right_1.getFxImage());
-                    }
-                    else if(SpriteNum == 3) {
+                    } else if (SpriteNum == 3) {
                         img = Sprite.player_right_2.getFxImage();
                         imageView.setImage(Sprite.player_right_2.getFxImage());
                     }
@@ -146,11 +135,9 @@ public class Bomber extends Character {
         if (SpriteCounter > 15) {
             if (SpriteNum == 1) {
                 SpriteNum = 2;
-            }
-            else if (SpriteNum == 2) {
+            } else if (SpriteNum == 2) {
                 SpriteNum = 3;
-            }
-            else if (SpriteNum == 3) {
+            } else if (SpriteNum == 3) {
                 SpriteNum = 1;
             }
             SpriteCounter = 0;
@@ -202,12 +189,10 @@ public class Bomber extends Character {
     }
 
     private void countBomb() {
-        placedBomb = 0;
+        placedBomb = Map.bombs.size();
         for (Bomb bomb : Map.bombs) {
             if (bomb.isExploded()) {
                 Map.bombs.remove(bomb);
-            } else {
-                placedBomb++;
             }
         }
     }
@@ -220,11 +205,19 @@ public class Bomber extends Character {
         return x == Map.mapPortal.getX() && y == Map.mapPortal.getY();
     }
 
+    public int getPlacedBomb() {
+        return placedBomb;
+    }
+
     public void setPlacedBomb(int placedBomb) {
         this.placedBomb = placedBomb;
     }
 
-    public int getPlacedBomb() {
-        return placedBomb;
+    public void setBombLimit(int val) {
+        this.limitBomb = val;
+    }
+
+    public int getBombLimit() {
+        return this.limitBomb;
     }
 }
