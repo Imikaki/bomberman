@@ -190,11 +190,8 @@ public class Bomber extends Character {
 
     private void countBomb() {
         placedBomb = Map.bombs.size();
-        for (Bomb bomb : Map.bombs) {
-            if (bomb.isExploded()) {
-                Map.bombs.remove(bomb);
-            }
-        }
+        if (Map.bombs.size() == 0) return;
+        Map.bombs.removeIf(bomb -> bomb.isExploded());
     }
 
     public List<Bomb> getBombs() {
