@@ -81,6 +81,6 @@ public class Bomb extends AnimatedEntity {
                 }
             }
         }
+        Map.flames.add(new Flame(_x, _y, Direction.NONE,false));
     }
-
 }

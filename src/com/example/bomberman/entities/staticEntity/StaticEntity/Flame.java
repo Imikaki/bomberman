@@ -61,6 +61,8 @@ public class Flame extends AnimatedEntity {
                     sprite = Sprite.movingSprite(Sprite.explosion_vertical_down_last, Sprite.explosion_vertical_down_last1, Sprite.explosion_vertical_down_last2, animate, 35);
                 }
                 break;
+            case NONE:
+                sprite = Sprite.movingSprite(Sprite.bomb_exploded, Sprite.bomb_exploded1, Sprite.bomb_exploded2, animate, 35);
         }
         this.img = sprite.getFxImage();
         animate();
