@@ -131,6 +131,9 @@ public class Bomber extends Character {
                     moveRight();
                     System.out.println(x + " " + y + " " +speed);
                 }
+            } else if (killed) {
+                img = Sprite.player_dead1.getFxImage();
+                imageView.setImage(Sprite.player_dead1.getFxImage());
             }
         });
         SpriteCounter++;

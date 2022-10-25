@@ -16,8 +16,8 @@ public abstract class Character extends DynamicEntity {
 
     public Character(int x, int y, Image img) {
         super(x, y, img);
-        alive = true;
         moving = false;
+        killed = false;
     }
 
     @Override
@@ -32,7 +32,7 @@ public abstract class Character extends DynamicEntity {
             @Override
             public void run() {
                 alive = false;
-                killed = false;
+                isRemoved = true;
             }
         }, 750L);
     }
