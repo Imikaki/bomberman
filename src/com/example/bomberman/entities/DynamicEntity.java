@@ -4,7 +4,8 @@ import com.example.bomberman.graphics.Sprite;
 import javafx.scene.image.Image;
 
 public abstract class DynamicEntity extends AnimatedEntity {
-    protected int speed = Sprite.SCALED_SIZE / 4;
+    public static int n = 4;
+    protected int speed = Sprite.SCALED_SIZE / n;
 
     public DynamicEntity(int x, int y, Image img) {
         super(x, y, img);

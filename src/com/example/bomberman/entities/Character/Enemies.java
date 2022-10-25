@@ -7,8 +7,8 @@ import javafx.scene.image.Image;
 public abstract class Enemies extends Character {
     private final int maxTimeMoving = 30;
     public boolean isKilled = false;
-    protected Image enemyLeft;
-    protected Image enemyRight;
+    protected Image[] enemyLeft;
+    protected Image[] enemyRight;
     protected Image enemyDie;
     private Direction curDirection = Direction.LEFT;
     private Direction nextDirection;
@@ -49,6 +49,12 @@ public abstract class Enemies extends Character {
             resetTimeMoving();
             curDirection = Direction.LEFT;
         }
+        if (curDirection == Direction.LEFT) {
+            imageView.setImage(enemyLeft[timeMoving/(maxTimeMoving/3)]);
+        }
+        if (curDirection == Direction.RIGHT) {
+            imageView.setImage(enemyRight[timeMoving/(maxTimeMoving/3)]);
+        }
         timeMoving++;
         if (timeMoving == maxTimeMoving) {
             resetTimeMoving();
@@ -57,9 +63,7 @@ public abstract class Enemies extends Character {
     }
 
     @Override
-    public boolean canMove(int x, int y) {
-        return false;
-    }
+    public abstract boolean canMove(int x, int y);
 
     public void isKilled() {
         isKilled = true;

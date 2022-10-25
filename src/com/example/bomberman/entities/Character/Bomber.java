@@ -47,8 +47,8 @@ public class Bomber extends Character {
             }
             if (event.getCode() == KeyCode.UP) {
                 moving = true;
-                for (int i = -3; i <= 3; i++) {
-                    if (!canMove(x + i * getSpeed(), y - 4 * getSpeed())) {
+                for (int i = 1 - n; i <= n - 1; i++) {
+                    if (!canMove(x + i * getSpeed(), y - n * getSpeed())) {
                         moving = false;
                         break;
                     }
@@ -68,8 +68,8 @@ public class Bomber extends Character {
                 }
             } else if (event.getCode() == KeyCode.DOWN) {
                 moving = true;
-                for (int i = -3; i <= 3; i++) {
-                    if (!canMove(x + i * getSpeed(), y + 4 * getSpeed())) {
+                for (int i = 1 - n; i <= n - 1; i++) {
+                    if (!canMove(x + i * getSpeed(), y + n * getSpeed())) {
                         moving = false;
                         break;
                     }
@@ -89,8 +89,8 @@ public class Bomber extends Character {
                 }
             } else if (event.getCode() == KeyCode.LEFT) {
                 moving = true;
-                for (int i = -3; i <= 3; i++) {
-                    if (!canMove(x - 4 * getSpeed(), y + i * getSpeed())) {
+                for (int i = 1 - n; i <= n - 1; i++) {
+                    if (!canMove(x - n * getSpeed(), y + i * getSpeed())) {
                         moving = false;
                         break;
                     }
@@ -110,8 +110,8 @@ public class Bomber extends Character {
                 }
             } else if (event.getCode() == KeyCode.RIGHT) {
                 moving = true;
-                for (int i = -3; i <= 3; i++) {
-                    if (!canMove(x + 4 * getSpeed(), y + i * getSpeed())) {
+                for (int i = 1 - n; i <= n - 1; i++) {
+                    if (!canMove(x + n * getSpeed(), y + i * getSpeed())) {
                         moving = false;
                         break;
                     }
