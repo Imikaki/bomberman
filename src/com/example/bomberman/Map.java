@@ -262,11 +262,6 @@ public final class Map {
                 return e;
             }
         }
-        for (Entity e : items) {
-            if (e.getX() == x && e.getY() == y) {
-                return e;
-            }
-        }
         for (Entity e : staticEntities) {
             if (e.getX() == x && e.getY() == y) {
                 return e;
