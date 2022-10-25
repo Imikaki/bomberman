@@ -39,8 +39,6 @@ public class Bomber extends Character {
     }
 
     public void handleEvent(Scene scene) {
-        int _x = this.x;
-        int _y = this.y;
         scene.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.SPACE) {
                 placeBomb();
@@ -48,11 +46,12 @@ public class Bomber extends Character {
             if (event.getCode() == KeyCode.UP) {
                 moving = true;
                 for (int i = 1 - n; i <= n - 1; i++) {
-                    if (!canMove(x + i * getSpeed(), y - n * getSpeed())) {
+                    if (!canMove(x + i * getSpeed(), y - Sprite.SCALED_SIZE)) {
                         moving = false;
                         break;
                     }
                 }
+                System.out.println(getSpeed());
                 if (moving) {
                     if (SpriteNum == 1) {
                         img = Sprite.player_up.getFxImage();
@@ -69,11 +68,12 @@ public class Bomber extends Character {
             } else if (event.getCode() == KeyCode.DOWN) {
                 moving = true;
                 for (int i = 1 - n; i <= n - 1; i++) {
-                    if (!canMove(x + i * getSpeed(), y + n * getSpeed())) {
+                    if (!canMove(x + i * getSpeed() , y + Sprite.SCALED_SIZE)) {
                         moving = false;
                         break;
                     }
                 }
+                System.out.println(getSpeed());
                 if (moving) {
                     if (SpriteNum == 1) {
                         img = Sprite.player_down.getFxImage();
@@ -90,7 +90,7 @@ public class Bomber extends Character {
             } else if (event.getCode() == KeyCode.LEFT) {
                 moving = true;
                 for (int i = 1 - n; i <= n - 1; i++) {
-                    if (!canMove(x - n * getSpeed(), y + i * getSpeed())) {
+                    if (!canMove(x - Sprite.SCALED_SIZE, y + i * getSpeed() )) {
                         moving = false;
                         break;
                     }
@@ -111,11 +111,12 @@ public class Bomber extends Character {
             } else if (event.getCode() == KeyCode.RIGHT) {
                 moving = true;
                 for (int i = 1 - n; i <= n - 1; i++) {
-                    if (!canMove(x + n * getSpeed(), y + i * getSpeed())) {
+                    if (!canMove(x + Sprite.SCALED_SIZE, y + i * getSpeed())) {
                         moving = false;
                         break;
                     }
                 }
+                System.out.println(moving);
                 if (moving) {
                     if (SpriteNum == 1) {
                         img = Sprite.player_right.getFxImage();
@@ -128,6 +129,7 @@ public class Bomber extends Character {
                         imageView.setImage(Sprite.player_right_2.getFxImage());
                     }
                     moveRight();
+                    System.out.println(x + " " + y + " " +speed);
                 }
             }
         });
