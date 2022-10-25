@@ -51,6 +51,7 @@ public class Bomber extends Character {
                         break;
                     }
                 }
+                System.out.println(getSpeed());
                 if (moving) {
                     if (SpriteNum == 1) {
                         img = Sprite.player_up.getFxImage();
@@ -115,6 +116,7 @@ public class Bomber extends Character {
                         break;
                     }
                 }
+                System.out.println(moving);
                 if (moving) {
                     if (SpriteNum == 1) {
                         img = Sprite.player_right.getFxImage();
@@ -127,6 +129,7 @@ public class Bomber extends Character {
                         imageView.setImage(Sprite.player_right_2.getFxImage());
                     }
                     moveRight();
+                    System.out.println(x + " " + y + " " +speed);
                 }
             }
         });
@@ -189,11 +192,8 @@ public class Bomber extends Character {
 
     private void countBomb() {
         placedBomb = Map.bombs.size();
-        for (Bomb bomb : Map.bombs) {
-            if (bomb.isExploded()) {
-                Map.bombs.remove(bomb);
-            }
-        }
+        if (Map.bombs.size() == 0) return;
+        Map.bombs.removeIf(bomb -> bomb.isExploded());
     }
 
     public List<Bomb> getBombs() {

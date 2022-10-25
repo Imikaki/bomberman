@@ -105,33 +105,6 @@ public final class Map {
     }
 
     public static void update(Scene scene) {
-//        for (Entity e : entities) {
-//            e.update(scene);
-//            if (e.isRemoved)
-//        }
-//        for (Entity e : items) {
-//            e.update(scene);
-//        }
-//        for (Entity e : enemies) {
-//            e.update(scene);
-//        }
-//        bomberman.update(scene);
-//        for (Entity e : bombs) {
-//            e.update(scene);
-//        }
-//        for (Entity e : flames) {
-//            e.update(scene);
-//        }
-//        if (bomberman.isAlive() == false) {
-//            isWin = true;
-//            timer.stop();
-//            bombs.forEach(bomb -> bomb.breakEntity());
-//            flames.forEach(flame -> flame.breakEntity());
-//        }
-//        if (bomberman.isInPortal() == true) {
-//            isWin = true;
-//            timer.stop();
-//        }
         checkWin();
         if (isWin) {
             level++;
@@ -143,39 +116,28 @@ public final class Map {
         }
         for (int i = 0; i < entities.size(); i++) {
             entities.get(i).update(scene);
-            if (entities.get(i).isRemoved) {
-                entities.remove(i);
-                i--;
-            }
         }
+        entities.removeIf(entity -> entity.isRemoved);
         for (int i = 0; i < items.size(); i++) {
             items.get(i).update(scene);
-            if (items.get(i).isRemoved) {
-                items.remove(i);
-                i--;
-            }
         }
+        items.removeIf(item -> item.isRemoved);
         for (int i = 0; i < enemies.size(); i++) {
             enemies.get(i).update(scene);
-            if (enemies.get(i).isRemoved) {
-                enemies.remove(i);
-                i--;
-            }
         }
+        enemies.removeIf(enemies -> enemies.isRemoved);
         bomberman.update(scene);
-        for (int i = 0; i < bombs.size(); i++) {
-            bombs.get(i).update(scene);
-            if (bombs.get(i).isRemoved) {
-                bombs.remove(i);
-                i--;
+        if (bombs.size() != 0) {
+            for (int i = 0; i < bombs.size(); i++) {
+                bombs.get(i).update(scene);
             }
+            bombs.removeIf(bomb -> bomb.isRemoved);
         }
-        for (int i = 0; i < flames.size(); i++) {
-            flames.get(i).update(scene);
-            if (flames.get(i).isRemoved) {
-                flames.remove(i);
-                i--;
+        if (flames.size() != 0) {
+            for (int i = 0; i < flames.size(); i++) {
+                flames.get(i).update(scene);
             }
+            flames.removeIf(flame -> flame.isRemoved);
         }
         if (bomberman.isAlive() == false) {
             isWin = true;
@@ -183,6 +145,8 @@ public final class Map {
             bombs.forEach(bomb -> bomb.breakEntity());
             flames.forEach(flame -> flame.breakEntity());
         }
+        bomberKill();
+        enemyKill();
     }
 
     public static void render(Group group) {
@@ -293,7 +257,7 @@ public final class Map {
         flames.removeIf(e -> e.isRemoved);
     }
 
-    public void bomberKill() {
+    public static void bomberKill() {
         if (bomberman.isAlive() == false) return;
         bombs.forEach(bomb -> {
             if (bomb.isExploded() && collide(bomberman, bomb)) {
@@ -311,12 +275,11 @@ public final class Map {
             }
         });
         if (bomberman.isAlive() == false) {
-            timer.stop();
             System.out.println("Game Over");
         }
     }
 
-    public void enemyKill() {
+    public static void enemyKill() {
         enemies.forEach(enemy -> {
             bombs.forEach(bomb -> {
                 if (bomb.isExploded() && collide(enemy, bomb)) {
