@@ -3,17 +3,17 @@ package com.example.bomberman.entities.Character;
 import com.example.bomberman.system.Direction;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 public abstract class Enemies extends Character {
+    private final int maxTimeMoving = 30;
+    public boolean isKilled = false;
     protected Image enemyLeft;
     protected Image enemyRight;
     protected Image enemyDie;
     private Direction curDirection = Direction.LEFT;
     private Direction nextDirection;
-    public boolean isKilled = false;
     private int timeMoving = 0;
-    private final int maxTimeMoving = 30;
+
     public Enemies(int x, int y, Image img) {
         super(x, y, img);
     }

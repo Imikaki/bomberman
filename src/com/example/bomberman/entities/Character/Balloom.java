@@ -10,6 +10,7 @@ public class Balloom extends Enemies {
     private int BalloomX;
     private int BalloomY;
     private Direction BalloomDirection = Direction.RIGHT;
+
     public Balloom(int x, int y, Image img) {
         super(x, y, img);
         enemyLeft = Sprite.balloom_left1.getFxImage();
@@ -29,7 +30,7 @@ public class Balloom extends Enemies {
 
     @Override
     public Direction getDirection() {
-        if(BalloomX == x && BalloomY == y) {
+        if (BalloomX == x && BalloomY == y) {
             if (BalloomDirection == Direction.RIGHT) {
                 BalloomDirection = Direction.LEFT;
             } else {

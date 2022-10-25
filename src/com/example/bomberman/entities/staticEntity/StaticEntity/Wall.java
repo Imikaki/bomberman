@@ -9,6 +9,7 @@ public class Wall extends AnimatedEntity {
     public Wall(int x, int y, Image img) {
         super(x, y, img);
     }
+
     public Wall(int x, int y) {
         super(x, y, Sprite.wall.getFxImage());
     }

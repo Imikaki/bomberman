@@ -2,9 +2,8 @@ package com.example.bomberman.entities.staticEntity.CarriableEntity;
 
 import com.example.bomberman.Map;
 import com.example.bomberman.entities.AnimatedEntity;
-import com.example.bomberman.entities.Character.Character;
+import com.example.bomberman.entities.Character.Bomber;
 import com.example.bomberman.entities.Entity;
-import com.example.bomberman.entities.staticEntity.StaticEntity.Brick;
 import com.example.bomberman.entities.staticEntity.StaticEntity.Flame;
 import com.example.bomberman.entities.staticEntity.StaticEntity.Portal;
 import com.example.bomberman.entities.staticEntity.StaticEntity.Wall;
@@ -13,21 +12,15 @@ import com.example.bomberman.system.Direction;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Timer;
-import java.util.TimerTask;
 
 public class Bomb extends AnimatedEntity {
     public static int bombSize = 1;
-
-    private long timeDelay;
-    public boolean waiting = true;
-
     // left, right, up, down
     public static int[] dix = {-1, 1, 0, 0};
     public static int[] diy = {0, 0, -1, 1};
-    public static int explodeRange = 1;
+    public boolean waiting = true;
+    private long timeDelay;
 
     public Bomb(int x, int y, Image img) {
         super(x, y, img);
@@ -40,23 +33,8 @@ public class Bomb extends AnimatedEntity {
             public void run() {
                 waiting = false;
                 bombExplodes();
-                clock.cancel();
             }
         }, timeDelay);
-    }
-
-    @Override
-    public void breakEntity() {
-        isExploded = true;
-        animate = 0;
-        Timer clock = new Timer();
-        clock.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                isExploded = false;
-                isRemoved = true;
-            }
-        }, 5000L);
     }
 
     @Override
@@ -84,7 +62,7 @@ public class Bomb extends AnimatedEntity {
         int _x = this.x / Sprite.SCALED_SIZE;
         int _y = this.y / Sprite.SCALED_SIZE;
         for (int i = 0; i < dix.length; ++i) {
-            for (int j = 1; j <= explodeRange; ++j) {
+            for (int j = 1; j <= Bomber.explodeRange; ++j) {
                 int x_ = _x + dix[i] * j;
                 int y_ = _y + diy[i] * j;
                 Entity entity = Map.getEntity(x_ * Sprite.SCALED_SIZE, y_ * Sprite.SCALED_SIZE);
@@ -99,8 +77,8 @@ public class Bomb extends AnimatedEntity {
                         entity.remove();
                         break;
                     }
+                    Map.flames.add(new Flame(x_, y_, Direction.values()[i + 1], (j == Bomber.explodeRange)));
                 }
-                Map.flames.add(new Flame(x_, y_, Direction.values()[i + 1], (j == explodeRange)));
             }
         }
     }

@@ -19,6 +19,7 @@ public abstract class AnimatedEntity extends Entity {
     public AnimatedEntity(int x, int y, Image img) {
         super(x, y, img);
     }
+
     public abstract void update(Scene scene);
 
     public void breakEntity() {

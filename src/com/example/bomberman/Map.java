@@ -2,7 +2,10 @@ package com.example.bomberman;
 
 import com.example.bomberman.entities.Character.*;
 import com.example.bomberman.entities.Entity;
-import com.example.bomberman.entities.staticEntity.CarriableEntity.*;
+import com.example.bomberman.entities.staticEntity.CarriableEntity.Bomb;
+import com.example.bomberman.entities.staticEntity.CarriableEntity.BombItem;
+import com.example.bomberman.entities.staticEntity.CarriableEntity.FlameItem;
+import com.example.bomberman.entities.staticEntity.CarriableEntity.SpeedItem;
 import com.example.bomberman.entities.staticEntity.StaticEntity.*;
 import com.example.bomberman.graphics.Sprite;
 import javafx.animation.AnimationTimer;
@@ -13,7 +16,6 @@ import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public final class Map {
     public static Bomber bomberman;
@@ -47,7 +49,7 @@ public final class Map {
 
         int i = -1;
 
-        while((line = sc.readLine()) != null) {
+        while ((line = sc.readLine()) != null) {
             ++i;
             for (int j = 0; j < line.length(); ++j) {
                 if (line.charAt(j) == '#') {
@@ -57,7 +59,7 @@ public final class Map {
                 }
             }
             for (int j = 0; j < line.length(); ++j) {
-                switch(line.charAt(j)) {
+                switch (line.charAt(j)) {
                     case '*': //brick
                         entities.add(new Brick(j, i, Sprite.brick.getFxImage()));
                         break;
@@ -103,31 +105,83 @@ public final class Map {
     }
 
     public static void update(Scene scene) {
-        for (Entity e : entities) {
-            e.update(scene);
+//        for (Entity e : entities) {
+//            e.update(scene);
+//            if (e.isRemoved)
+//        }
+//        for (Entity e : items) {
+//            e.update(scene);
+//        }
+//        for (Entity e : enemies) {
+//            e.update(scene);
+//        }
+//        bomberman.update(scene);
+//        for (Entity e : bombs) {
+//            e.update(scene);
+//        }
+//        for (Entity e : flames) {
+//            e.update(scene);
+//        }
+//        if (bomberman.isAlive() == false) {
+//            isWin = true;
+//            timer.stop();
+//            bombs.forEach(bomb -> bomb.breakEntity());
+//            flames.forEach(flame -> flame.breakEntity());
+//        }
+//        if (bomberman.isInPortal() == true) {
+//            isWin = true;
+//            timer.stop();
+//        }
+        checkWin();
+        if (isWin) {
+            level++;
+            try {
+                mapLoading(level);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-        for (Entity e : items) {
-            e.update(scene);
+        for (int i = 0; i < entities.size(); i++) {
+            entities.get(i).update(scene);
+            if (entities.get(i).isRemoved) {
+                entities.remove(i);
+                i--;
+            }
         }
-        for (Entity e : enemies) {
-            e.update(scene);
+        for (int i = 0; i < items.size(); i++) {
+            items.get(i).update(scene);
+            if (items.get(i).isRemoved) {
+                items.remove(i);
+                i--;
+            }
+        }
+        for (int i = 0; i < enemies.size(); i++) {
+            enemies.get(i).update(scene);
+            if (enemies.get(i).isRemoved) {
+                enemies.remove(i);
+                i--;
+            }
         }
         bomberman.update(scene);
-        for (Entity e : bombs) {
-            e.update(scene);
+        for (int i = 0; i < bombs.size(); i++) {
+            bombs.get(i).update(scene);
+            if (bombs.get(i).isRemoved) {
+                bombs.remove(i);
+                i--;
+            }
         }
-        for (Entity e : flames) {
-            e.update(scene);
+        for (int i = 0; i < flames.size(); i++) {
+            flames.get(i).update(scene);
+            if (flames.get(i).isRemoved) {
+                flames.remove(i);
+                i--;
+            }
         }
         if (bomberman.isAlive() == false) {
             isWin = true;
             timer.stop();
             bombs.forEach(bomb -> bomb.breakEntity());
             flames.forEach(flame -> flame.breakEntity());
-        }
-        if (bomberman.isInPortal() == true) {
-            isWin = true;
-            timer.stop();
         }
     }
 
@@ -149,17 +203,14 @@ public final class Map {
             long lastTime = System.nanoTime();
             double delta = 0;
             int updates = 0;
+
             @Override
             public void handle(long now) {
-                delta += (now - lastTime) / ns;
-                lastTime = now;
-                while (delta >= 1) {
-                    render(group);
-                    update(scene);
-                    remove();
-                    delta--;
-                    updates++;
-                }
+                render(group);
+                update(scene);
+                remove();
+                delta--;
+                updates++;
             }
         };
         timer.start();
@@ -206,12 +257,12 @@ public final class Map {
                 return e;
             }
         }
-        for (Entity e : items) {
+        for (Entity e : entities) {
             if (e.getX() == x && e.getY() == y) {
                 return e;
             }
         }
-        for (Entity e : entities) {
+        for (Entity e : items) {
             if (e.getX() == x && e.getY() == y) {
                 return e;
             }
@@ -229,6 +280,24 @@ public final class Map {
         Rectangle r2 = new Rectangle(e2.getX(), e2.getY(), Sprite.SCALED_SIZE, Sprite.SCALED_SIZE);
         return r1.intersects(r2);
     }
+
+    public static void reset() {
+        staticEntities = new ArrayList<>();
+        entities = new ArrayList<>();
+        items = new ArrayList<>();
+        enemies = new ArrayList<>();
+        bombs = new ArrayList<>();
+        flames = new ArrayList<>();
+    }
+
+    public static void remove() {
+        entities.removeIf(e -> e.isRemoved);
+        items.removeIf(e -> e.isRemoved);
+        enemies.removeIf(e -> e.isRemoved);
+        bombs.removeIf(e -> e.isRemoved);
+        flames.removeIf(e -> e.isRemoved);
+    }
+
     public void bomberKill() {
         if (bomberman.isAlive() == false) return;
         bombs.forEach(bomb -> {
@@ -267,20 +336,7 @@ public final class Map {
         });
     }
 
-    public static void reset() {
-        staticEntities = new ArrayList<>();
-        entities = new ArrayList<>();
-        items = new ArrayList<>();
-        enemies = new ArrayList<>();
-        bombs = new ArrayList<>();
-        flames = new ArrayList<>();
-    }
+    public static void checkWin() {
 
-    public static void remove() {
-        entities.removeIf(e -> e.isRemoved);
-        items.removeIf(e -> e.isRemoved);
-        enemies.removeIf(e -> e.isRemoved);
-        bombs.removeIf(e -> e.isRemoved);
-        flames.removeIf(e -> e.isRemoved);
     }
 }

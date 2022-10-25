@@ -5,9 +5,9 @@ import com.example.bomberman.graphics.Sprite;
 import java.util.Stack;
 
 public class Cell {
+    public Stack<Entity> stack = new Stack<>();
     private int x;
     private int y;
-    public Stack<Entity> stack = new Stack<>();
 
     public Cell(int x, int y) {
         this.x = x * Sprite.SCALED_SIZE;
