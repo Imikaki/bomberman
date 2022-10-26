@@ -51,7 +51,6 @@ public class Bomber extends Character {
                         break;
                     }
                 }
-                System.out.println(getSpeed());
                 if (moving) {
                     if (SpriteNum == 1) {
                         img = Sprite.player_up.getFxImage();
@@ -73,7 +72,6 @@ public class Bomber extends Character {
                         break;
                     }
                 }
-                System.out.println(getSpeed());
                 if (moving) {
                     if (SpriteNum == 1) {
                         img = Sprite.player_down.getFxImage();
@@ -116,7 +114,6 @@ public class Bomber extends Character {
                         break;
                     }
                 }
-                System.out.println(moving);
                 if (moving) {
                     if (SpriteNum == 1) {
                         img = Sprite.player_right.getFxImage();
@@ -129,7 +126,6 @@ public class Bomber extends Character {
                         imageView.setImage(Sprite.player_right_2.getFxImage());
                     }
                     moveRight();
-                    System.out.println(x + " " + y + " " +speed);
                 }
             }
         });
