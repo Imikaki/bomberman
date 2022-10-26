@@ -20,6 +20,7 @@ import java.util.List;
 public final class Map {
     public static Bomber bomberman;
     public static boolean isWin = false;
+    public static boolean ending = false;
     public static int level = 1;
     public static Entity mapPortal;
     public static List<Entity> staticEntities = new ArrayList<Entity>();
@@ -106,6 +107,9 @@ public final class Map {
 
     public static void update(Scene scene) {
         checkWin();
+        if (ending) {
+            // TODO: add victory scene
+        }
         if (isWin) {
             level++;
             try {
@@ -140,8 +144,7 @@ public final class Map {
             flames.removeIf(flame -> flame.isRemoved);
         }
         if (bomberman.isAlive() == false) {
-            isWin = true;
-            timer.stop();
+            ending = true;
             bombs.forEach(bomb -> bomb.breakEntity());
             flames.forEach(flame -> flame.breakEntity());
         }
@@ -247,6 +250,9 @@ public final class Map {
         enemies = new ArrayList<>();
         bombs = new ArrayList<>();
         flames = new ArrayList<>();
+        isWin = false;
+        ending = false;
+        mapPortal = null;
     }
 
     public static void remove() {
@@ -295,6 +301,13 @@ public final class Map {
     }
 
     public static void checkWin() {
-
+        if (isWin) {
+            return;
+        } else {
+            isWin = enemies.size() == 0 && collide(bomberman, mapPortal);
+            if (isWin) {
+                System.out.println("you Win");
+            }
+        }
     }
 }
