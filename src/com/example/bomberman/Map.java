@@ -11,24 +11,30 @@ import com.example.bomberman.graphics.Sprite;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 import java.awt.*;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
 public final class Map {
     public static Bomber bomberman;
-    public static boolean isWin = false;
+    public static boolean nextLevel = false;
     public static boolean ending = false;
+    public static boolean winGame = false;
     public static int level = 1;
+    private static final int levelMax = 2;
     public static Entity mapPortal;
-    public static List<Entity> staticEntities = new ArrayList<Entity>();
-    public static List<Entity> entities = new ArrayList<Entity>();
-    public static List<Entity> items = new ArrayList<Entity>();
-    public static List<Enemies> enemies = new ArrayList<Enemies>();
+    public static List<Entity> staticEntities = new ArrayList<>();
+    public static List<Entity> entities = new ArrayList<>();
+    public static List<Entity> items = new ArrayList<>();
+    public static List<Enemies> enemies = new ArrayList<>();
     public static List<Flame> flames = new ArrayList<>();
-    public static List<Bomb> bombs = new ArrayList<Bomb>();
+    public static List<Bomb> bombs = new ArrayList<>();
     private static Portal portal;
     private static int row;
     private static int col;
@@ -36,8 +42,7 @@ public final class Map {
 
     public static void mapLoading(int levels) throws IOException {
         String mapPath = "res/levels/Level" + levels + ".txt";
-        File map = new File(mapPath);
-        BufferedReader sc = new BufferedReader(new InputStreamReader(new FileInputStream(mapPath)));
+        BufferedReader sc = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(mapPath))));
 
         String line;
         line = sc.readLine();
@@ -47,9 +52,7 @@ public final class Map {
         col = Integer.parseInt(args[2]);
 
         reset();
-
         int i = -1;
-
         while ((line = sc.readLine()) != null) {
             ++i;
             for (int j = 0; j < line.length(); ++j) {
@@ -59,6 +62,7 @@ public final class Map {
                     staticEntities.add(new Grass(j, i, Sprite.grass.getFxImage()));
                 }
             }
+
             for (int j = 0; j < line.length(); ++j) {
                 switch (line.charAt(j)) {
                     case '*': //brick
@@ -107,12 +111,14 @@ public final class Map {
 
     public static void update(Scene scene) {
         checkWin();
-        if (ending) {
-            // TODO: add victory scene
-        }
-        if (isWin) {
+        if (nextLevel) {
             level++;
             try {
+                if (level > levelMax) {
+                    winGame = true;
+                    return;
+                }
+                nextLevel = false;
                 mapLoading(level);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -126,6 +132,7 @@ public final class Map {
             items.get(i).update(scene);
         }
         items.removeIf(item -> item.isRemoved);
+
         for (int i = 0; i < enemies.size(); i++) {
             enemies.get(i).update(scene);
         }
@@ -164,7 +171,6 @@ public final class Map {
     }
 
     public static void createGameLoop(Group group, Scene scene) {
-        render(group);
         timer = new AnimationTimer() {
             final double ns = 1000000000.0 / 60;
             long lastTime = System.nanoTime();
@@ -173,25 +179,28 @@ public final class Map {
 
             @Override
             public void handle(long now) {
-                render(group);
-                update(scene);
-                remove();
-                delta--;
-                updates++;
+                if (ending) {
+                    setEnding(group);
+                    timer.stop();
+                } else if (winGame) {
+                    setWin(group);
+                    timer.stop();
+                } else {
+                    remove();
+                    render(group);
+                    update(scene);
+                    delta--;
+                    updates++;
+                }
             }
         };
         timer.start();
     }
 
-   /* private void createKeyListener() {
-        scene.setOnKeyPressed(event -> keys.pressed(event));
-        scene.setOnKeyReleased(event -> keys.released(event));
-    }*/
-
     public static void loadNewGame(Group group, Scene scene) {
 
         try {
-            mapLoading(1);
+            mapLoading(level);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -244,13 +253,14 @@ public final class Map {
     }
 
     public static void reset() {
+        bomberman = new Bomber(16,16,Sprite.player_right.getFxImage());
         staticEntities = new ArrayList<>();
         entities = new ArrayList<>();
         items = new ArrayList<>();
         enemies = new ArrayList<>();
         bombs = new ArrayList<>();
         flames = new ArrayList<>();
-        isWin = false;
+        nextLevel = false;
         ending = false;
         mapPortal = null;
     }
@@ -301,13 +311,25 @@ public final class Map {
     }
 
     public static void checkWin() {
-        if (isWin) {
+        if (nextLevel) {
             return;
         } else {
-            isWin = enemies.size() == 0 && collide(bomberman, mapPortal);
-            if (isWin) {
-                System.out.println("you Win");
+            nextLevel = enemies.size() == 0 && collide(bomberman, mapPortal);
+            if (nextLevel) {
+                System.out.println("next level");
             }
         }
+    }
+
+    public static void setEnding(Group group) {
+        if (ending) {
+            ImageView lose = new ImageView(new Image("EndState/2lose.png", 1000, 420, false, false));
+            group.getChildren().add(lose);
+        }
+    }
+
+    public static void setWin(Group group) {
+        ImageView win = new ImageView(new Image("EndState/2win.png", 1000, 420, false, false));
+        group.getChildren().add(win);
     }
 }
