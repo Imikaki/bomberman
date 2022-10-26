@@ -16,6 +16,7 @@ public abstract class Enemies extends Character {
 
     public Enemies(int x, int y, Image img) {
         super(x, y, img);
+        speed = 1;
     }
 
     @Override

@@ -9,6 +9,7 @@ import javafx.scene.image.Image;
 
 import static com.example.bomberman.graphics.Sprite.SCALED_SIZE;
 
+// balloom chỉ di chuyển ngang
 public class Balloom extends Enemies {
     private Direction BalloomDirection = Direction.LEFT;
 
@@ -17,7 +18,6 @@ public class Balloom extends Enemies {
         enemyLeft = new Image[]{Sprite.balloom_left1.getFxImage(), Sprite.balloom_left2.getFxImage(), Sprite.balloom_left3.getFxImage()};
         enemyRight = new Image[]{Sprite.balloom_right1.getFxImage(), Sprite.balloom_right2.getFxImage(), Sprite.balloom_right3.getFxImage()};
         enemyDie = Sprite.balloom_dead.getFxImage();
-        speed = 1;
     }
 
     @Override
