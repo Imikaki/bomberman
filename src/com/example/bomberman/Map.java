@@ -15,19 +15,21 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.awt.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
 public final class Map {
+    private static final int levelMax = 2;
     public static Bomber bomberman;
     public static boolean nextLevel = false;
     public static boolean ending = false;
     public static boolean winGame = false;
     public static int level = 1;
-    private static final int levelMax = 2;
     public static Entity mapPortal;
     public static List<Entity> staticEntities = new ArrayList<>();
     public static List<Entity> entities = new ArrayList<>();
@@ -186,8 +188,8 @@ public final class Map {
                     setWin(group);
                     timer.stop();
                 } else {
-                    remove();
                     DirectionFinding.doBfs(bomberman.getX(), bomberman.getY());
+                    remove();
                     render(group);
                     update(scene);
                     delta--;
@@ -259,7 +261,7 @@ public final class Map {
     }
 
     public static void reset() {
-        bomberman = new Bomber(16,16,Sprite.player_right.getFxImage());
+        bomberman = new Bomber(16, 16, Sprite.player_right.getFxImage());
         staticEntities = new ArrayList<>();
         entities = new ArrayList<>();
         items = new ArrayList<>();

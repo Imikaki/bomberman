@@ -12,6 +12,7 @@ import javafx.scene.input.KeyCode;
 import java.util.List;
 
 public class Bomber extends Character {
+    public static int explodeRange = 1;
     private Direction currentDirection = Direction.NONE;
     private int placedBomb = 0;
     private int haveBomb = 0;
@@ -22,7 +23,6 @@ public class Bomber extends Character {
     private boolean isBombBuff = false;
     private boolean isFlameBuff = false;
     private boolean alive = false;
-    public static int explodeRange = 1;
     private int SpriteCounter = 0;
     private int SpriteNum = 1;
 
@@ -67,7 +67,7 @@ public class Bomber extends Character {
             } else if (event.getCode() == KeyCode.DOWN) {
                 moving = true;
                 for (int i = 1 - n; i <= n - 1; i++) {
-                    if (!canMove(x + i * getSpeed() , y + Sprite.SCALED_SIZE)) {
+                    if (!canMove(x + i * getSpeed(), y + Sprite.SCALED_SIZE)) {
                         moving = false;
                         break;
                     }
@@ -88,7 +88,7 @@ public class Bomber extends Character {
             } else if (event.getCode() == KeyCode.LEFT) {
                 moving = true;
                 for (int i = 1 - n; i <= n - 1; i++) {
-                    if (!canMove(x - Sprite.SCALED_SIZE, y + i * getSpeed() )) {
+                    if (!canMove(x - Sprite.SCALED_SIZE, y + i * getSpeed())) {
                         moving = false;
                         break;
                     }
@@ -211,11 +211,11 @@ public class Bomber extends Character {
         this.placedBomb = placedBomb;
     }
 
-    public void setBombLimit(int val) {
-        this.limitBomb = val;
-    }
-
     public int getBombLimit() {
         return this.limitBomb;
+    }
+
+    public void setBombLimit(int val) {
+        this.limitBomb = val;
     }
 }

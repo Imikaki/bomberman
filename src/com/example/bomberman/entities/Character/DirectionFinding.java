@@ -2,11 +2,9 @@ package com.example.bomberman.entities.Character;
 
 import com.example.bomberman.Map;
 import com.example.bomberman.entities.Entity;
-import com.example.bomberman.entities.staticEntity.CarriableEntity.Bomb;
 import com.example.bomberman.entities.staticEntity.StaticEntity.Grass;
 import com.example.bomberman.graphics.Sprite;
 import com.example.bomberman.system.Direction;
-import com.sun.jmx.remote.internal.ArrayQueue;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -18,38 +16,29 @@ import java.util.Queue;
  */
 
 public class DirectionFinding {
-    private int distanceBomb = 10000;
-    private int distanceTarget = 30;
-
     // LEFT = 0, RIGHT = 1, UP = 2, DOWN = 3
     public static final int[] dx = {-1, 1, 0, 0};
     public static final int[] dy = {0, 0, -1, 1};
     public static final int MAX = 1000000;
-    public static int[][] bestDirection = new int[Map.getCol()][Map.getRow()];
-    public static int[][] visited = new int[Map.getCol()][Map.getRow()];
+    public static int[][] bestDirection = new int[Map.getRow()][Map.getCol()];
+    public static int[][] visited = new int[Map.getRow()][Map.getCol()];
+    private int distanceBomb = 10000;
+    private int distanceTarget = 30;
 
     public static long getDistance(Entity a, Entity b) {
         return (long) ((a.getX() - b.getX()) * (a.getX() - b.getX()) + (long) (a.getY() - b.getY()) * (a.getY() - b.getY()));
     }
 
-    public static long getDistanceBomb(Character a) {
-        long bestDistance = 10000;
-        for (Bomb b : Map.bombs) {
-            if (getDistance(a, b) < bestDistance) {
-                bestDistance = getDistance(a, b);
-            }
-        }
-        return (long) bestDistance;
-    }
 
+    public static void doBfs(int _x, int _y) {
+        int x = _x / Sprite.SCALED_SIZE;
+        int y = _y / Sprite.SCALED_SIZE;
 
+        bestDirection = new int[Map.getRow()][Map.getCol()];
+        visited = new int[Map.getRow()][Map.getCol()];
 
-    public static void doBfs(int x, int y) {
-        x = x / Sprite.SCALED_SIZE;
-        y = y / Sprite.SCALED_SIZE;
-
-        for (int i = 0; i < Map.getCol(); i++) {
-            for (int j = 0; j < Map.getRow(); j++) {
+        for (int i = 0; i < Map.getRow(); i++) {
+            for (int j = 0; j < Map.getCol(); j++) {
                 bestDirection[i][j] = MAX;
                 visited[i][j] = 0;
             }
@@ -58,19 +47,20 @@ public class DirectionFinding {
         bestDirection[x][y] = 0;
         visited[x][y] = 1;
         Queue<Integer> q = new ArrayDeque<>();
-        q.add(x * Map.getRow() + y);
-        while(!q.isEmpty()) {
+        q.add(x * Map.getCol() + y);
+        while (!q.isEmpty()) {
             int u = q.peek();
-            int ux = u / Map.getRow();
-            int uy = u % Map.getRow();
+            int ux = u / Map.getCol();
+            int uy = u % Map.getCol();
             q.remove();
             for (int i = 0; i < 4; i++) {
                 int vx = ux + dx[i];
                 int vy = uy + dy[i];
-                if (vx >= 0 && vx < Map.getRow() && vy >= 0 && vy < Map.getCol() && visited[vx][vy] == 0 && (Map.getEntity(vx * Sprite.SCALED_SIZE, vy * Sprite.SCALED_SIZE) instanceof Grass)) {
+                if (vx >= 0 && vx < Map.getRow() && vy >= 0 && vy < Map.getCol() && visited[vx][vy] == 0
+                        && (Map.getStaticEntity(vx * Sprite.SCALED_SIZE, vy * Sprite.SCALED_SIZE) instanceof Grass)) {
                     visited[vx][vy] = 1;
                     bestDirection[vx][vy] = i + 1;
-                    q.add(vx * Map.getRow() + vy);
+                    q.add(vx * Map.getCol() + vy);
                 }
             }
         }
@@ -80,9 +70,6 @@ public class DirectionFinding {
         int x = e.getX();
         int y = e.getY();
         doBfs(Map.bomberman.getX(), Map.bomberman.getY());
-        if (x % Sprite.SCALED_SIZE != 0 && y % Sprite.SCALED_SIZE != 0) {
-            return e.getCurDirection();
-        }
         x = x / Sprite.SCALED_SIZE;
         y = y / Sprite.SCALED_SIZE;
         if (bestDirection[x][y] == 1) {
@@ -113,7 +100,9 @@ public class DirectionFinding {
         for (int i = 0; i < 4; ++i) {
             int vx = x + dx[i];
             int vy = y + dy[i];
-            if (vx >= 0 && vx < Map.getRow() && vy >= 0 && vy < Map.getCol() && visited[vx][vy] == 0 && (Map.getEntity(vx, vy) instanceof Grass)) {
+            if (vx >= 0 && vx < Map.getRow() && vy >= 0 && vy < Map.getCol() && visited[vx][vy] == 0
+                    && (Map.getEntity(vx * Sprite.SCALED_SIZE, vy * Sprite.SCALED_SIZE) instanceof Grass
+                    || Map.getEntity(vx * Sprite.SCALED_SIZE, vy * Sprite.SCALED_SIZE) instanceof Enemies)) {
                 movableDirection.add(Direction.values()[i]);
             }
         }
