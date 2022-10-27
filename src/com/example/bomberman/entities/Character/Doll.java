@@ -40,35 +40,7 @@ public class Doll extends Enemies {
 
     @Override
     public Direction getDirection() {
-        /*if (dollDirection == Direction.LEFT) {
-            if (!canMove(x - SCALED_SIZE, y)) {
-                dollDirection = Direction.RIGHT;
-            } *//*else if (canMove(x, y + SCALED_SIZE) && canMove(x, y - SCALED_SIZE)) {
-                randomDirection();
-            }*//*
-        }
-        if (dollDirection == Direction.RIGHT) {
-            if (!canMove(x + SCALED_SIZE, y)) {
-                dollDirection = Direction.LEFT;
-            } *//*else if (canMove(x, y + SCALED_SIZE) && canMove(x, y - SCALED_SIZE)) {
-                randomDirection();
-            }*//*
-        }
-        if (dollDirection == Direction.UP) {
-            if (!canMove(x, y - SCALED_SIZE)) {
-                dollDirection = Direction.DOWN;
-            } *//*else if (canMove(x + SCALED_SIZE, y) && canMove(x - SCALED_SIZE, y)) {
-                randomDirection();
-            }*//*
-        }
-        if (dollDirection == Direction.DOWN) {
-            if (!canMove(x, y + SCALED_SIZE)) {
-                dollDirection = Direction.UP;
-            } *//*else if (canMove(x + SCALED_SIZE, y) && canMove(x - SCALED_SIZE, y)) {
-                randomDirection();
-            }*//*
-        }*/
-        return dollDirection;
+        return DirectionFinding.getDirection(this);
     }
 
     @Override

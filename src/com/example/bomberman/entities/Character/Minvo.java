@@ -22,7 +22,7 @@ public class Minvo extends Enemies {
 
     @Override
     public Direction getDirection() {
-        return null;
+        return DirectionFinding.getDirection(this);
     }
 
     @Override
