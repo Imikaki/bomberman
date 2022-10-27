@@ -22,7 +22,12 @@ public class Kondoria extends Enemies {
 
     @Override
     public Direction getDirection() {
-        return null;
+        int i = Math.random() < 0.5 ? 0 : 1;
+        if (i == 0) {
+            return DirectionFinding.getRandomDirection(this);
+        } else {
+            return DirectionFinding.getDirection(this);
+        }
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.example.bomberman.entities.Character;
 
+import com.example.bomberman.graphics.Sprite;
 import com.example.bomberman.system.Direction;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -76,4 +77,8 @@ public abstract class Enemies extends Character {
     }
 
     public abstract Direction getDirection();
+
+    public Direction getCurDirection() {
+        return curDirection;
+    }
 }

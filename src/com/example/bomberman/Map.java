@@ -187,6 +187,7 @@ public final class Map {
                     timer.stop();
                 } else {
                     remove();
+                    DirectionFinding.doBfs(bomberman.getX(), bomberman.getY());
                     render(group);
                     update(scene);
                     delta--;
@@ -331,5 +332,14 @@ public final class Map {
     public static void setWin(Group group) {
         ImageView win = new ImageView(new Image("EndState/2win.png", 1000, 420, false, false));
         group.getChildren().add(win);
+    }
+
+    public static Entity getStaticEntity(int x, int y) {
+        for (Entity e : staticEntities) {
+            if (e.getX() == x && e.getY() == y) {
+                return e;
+            }
+        }
+        return null;
     }
 }
