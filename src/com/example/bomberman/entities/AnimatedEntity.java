@@ -32,7 +32,7 @@ public abstract class AnimatedEntity extends Entity {
                 isExploded = false;
                 isRemoved = true;
             }
-        }, 250L);
+        }, 350L);
     }
 
     public boolean isExploded() {

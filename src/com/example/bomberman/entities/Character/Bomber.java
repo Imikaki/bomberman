@@ -185,7 +185,7 @@ public class Bomber extends Character {
 
     @Override
     public void remove() {
-        img = Sprite.player_dead1.getFxImage();
+        img = Sprite.movingSprite(Sprite.player_dead1,Sprite.player_dead2,Sprite.player_dead3,animate,60).getFxImage();
         super.remove();
     }
 
