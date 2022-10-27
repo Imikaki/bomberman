@@ -229,6 +229,11 @@ public final class Map {
     }
 
     public static Entity getEntity(int x, int y) {
+        for (Entity e : bombs) {
+            if (e.getX() == x && e.getY() == y) {
+                return e;
+            }
+        }
         for (Entity e : enemies) {
             if (e.getX() == x && e.getY() == y) {
                 return e;
