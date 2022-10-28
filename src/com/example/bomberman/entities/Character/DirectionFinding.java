@@ -19,26 +19,20 @@ public class DirectionFinding {
     // LEFT = 0, RIGHT = 1, UP = 2, DOWN = 3
     public static final int[] dx = {-1, 1, 0, 0};
     public static final int[] dy = {0, 0, -1, 1};
+    public static final int[] ver = {1, 0, 3, 2};
     public static final int MAX = 1000000;
-    public static int[][] bestDirection = new int[Map.getRow()][Map.getCol()];
-    public static int[][] visited = new int[Map.getRow()][Map.getCol()];
-    private int distanceBomb = 10000;
-    private int distanceTarget = 30;
-
-    public static long getDistance(Entity a, Entity b) {
-        return (long) ((a.getX() - b.getX()) * (a.getX() - b.getX()) + (long) (a.getY() - b.getY()) * (a.getY() - b.getY()));
-    }
-
+    public static int[][] bestDirection = new int[Map.getCol()][Map.getRow()];
+    public static int[][] visited = new int[Map.getCol()][Map.getRow()];
 
     public static void doBfs(int _x, int _y) {
         int x = _x / Sprite.SCALED_SIZE;
         int y = _y / Sprite.SCALED_SIZE;
 
-        bestDirection = new int[Map.getRow()][Map.getCol()];
-        visited = new int[Map.getRow()][Map.getCol()];
+        bestDirection = new int[Map.getCol()][Map.getRow()];
+        visited = new int[Map.getCol()][Map.getRow()];
 
-        for (int i = 0; i < Map.getRow(); i++) {
-            for (int j = 0; j < Map.getCol(); j++) {
+        for (int i = 0; i < Map.getCol(); i++) {
+            for (int j = 0; j < Map.getRow(); j++) {
                 bestDirection[i][j] = MAX;
                 visited[i][j] = 0;
             }
@@ -47,19 +41,19 @@ public class DirectionFinding {
         bestDirection[x][y] = 0;
         visited[x][y] = 1;
         Queue<Integer> q = new ArrayDeque<>();
-        q.add(x * Map.getCol() + y);
+        q.add(x * Map.getRow() + y);
         while (!q.isEmpty()) {
             int u = q.peek();
-            int ux = u / Map.getCol();
-            int uy = u % Map.getCol();
+            int ux = u / Map.getRow();
+            int uy = u % Map.getRow();
             q.remove();
             for (int i = 0; i < 4; i++) {
                 int vx = ux + dx[i];
                 int vy = uy + dy[i];
-                if (vx >= 0 && vx < Map.getRow() && vy >= 0 && vy < Map.getCol() && visited[vx][vy] == 0
-                        && (Map.getStaticEntity(vx * Sprite.SCALED_SIZE, vy * Sprite.SCALED_SIZE) instanceof Grass)) {
+                if (vx >= 0 && vx < Map.getCol() && vy >= 0 && vy < Map.getRow() && visited[vx][vy] == 0
+                        && (Map.getEntity(vx * Sprite.SCALED_SIZE, vy * Sprite.SCALED_SIZE) instanceof Grass)) {
                     visited[vx][vy] = 1;
-                    bestDirection[vx][vy] = i + 1;
+                    bestDirection[vx][vy] = ver[i] + 1;
                     q.add(vx * Map.getCol() + vy);
                 }
             }
@@ -67,11 +61,21 @@ public class DirectionFinding {
     }
 
     public static Direction getDirection(Enemies e) {
-        int x = e.getX();
-        int y = e.getY();
+        int _x = e.getX();
+        int _y = e.getY();
         doBfs(Map.bomberman.getX(), Map.bomberman.getY());
-        x = x / Sprite.SCALED_SIZE;
-        y = y / Sprite.SCALED_SIZE;
+
+        if (bestDirection[_x / Sprite.SCALED_SIZE][_y / Sprite.SCALED_SIZE] == MAX) {
+            return getRandomDirection(e);
+        }
+
+        int x = _x / Sprite.SCALED_SIZE;
+        int y = _y / Sprite.SCALED_SIZE;
+
+        if (!hasPath(x, y)) {
+            return e.getCurDirection();
+        }
+
         if (bestDirection[x][y] == 1) {
             return Direction.LEFT;
         } else if (bestDirection[x][y] == 2) {
@@ -88,28 +92,26 @@ public class DirectionFinding {
         /**
          * return valid and can move direction
          */
-        int x = e.getX();
-        int y = e.getY();
-        if (x % Sprite.SCALED_SIZE != 0 || y % Sprite.SCALED_SIZE != 0) {
+        int _x = e.getX();
+        int _y = e.getY();
+        if (_x % Sprite.SCALED_SIZE != 0 || _y % Sprite.SCALED_SIZE != 0) {
             return e.getCurDirection();
         }
+        int x = _x / Sprite.SCALED_SIZE;
+        int y = _y / Sprite.SCALED_SIZE;
 
-        int _x = x / Sprite.SCALED_SIZE;
-        int _y = y / Sprite.SCALED_SIZE;
         List<Direction> movableDirection = new ArrayList<>();
         for (int i = 0; i < 4; ++i) {
             int vx = x + dx[i];
             int vy = y + dy[i];
-            if (vx >= 0 && vx < Map.getRow() && vy >= 0 && vy < Map.getCol() && visited[vx][vy] == 0
+            if (vx >= 0 && vx < Map.getCol() && vy >= 0 && vy < Map.getRow()
                     && (Map.getEntity(vx * Sprite.SCALED_SIZE, vy * Sprite.SCALED_SIZE) instanceof Grass
                     || Map.getEntity(vx * Sprite.SCALED_SIZE, vy * Sprite.SCALED_SIZE) instanceof Enemies)) {
-                movableDirection.add(Direction.values()[i]);
+                movableDirection.add(Direction.values()[i + 1]);
             }
         }
-        if (movableDirection.size() == 0) {
-            return Direction.NONE;
-        }
         int i = (int) (Math.random() * (movableDirection.size() - 1));
+        System.out.println(i);
 
         return movableDirection.get(i);
     }
@@ -117,4 +119,8 @@ public class DirectionFinding {
     public static boolean hasPath(int x, int y) {
         return bestDirection[x][y] != MAX;
     }
+
+    /**
+     * Normal path finding AI algorithm.
+     */
 }

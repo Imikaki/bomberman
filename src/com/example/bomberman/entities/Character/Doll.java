@@ -33,7 +33,7 @@ public class Doll extends Enemies {
 
     @Override
     public Direction getDirection() {
-        return DirectionFinding.getRandomDirection(this);
+        return DirectionFinding.getDirection(this);
     }
 
 
