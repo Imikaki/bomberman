@@ -37,12 +37,12 @@ public class Oneal extends Enemies {
     @Override
     public Direction getDirection() {
         if (OnealDirection == Direction.UP) {
-            if (!canMove(x, y - SCALED_SIZE)) {
+            if (!canMove(x, y - SCALED_SIZE) || !moveBomb(x, y - SCALED_SIZE)) {
                 OnealDirection = Direction.DOWN;
             }
         }
         if (OnealDirection == Direction.DOWN) {
-            if (!canMove(x, y + SCALED_SIZE)) {
+            if (!canMove(x, y + SCALED_SIZE)|| !moveBomb(x, y + SCALED_SIZE)) {
                 OnealDirection = Direction.UP;
             }
         }

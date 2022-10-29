@@ -3,7 +3,6 @@ package com.example.bomberman.entities.Character;
 import com.example.bomberman.Map;
 import com.example.bomberman.entities.DynamicEntity;
 import com.example.bomberman.entities.Entity;
-import com.example.bomberman.entities.staticEntity.CarriableEntity.Bomb;
 import com.example.bomberman.entities.staticEntity.StaticEntity.Grass;
 import com.example.bomberman.graphics.Sprite;
 import javafx.scene.Scene;
@@ -74,6 +73,23 @@ public abstract class Character extends DynamicEntity {
             }
         }
         return false;
+    }
+
+    public Entity checkHaveBomb(int x, int y) {
+        for (Entity e : Map.bombs) {
+            if (e.getX() == x && e.getY() == y) {
+                return e;
+            }
+        }
+        return null;
+    }
+
+    public boolean moveBomb(int x, int y) {
+        Entity entity = checkHaveBomb(x, y);
+        if (entity == null) {
+            return true;
+        }
+        return super.collide(entity);
     }
 
     protected void moveUp() {

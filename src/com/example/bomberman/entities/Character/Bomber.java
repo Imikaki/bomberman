@@ -5,7 +5,6 @@ import com.example.bomberman.entities.Entity;
 import com.example.bomberman.entities.staticEntity.CarriableEntity.Bomb;
 import com.example.bomberman.graphics.Sprite;
 import com.example.bomberman.system.Direction;
-import com.sun.xml.internal.ws.api.model.wsdl.WSDLOutput;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
@@ -262,23 +261,6 @@ public class Bomber extends Character {
         x -= getSpeed();
     }
 
-    public static Entity checkHaveBomb(int x, int y) {
-        for (Entity e : Map.bombs) {
-            if (e.getX() == x && e.getY() == y) {
-                return e;
-            }
-        }
-        return null;
-    }
-
-    public boolean moveBomb(int x, int y) {
-        Entity entity = checkHaveBomb(x, y);
-        if (entity == null) {
-            return true;
-        }
-        return super.collide(entity);
-    }
-
     public boolean up() {
         boolean move = true;
         for (int i = 0; i < Map.bombs.size(); i++) {
@@ -340,7 +322,7 @@ public class Bomber extends Character {
             }
         }
         return move;
-
+    }
     public void setBombLimit(int val) {
         this.limitBomb = val;
     }

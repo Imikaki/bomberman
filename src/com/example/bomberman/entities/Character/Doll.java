@@ -8,7 +8,6 @@ import javafx.scene.image.Image;
 
 import static com.example.bomberman.graphics.Sprite.SCALED_SIZE;
 
-// doll di chuyển ngẫu nhiên
 public class Doll extends Enemies {
     private Direction dollDirection = Direction.NONE;
     private int n = SCALED_SIZE / speed;
@@ -19,7 +18,6 @@ public class Doll extends Enemies {
         enemyLeft = new Image[]{Sprite.doll_left1.getFxImage(), Sprite.doll_left2.getFxImage(), Sprite.doll_left3.getFxImage()};
         enemyRight = new Image[]{Sprite.doll_right1.getFxImage(), Sprite.doll_right2.getFxImage(), Sprite.doll_right3.getFxImage()};
         enemyDie = Sprite.doll_dead.getFxImage();
-        //randomDirection();
     }
 
     @Override
@@ -35,24 +33,4 @@ public class Doll extends Enemies {
     public Direction getDirection() {
         return DirectionFinding.getDirection(this);
     }
-
-
-    /*public void randomDirection() {
-        Random random = new Random();
-        int direction =random.nextInt(4);
-        switch (direction) {
-            case 0:
-                dollDirection = Direction.LEFT;
-                break;
-            case 1:
-                dollDirection = Direction.RIGHT;
-                break;
-            case 2:
-                dollDirection = Direction.UP;
-                break;
-            case 3:
-                dollDirection = Direction.DOWN;
-                break;
-        }
-    }*/
 }

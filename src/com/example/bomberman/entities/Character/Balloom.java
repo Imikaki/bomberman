@@ -37,12 +37,12 @@ public class Balloom extends Enemies {
     @Override
     public Direction getDirection() {
         if (BalloomDirection == Direction.LEFT) {
-            if (!canMove(x - SCALED_SIZE, y)) {
+            if (!canMove(x - SCALED_SIZE, y) || !moveBomb(x - SCALED_SIZE, y)) {
                 BalloomDirection = Direction.RIGHT;
             }
         }
         if (BalloomDirection == Direction.RIGHT) {
-            if (!canMove(x + SCALED_SIZE, y)) {
+            if (!canMove(x + SCALED_SIZE, y)|| !moveBomb(x + SCALED_SIZE, y)) {
                 BalloomDirection = Direction.LEFT;
             }
         }
