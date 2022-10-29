@@ -5,6 +5,7 @@ import com.example.bomberman.entities.Entity;
 import com.example.bomberman.entities.staticEntity.CarriableEntity.Bomb;
 import com.example.bomberman.graphics.Sprite;
 import com.example.bomberman.system.Direction;
+import com.sun.xml.internal.ws.api.model.wsdl.WSDLOutput;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
@@ -25,6 +26,7 @@ public class Bomber extends Character {
     public static int explodeRange = 1;
     private int SpriteCounter = 0;
     private int SpriteNum = 1;
+    private boolean run = true;
 
     public Bomber(int x, int y, Image img) {
         super(x, y, img);
@@ -42,6 +44,7 @@ public class Bomber extends Character {
         scene.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.SPACE) {
                 placeBomb();
+                run = true;
             }
             if (event.getCode() == KeyCode.UP) {
                 moving = true;
@@ -62,7 +65,13 @@ public class Bomber extends Character {
                         img = Sprite.player_up_2.getFxImage();
                         imageView.setImage(Sprite.player_up_2.getFxImage());
                     }
-                    moveUp();
+                    if (up() && moveBomb(x, y - Sprite.SCALED_SIZE)) {
+                        super.moveUp();
+                    }
+                    if (run) {
+                        if (!checkBomb()) run = false;
+                        if (run) moveUp();
+                    }
                 }
             } else if (event.getCode() == KeyCode.DOWN) {
                 moving = true;
@@ -83,7 +92,13 @@ public class Bomber extends Character {
                         img = Sprite.player_down_2.getFxImage();
                         imageView.setImage(Sprite.player_down_2.getFxImage());
                     }
-                    moveDown();
+                    if (down() && moveBomb(x, y+Sprite.SCALED_SIZE)) {
+                        super.moveDown();
+                    }
+                    if (run) {
+                        if (!checkBomb()) run = false;
+                        if (run) moveDown();
+                    }
                 }
             } else if (event.getCode() == KeyCode.LEFT) {
                 moving = true;
@@ -104,7 +119,13 @@ public class Bomber extends Character {
                         img = Sprite.player_left_2.getFxImage();
                         imageView.setImage(Sprite.player_left_2.getFxImage());
                     }
-                    moveLeft();
+                    if (left() && moveBomb(x - Sprite.SCALED_SIZE, y)) {
+                        super.moveLeft();
+                    }
+                    if (run) {
+                        if (!checkBomb()) run = false;
+                        if (run) moveLeft();
+                    }
                 }
             } else if (event.getCode() == KeyCode.RIGHT) {
                 moving = true;
@@ -125,7 +146,13 @@ public class Bomber extends Character {
                         img = Sprite.player_right_2.getFxImage();
                         imageView.setImage(Sprite.player_right_2.getFxImage());
                     }
-                    moveRight();
+                    if (right() && moveBomb(x + Sprite.SCALED_SIZE, y)) {
+                        super.moveRight();
+                    }
+                    if (run) {
+                        if (!checkBomb()) run = false;
+                        if (run) moveRight();
+                    }
                 }
             } else if (killed) {
                 img = Sprite.player_dead1.getFxImage();
@@ -217,5 +244,104 @@ public class Bomber extends Character {
 
     public int getBombLimit() {
         return this.limitBomb;
+    }
+
+    @Override
+    public void moveUp() {
+        y -= getSpeed();
+    }
+
+    @Override
+    public void moveDown() {
+        y += getSpeed();
+    }
+
+    @Override
+    public void moveRight() {
+        x += getSpeed();
+    }
+    @Override
+    public void moveLeft() {
+        x -= getSpeed();
+    }
+
+    public static Entity checkHaveBomb(int x, int y) {
+        for (Entity e : Map.bombs) {
+            if (e.getX() == x && e.getY() == y) {
+                return e;
+            }
+        }
+        return null;
+    }
+
+    public boolean moveBomb(int x, int y) {
+        Entity entity = checkHaveBomb(x, y);
+        if (entity == null) {
+            return true;
+        }
+        return super.collide(entity);
+    }
+
+    public boolean up() {
+        boolean move = true;
+        for (int i = 0; i < Map.bombs.size(); i++) {
+            int bomb_x = Map.bombs.get(i).getX();
+            int bomb_y = Map.bombs.get(i).getY();
+            if (this.y - Sprite.SCALED_SIZE < bomb_y && this.y > bomb_y) {
+                if (((this.x > bomb_x && this.x < bomb_x + Sprite.SCALED_SIZE)
+                        || (this.x < bomb_x && this.x + Sprite.SCALED_SIZE > bomb_x))) {
+                    move = false;
+                    break;
+                }
+            }
+        }
+        return move;
+    }
+    public boolean down() {
+        boolean move = true;
+        for (int i = 0; i < Map.bombs.size(); i++) {
+            int bomb_x = Map.bombs.get(i).getX();
+            int bomb_y = Map.bombs.get(i).getY();
+            if (this.y + Sprite.SCALED_SIZE > bomb_y && this.y < bomb_y) {
+                if (((this.x > bomb_x && this.x < bomb_x + Sprite.SCALED_SIZE)
+                        || (this.x < bomb_x && this.x + Sprite.SCALED_SIZE > bomb_x))) {
+                    move = false;
+                    break;
+                }
+            }
+        }
+        return move;
+    }
+
+    public boolean left() {
+        boolean move = true;
+        for (int i = 0; i < Map.bombs.size(); i++) {
+            int bomb_x = Map.bombs.get(i).getX();
+            int bomb_y = Map.bombs.get(i).getY();
+            if (this.x > bomb_x && this.x < bomb_x + Sprite.SCALED_SIZE) {
+                if (((this.y > bomb_y && this.y < bomb_y + Sprite.SCALED_SIZE)
+                        || (this.y < bomb_y && this.y + Sprite.SCALED_SIZE > bomb_y))) {
+                    move = false;
+                    break;
+                }
+            }
+        }
+        return move;
+    }
+
+    public boolean right() {
+        boolean move = true;
+        for (int i = 0; i < Map.bombs.size(); i++) {
+            int bomb_x = Map.bombs.get(i).getX();
+            int bomb_y = Map.bombs.get(i).getY();
+            if (this.x < bomb_x && this.x > bomb_x - Sprite.SCALED_SIZE) {
+                if (((this.y > bomb_y && this.y < bomb_y + Sprite.SCALED_SIZE)
+                        || (this.y < bomb_y && this.y + Sprite.SCALED_SIZE > bomb_y))) {
+                    move = false;
+                    break;
+                }
+            }
+        }
+        return move;
     }
 }

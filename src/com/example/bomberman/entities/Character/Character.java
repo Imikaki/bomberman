@@ -1,8 +1,11 @@
 package com.example.bomberman.entities.Character;
 
+import com.example.bomberman.Map;
 import com.example.bomberman.entities.DynamicEntity;
 import com.example.bomberman.entities.Entity;
+import com.example.bomberman.entities.staticEntity.CarriableEntity.Bomb;
 import com.example.bomberman.entities.staticEntity.StaticEntity.Grass;
+import com.example.bomberman.graphics.Sprite;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 
@@ -60,19 +63,40 @@ public abstract class Character extends DynamicEntity {
         return super.getY();
     }
 
+    public boolean checkBomb() {
+        int x_ = this.x / Sprite.SCALED_SIZE;
+        int y_ = this.y / Sprite.SCALED_SIZE;
+        for (int i = 0; i < Map.bombs.size(); i++) {
+            int r=Map.bombs.get(i).getX() / Sprite.SCALED_SIZE;
+            int c=Map.bombs.get(i).getY() / Sprite.SCALED_SIZE;
+            if (r == x_ && c == y_) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     protected void moveUp() {
-        y -= getSpeed();
+        if (!checkBomb()) {
+            y -= getSpeed();
+        }
     }
 
     protected void moveDown() {
-        y += getSpeed();
+        if (!checkBomb()) {
+            y += getSpeed();
+        }
     }
 
     protected void moveRight() {
-        x += getSpeed();
+        if (!checkBomb()) {
+            x += getSpeed();
+        }
     }
 
     protected void moveLeft() {
-        x -= getSpeed();
+        if (!checkBomb()) {
+            x -= getSpeed();
+        }
     }
 }
