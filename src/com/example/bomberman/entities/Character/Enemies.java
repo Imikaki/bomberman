@@ -71,6 +71,11 @@ public abstract class Enemies extends Character {
         setImage(enemyDie);
     }
 
+    @Override
+    public void remove() {
+        super.remove();
+    }
+
     public void resetTimeMoving() {
         timeMoving = 0;
     }

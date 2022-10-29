@@ -281,16 +281,20 @@ public final class Map {
         bombs.forEach(bomb -> {
             if (bomb.isExploded() && collide(bomberman, bomb)) {
                 bomberman.kill();
+                bomberman.remove();
             }
         });
         flames.forEach(flame -> {
             if (collide(bomberman, flame)) {
                 bomberman.kill();
+                bomberman.remove();
+
             }
         });
         enemies.forEach(enemy -> {
             if (collide(bomberman, enemy)) {
                 bomberman.kill();
+                bomberman.remove();
             }
         });
         if (bomberman.isAlive() == false) {
@@ -303,11 +307,15 @@ public final class Map {
             bombs.forEach(bomb -> {
                 if (bomb.isExploded() && collide(enemy, bomb)) {
                     enemy.kill();
+                    enemy.isKilled();
+                    enemy.remove();
                 }
             });
             flames.forEach(flame -> {
                 if (collide(enemy, flame)) {
                     enemy.kill();
+                    enemy.isKilled();
+                    enemy.remove();
                 }
             });
         });
