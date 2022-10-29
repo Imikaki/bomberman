@@ -1,19 +1,18 @@
 package com.example.bomberman.entities.Character;
 
-import com.example.bomberman.graphics.Sprite;
 import com.example.bomberman.system.Direction;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 
 public abstract class Enemies extends Character {
-    private final int maxTimeMoving = 30;
+    protected final int maxTimeMoving = 30;
     public boolean isKilled = false;
     protected Image[] enemyLeft;
     protected Image[] enemyRight;
     protected Image enemyDie;
-    private Direction curDirection = Direction.LEFT;
-    private Direction nextDirection;
-    private int timeMoving = 0;
+    protected Direction curDirection = Direction.LEFT;
+    protected Direction nextDirection;
+    protected int timeMoving = 0;
 
     public Enemies(int x, int y, Image img) {
         super(x, y, img);
@@ -52,10 +51,10 @@ public abstract class Enemies extends Character {
             curDirection = Direction.LEFT;
         }
         if (curDirection == Direction.LEFT) {
-            imageView.setImage(enemyLeft[timeMoving/(maxTimeMoving/3)]);
+            imageView.setImage(enemyLeft[timeMoving / (maxTimeMoving / 3)]);
         }
         if (curDirection == Direction.RIGHT) {
-            imageView.setImage(enemyRight[timeMoving/(maxTimeMoving/3)]);
+            imageView.setImage(enemyRight[timeMoving / (maxTimeMoving / 3)]);
         }
         timeMoving++;
         if (timeMoving == maxTimeMoving) {

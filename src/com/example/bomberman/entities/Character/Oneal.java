@@ -12,9 +12,10 @@ import static com.example.bomberman.graphics.Sprite.SCALED_SIZE;
 // oneal chỉ di chuyển dọc
 public class Oneal extends Enemies {
     private Direction OnealDirection = Direction.DOWN;
+
     public Oneal(int x, int y, Image img) {
         super(x, y, img);
-        enemyLeft = new Image[]{Sprite.oneal_left1.getFxImage(),Sprite.oneal_left2.getFxImage(),Sprite.oneal_left3.getFxImage()};
+        enemyLeft = new Image[]{Sprite.oneal_left1.getFxImage(), Sprite.oneal_left2.getFxImage(), Sprite.oneal_left3.getFxImage()};
         enemyRight = new Image[]{Sprite.oneal_right1.getFxImage(), Sprite.oneal_right2.getFxImage(), Sprite.oneal_right3.getFxImage()};
         enemyDie = Sprite.oneal_dead.getFxImage();
     }
