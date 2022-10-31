@@ -114,7 +114,6 @@ public abstract class Enemies extends Character {
     public boolean checkMoveLeft() {
         boolean check = true;
         for (int i = 1 - Sprite.SCALED_SIZE/getSpeed(); i <= Sprite.SCALED_SIZE/getSpeed() - 1; i++) {
-            System.out.println(Sprite.SCALED_SIZE/getSpeed());
             if (!canMove(x - Sprite.SCALED_SIZE, y + i * getSpeed()) || !moveBomb(x - Sprite.SCALED_SIZE, y + i * getSpeed())) {
                 check = false;
                 break;
