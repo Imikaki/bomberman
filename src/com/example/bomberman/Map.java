@@ -195,9 +195,9 @@ public final class Map {
                     timer.stop();
                 } else {
                     DirectionFinding.doBfs(bomberman.getX(), bomberman.getY());
-                    remove();
                     render(group);
                     update(scene);
+                    remove();
                     delta--;
                     updates++;
                 }
