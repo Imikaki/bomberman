@@ -2,6 +2,7 @@ package com.example.bomberman.entities.staticEntity.CarriableEntity;
 
 import com.example.bomberman.Map;
 import com.example.bomberman.entities.Character.Bomber;
+import com.example.bomberman.graphics.Sound;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 
@@ -16,6 +17,7 @@ public class BombItem extends Item {
         if (Map.collide(this, Map.bomberman)) {
             skill(Map.bomberman);
             this.remove();
+            Sound.collectItem.play();
         }
     }
 

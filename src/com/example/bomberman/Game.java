@@ -10,6 +10,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import com.example.bomberman.graphics.Sound;
 
 import static javafx.application.Platform.exit;
 
@@ -28,6 +29,8 @@ public class Game extends Application {
     @Override
     public void start(Stage entryStage) {
         stage = entryStage;
+
+        Sound.menu.loop();
 
         // create background
         loadBackground();
@@ -50,9 +53,18 @@ public class Game extends Application {
 
         root.getChildren().addAll(canvas);
 
-        play.setOnAction(e -> stage.setScene(scene));
+        play.setOnAction(e -> {
+            Sound.menuSelect.play();
+            Sound.menu.stop();
+            Sound.playGame.loop();
+            Sound.attack.play();
+            stage.setScene(scene);
+        });
 
-        exit.setOnAction(e -> exit());
+        exit.setOnAction(e -> {
+            Sound.menuSelect.play();
+            exit();
+        });
 
         stage.show();
 

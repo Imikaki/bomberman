@@ -7,6 +7,7 @@ import com.example.bomberman.entities.staticEntity.CarriableEntity.BombItem;
 import com.example.bomberman.entities.staticEntity.CarriableEntity.FlameItem;
 import com.example.bomberman.entities.staticEntity.CarriableEntity.SpeedItem;
 import com.example.bomberman.entities.staticEntity.StaticEntity.*;
+import com.example.bomberman.graphics.Sound;
 import com.example.bomberman.graphics.Sprite;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Group;
@@ -24,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class Map {
-    private static final int levelMax = 2;
+    private static final int levelMax = 3;
     public static Bomber bomberman;
     public static boolean nextLevel = false;
     public static boolean ending = false;
@@ -117,11 +118,15 @@ public final class Map {
             level++;
             try {
                 if (level > levelMax) {
+                    Sound.playGame.stop();
+                    Sound.win.play();
                     winGame = true;
                     return;
+                } else {
+                    Sound.nextLv.play();
+                    nextLevel = false;
+                    mapLoading(level);
                 }
-                nextLevel = false;
-                mapLoading(level);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -280,12 +285,16 @@ public final class Map {
         if (bomberman.isAlive() == false) return;
         bombs.forEach(bomb -> {
             if (bomb.isExploded() && collide(bomberman, bomb)) {
+                Sound.bomberdie.play();
+                Sound.lose.play();
                 bomberman.kill();
                 bomberman.remove();
             }
         });
         flames.forEach(flame -> {
             if (collide(bomberman, flame)) {
+                Sound.bomberdie.play();
+                Sound.lose.play();
                 bomberman.kill();
                 bomberman.remove();
 
@@ -293,6 +302,8 @@ public final class Map {
         });
         enemies.forEach(enemy -> {
             if (collide(bomberman, enemy)) {
+                Sound.bomberdie.play();
+                Sound.lose.play();
                 bomberman.kill();
                 bomberman.remove();
             }
@@ -306,6 +317,7 @@ public final class Map {
         enemies.forEach(enemy -> {
             bombs.forEach(bomb -> {
                 if (bomb.isExploded() && collide(enemy, bomb)) {
+                    Sound.enemydie.play();
                     enemy.kill();
                     enemy.isKilled();
                     enemy.remove();
@@ -313,6 +325,7 @@ public final class Map {
             });
             flames.forEach(flame -> {
                 if (collide(enemy, flame)) {
+                    Sound.enemydie.play();
                     enemy.kill();
                     enemy.isKilled();
                     enemy.remove();

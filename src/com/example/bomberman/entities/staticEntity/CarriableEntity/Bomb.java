@@ -7,6 +7,7 @@ import com.example.bomberman.entities.Entity;
 import com.example.bomberman.entities.staticEntity.StaticEntity.Flame;
 import com.example.bomberman.entities.staticEntity.StaticEntity.Portal;
 import com.example.bomberman.entities.staticEntity.StaticEntity.Wall;
+import com.example.bomberman.graphics.Sound;
 import com.example.bomberman.graphics.Sprite;
 import com.example.bomberman.system.Direction;
 import javafx.scene.Scene;
@@ -82,5 +83,6 @@ public class Bomb extends AnimatedEntity {
             }
         }
         Map.flames.add(new Flame(_x, _y, Direction.NONE, false));
+        Sound.bombExplode.play();
     }
 }

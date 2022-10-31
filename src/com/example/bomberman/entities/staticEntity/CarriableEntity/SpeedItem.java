@@ -3,6 +3,7 @@ package com.example.bomberman.entities.staticEntity.CarriableEntity;
 import com.example.bomberman.Map;
 import com.example.bomberman.entities.DynamicEntity;
 import com.example.bomberman.entities.Entity;
+import com.example.bomberman.graphics.Sound;
 import com.example.bomberman.graphics.Sprite;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -17,6 +18,7 @@ public class SpeedItem extends Item {
     @Override
     public void update(Scene scene) {
         if (collided(this, Map.bomberman)) {
+            Sound.collectItem.play();
             Map.bomberman.setSpeed(Sprite.SCALED_SIZE / 2);
             DynamicEntity.n = 2;
             this.remove();

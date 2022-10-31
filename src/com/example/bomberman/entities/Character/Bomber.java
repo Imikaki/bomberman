@@ -3,6 +3,7 @@ package com.example.bomberman.entities.Character;
 import com.example.bomberman.Map;
 import com.example.bomberman.entities.Entity;
 import com.example.bomberman.entities.staticEntity.CarriableEntity.Bomb;
+import com.example.bomberman.graphics.Sound;
 import com.example.bomberman.graphics.Sprite;
 import com.example.bomberman.system.Direction;
 import javafx.scene.Scene;
@@ -187,6 +188,7 @@ public class Bomber extends Character {
         int _x = x / Sprite.SCALED_SIZE;
         int _y = y / Sprite.SCALED_SIZE;
         if (placedBomb < limitBomb) {
+            Sound.newBomb.play();
             for (Bomb bomb : Map.bombs) {
                 if (bomb.getX() == _x && bomb.getY() == _y) {
                     canPlace = false;
