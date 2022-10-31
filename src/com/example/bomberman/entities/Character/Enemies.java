@@ -1,8 +1,11 @@
 package com.example.bomberman.entities.Character;
 
+import com.example.bomberman.graphics.Sprite;
 import com.example.bomberman.system.Direction;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+
+import static com.example.bomberman.graphics.Sprite.SCALED_SIZE;
 
 public abstract class Enemies extends Character {
     protected final int maxTimeMoving = 30;
@@ -84,5 +87,50 @@ public abstract class Enemies extends Character {
 
     public Direction getCurDirection() {
         return curDirection;
+    }
+
+    public boolean checkMoveUp() {
+        boolean check = true;
+        for (int i = 1 - Sprite.SCALED_SIZE/getSpeed(); i <= Sprite.SCALED_SIZE/getSpeed() - 1; i++) {
+            if (!canMove(x + i * getSpeed(),y - SCALED_SIZE) || !moveBomb(x + i * getSpeed(),y - SCALED_SIZE)) {
+                check = false;
+                break;
+            }
+        }
+        return check;
+    }
+
+    public boolean checkMoveDown() {
+        boolean check = true;
+        for (int i = 1 - Sprite.SCALED_SIZE/getSpeed(); i <= Sprite.SCALED_SIZE/getSpeed() - 1; i++) {
+            if (!canMove(x + i * getSpeed(),y + SCALED_SIZE) || !moveBomb(x + i * getSpeed(),y + SCALED_SIZE)) {
+                check = false;
+                break;
+            }
+        }
+        return check;
+    }
+
+    public boolean checkMoveLeft() {
+        boolean check = true;
+        for (int i = 1 - Sprite.SCALED_SIZE/getSpeed(); i <= Sprite.SCALED_SIZE/getSpeed() - 1; i++) {
+            System.out.println(Sprite.SCALED_SIZE/getSpeed());
+            if (!canMove(x - Sprite.SCALED_SIZE, y + i * getSpeed()) || !moveBomb(x - Sprite.SCALED_SIZE, y + i * getSpeed())) {
+                check = false;
+                break;
+            }
+        }
+        return check;
+    }
+
+    public boolean checkMoveRight() {
+        boolean check = true;
+        for (int i = 1 - Sprite.SCALED_SIZE/getSpeed(); i <= Sprite.SCALED_SIZE/getSpeed() - 1; i++) {
+            if (!canMove(x + Sprite.SCALED_SIZE, y + i * getSpeed()) || !moveBomb(x + Sprite.SCALED_SIZE, y + i * getSpeed())) {
+                check = false;
+                break;
+            }
+        }
+        return check;
     }
 }

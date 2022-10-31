@@ -18,7 +18,7 @@ public class SpeedItem extends Item {
     @Override
     public void update(Scene scene) {
         if (collided(this, Map.bomberman)) {
-            Sound.collectItem.play();
+            Sound.collectItem.playy();
             Map.bomberman.setSpeed(Sprite.SCALED_SIZE / 2);
             DynamicEntity.n = 2;
             this.remove();
