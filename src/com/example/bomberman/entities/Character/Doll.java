@@ -8,12 +8,9 @@ import javafx.scene.image.Image;
 
 import java.util.Random;
 
-import static com.example.bomberman.graphics.Sprite.SCALED_SIZE;
-
-// doll thay đổi direction khi gặp vật cản
+// doll di chuyen ngau nhien
 public class Doll extends Enemies {
     private Direction dollDirection = Direction.LEFT;
-    //private int n = SCALED_SIZE / speed;
     private boolean move = false;
 
     public Doll(int x, int y, Image img) {
@@ -21,7 +18,7 @@ public class Doll extends Enemies {
         enemyLeft = new Image[]{Sprite.doll_left1.getFxImage(), Sprite.doll_left2.getFxImage(), Sprite.doll_left3.getFxImage()};
         enemyRight = new Image[]{Sprite.doll_right1.getFxImage(), Sprite.doll_right2.getFxImage(), Sprite.doll_right3.getFxImage()};
         enemyDie = Sprite.doll_dead.getFxImage();
-        this.speed = 1;
+        this.speed = 2;
     }
 
     @Override
@@ -36,58 +33,6 @@ public class Doll extends Enemies {
     @Override
     public Direction getDirection() {
         if (dollDirection == Direction.LEFT) {
-            if (!canMove(x - SCALED_SIZE,y) || !moveBomb(x - SCALED_SIZE,y)) {
-                while (dollDirection == Direction.LEFT) {
-                    randomDirection();
-                }
-                if (dollDirection == Direction.UP) {
-                    if (!checkMoveUp()) dollDirection = Direction.RIGHT;
-                }
-                if (dollDirection == Direction.DOWN) {
-                    if (!checkMoveDown()) dollDirection = Direction.RIGHT;
-                }
-            }
-        }
-        if (dollDirection == Direction.RIGHT) {
-            if (!canMove(x + SCALED_SIZE,y) || !moveBomb(x + SCALED_SIZE,y)) {
-                while (dollDirection == Direction.RIGHT) {
-                    randomDirection();
-                }
-                if (dollDirection == Direction.UP) {
-                    if (!checkMoveUp()) dollDirection = Direction.LEFT;
-                }
-                if (dollDirection == Direction.DOWN) {
-                    if (!checkMoveDown()) dollDirection = Direction.LEFT;
-                }
-            }
-        }
-        if (dollDirection == Direction.UP) {
-            if (!canMove(x,y - SCALED_SIZE) || !moveBomb(x,y - SCALED_SIZE)) {
-                while (dollDirection == Direction.UP) {
-                    randomDirection();
-                }
-                if (dollDirection == Direction.LEFT) {
-                    if (!checkMoveLeft()) dollDirection = Direction.DOWN;
-                }
-                if (dollDirection == Direction.RIGHT) {
-                    if (!checkMoveRight()) dollDirection = Direction.DOWN;
-                }
-            }
-        }
-        if (dollDirection == Direction.DOWN) {
-            if (!canMove(x,y + SCALED_SIZE) || !moveBomb(x,y + SCALED_SIZE)) {
-                while (dollDirection == Direction.DOWN) {
-                    randomDirection();
-                }
-                if (dollDirection == Direction.LEFT) {
-                    if (!checkMoveLeft()) dollDirection = Direction.UP;
-                }
-                if (dollDirection == Direction.RIGHT) {
-                    if (!checkMoveRight()) dollDirection = Direction.UP;
-                }
-            }
-        }
-        /*if (dollDirection == Direction.LEFT) {
             if (checkMoveUp() && checkMoveDown() && checkMoveLeft()) randomDirection();
             if (checkMoveUp() && checkMoveDown() && !checkMoveLeft()) {
                 while(dollDirection == Direction.LEFT) randomDirection();
@@ -96,12 +41,13 @@ public class Doll extends Enemies {
                 while (dollDirection == Direction.DOWN) randomDirection();
             }
             if (checkMoveUp() && !checkMoveDown() && !checkMoveLeft()) {
-                dollDirection = Direction.UP;            }
+                while(dollDirection == Direction.DOWN || dollDirection == Direction.LEFT) randomDirection();
+            }
             if (!checkMoveUp() && checkMoveDown() && checkMoveLeft()) {
                 while (dollDirection == Direction.UP) randomDirection();
             }
             if (!checkMoveUp() && checkMoveDown() && !checkMoveLeft()) {
-                dollDirection = Direction.DOWN;
+                while(dollDirection == Direction.UP || dollDirection == Direction.LEFT) randomDirection();
             }
             if (!checkMoveUp() && !checkMoveDown() && checkMoveLeft()) {
                 while (dollDirection == Direction.DOWN || dollDirection == Direction.UP ) randomDirection();
@@ -113,16 +59,20 @@ public class Doll extends Enemies {
         if (dollDirection == Direction.RIGHT) {
             if (checkMoveUp() && checkMoveDown() && checkMoveRight()) randomDirection();
             if (checkMoveUp() && checkMoveDown() && !checkMoveRight()) {
-                while(dollDirection == Direction.LEFT) randomDirection();
+                while(dollDirection == Direction.RIGHT) randomDirection();
             }
             if (checkMoveUp() && !checkMoveDown() && checkMoveRight()) {
                 while (dollDirection == Direction.DOWN) randomDirection();
             }
-            if (checkMoveUp() && !checkMoveDown() && !checkMoveRight()) dollDirection = Direction.UP;
-            if (!checkMoveUp() && checkMoveDown() && checkMoveRight()) {
-                while (dollDirection == Direction.UP) checkMoveRight();
+            if (checkMoveUp() && !checkMoveDown() && !checkMoveRight()) {
+                while(dollDirection == Direction.DOWN || dollDirection == Direction.RIGHT) randomDirection();
             }
-            if (!checkMoveUp() && checkMoveDown() && !checkMoveRight()) dollDirection = Direction.DOWN;
+            if (!checkMoveUp() && checkMoveDown() && checkMoveRight()) {
+                while (dollDirection == Direction.UP) randomDirection();
+            }
+            if (!checkMoveUp() && checkMoveDown() && !checkMoveRight()) {
+                while(dollDirection == Direction.UP || dollDirection == Direction.RIGHT) randomDirection();
+            }
 
             if (!checkMoveUp() && !checkMoveDown() && checkMoveRight()) {
                 while (dollDirection == Direction.DOWN || dollDirection == Direction.UP ) randomDirection();
@@ -139,11 +89,15 @@ public class Doll extends Enemies {
             if (checkMoveLeft() && !checkMoveRight() && checkMoveUp()) {
                 while (dollDirection == Direction.RIGHT) randomDirection();
             }
-            if (checkMoveLeft() && !checkMoveRight() && !checkMoveUp()) dollDirection = Direction.LEFT;
-            if (!checkMoveLeft() && checkMoveRight() && checkMoveUp()) {
-                while (dollDirection == Direction.LEFT) checkMoveRight();
+            if (checkMoveLeft() && !checkMoveRight() && !checkMoveUp()) {
+                while(dollDirection == Direction.UP || dollDirection == Direction.RIGHT) randomDirection();
             }
-            if (!checkMoveLeft() && checkMoveRight() && !checkMoveUp()) dollDirection = Direction.RIGHT;
+            if (!checkMoveLeft() && checkMoveRight() && checkMoveUp()) {
+                while (dollDirection == Direction.LEFT) randomDirection();
+            }
+            if (!checkMoveLeft() && checkMoveRight() && !checkMoveUp()) {
+                while(dollDirection == Direction.LEFT || dollDirection == Direction.UP) randomDirection();
+            }
 
             if (!checkMoveLeft() && !checkMoveRight() && checkMoveUp()) {
                 while (dollDirection == Direction.LEFT || dollDirection == Direction.RIGHT ) randomDirection();
@@ -160,11 +114,15 @@ public class Doll extends Enemies {
             if (checkMoveLeft() && !checkMoveRight() && checkMoveDown()) {
                 while (dollDirection == Direction.RIGHT) randomDirection();
             }
-            if (checkMoveLeft() && !checkMoveRight() && !checkMoveDown()) dollDirection = Direction.LEFT;
-            if (!checkMoveLeft() && checkMoveRight() && checkMoveDown()) {
-                while (dollDirection == Direction.LEFT) checkMoveRight();
+            if (checkMoveLeft() && !checkMoveRight() && !checkMoveDown()) {
+                while(dollDirection == Direction.DOWN || dollDirection == Direction.RIGHT) randomDirection();
             }
-            if (!checkMoveLeft() && checkMoveRight() && !checkMoveDown()) dollDirection = Direction.RIGHT;
+            if (!checkMoveLeft() && checkMoveRight() && checkMoveDown()) {
+                while (dollDirection == Direction.LEFT) randomDirection();
+            }
+            if (!checkMoveLeft() && checkMoveRight() && !checkMoveDown()) {
+                while(dollDirection == Direction.DOWN || dollDirection == Direction.LEFT) randomDirection();
+            }
 
             if (!checkMoveLeft() && !checkMoveRight() && checkMoveDown()) {
                 while (dollDirection == Direction.LEFT || dollDirection == Direction.RIGHT ) randomDirection();
@@ -172,7 +130,7 @@ public class Doll extends Enemies {
             if (!checkMoveLeft() && !checkMoveRight() && !checkMoveDown()) {
                 dollDirection = Direction.UP;
             }
-        }*/
+        }
         return dollDirection;
     }
 
