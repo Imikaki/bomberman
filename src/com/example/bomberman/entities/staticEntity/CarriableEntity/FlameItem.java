@@ -14,7 +14,7 @@ public class FlameItem extends Item {
     @Override
     public void update(Scene scene) {
         if (Map.collide(this, Map.bomberman)) {
-            Sound.collectItem.play();
+            Sound.collectItem.playy();
             Bomber.explodeRange = 3;
             this.remove();
         }

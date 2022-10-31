@@ -15,8 +15,8 @@ import com.example.bomberman.graphics.Sound;
 import static javafx.application.Platform.exit;
 
 public class Game extends Application {
-    private static final int width = 1000;
-    private static final int height = 600;
+    public static final int width = 1000;
+    public static final int height = 420;
     private static Button play = new Button();
     private static Button exit = new Button();
     private static ImageView background = new ImageView(new Image("Lobby/BG.png", width, height, false, false));
@@ -72,17 +72,17 @@ public class Game extends Application {
 
     public void loadBackground() {
         // create imageView play and exit
-        ImageView imgPlay = new ImageView(new Image("Lobby/Play.png"));
-        ImageView imgExit = new ImageView(new Image("Lobby/Exit.png"));
+        ImageView imgPlay = new ImageView(new Image("Lobby/Play.png",280, 80,false, false));
+        ImageView imgExit = new ImageView(new Image("Lobby/Exit.png", 280, 80,false, false));
 
         // set button play
         play.setGraphic(imgPlay);
-        play.setLayoutX(270);
-        play.setLayoutY(280);
+        play.setLayoutX(350);
+        play.setLayoutY(200);
 
         //set button exit
         exit.setGraphic(imgExit);
-        exit.setLayoutX(270);
-        exit.setLayoutY(450);
+        exit.setLayoutX(350);
+        exit.setLayoutY(310);
     }
 }

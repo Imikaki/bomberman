@@ -17,7 +17,7 @@ public class BombItem extends Item {
         if (Map.collide(this, Map.bomberman)) {
             skill(Map.bomberman);
             this.remove();
-            Sound.collectItem.play();
+            Sound.collectItem.playy();
         }
     }
 

@@ -27,7 +27,7 @@ public class Bomb extends AnimatedEntity {
         super(x, y, img);
         waiting = true;
         isRemoved = false;
-        timeDelay = 3000;
+        timeDelay = 2000;
         Timer clock = new Timer();
         clock.schedule(new java.util.TimerTask() {
             @Override

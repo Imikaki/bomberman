@@ -187,6 +187,7 @@ public final class Map {
             @Override
             public void handle(long now) {
                 if (ending) {
+                    Sound.playGame.stop();
                     setEnding(group);
                     timer.stop();
                 } else if (winGame) {
@@ -285,7 +286,7 @@ public final class Map {
         if (bomberman.isAlive() == false) return;
         bombs.forEach(bomb -> {
             if (bomb.isExploded() && collide(bomberman, bomb)) {
-                Sound.bomberdie.play();
+                Sound.bomberdie.playy();
                 Sound.lose.play();
                 bomberman.kill();
                 bomberman.remove();
@@ -293,7 +294,7 @@ public final class Map {
         });
         flames.forEach(flame -> {
             if (collide(bomberman, flame)) {
-                Sound.bomberdie.play();
+                Sound.bomberdie.playy();
                 Sound.lose.play();
                 bomberman.kill();
                 bomberman.remove();
@@ -302,7 +303,7 @@ public final class Map {
         });
         enemies.forEach(enemy -> {
             if (collide(bomberman, enemy)) {
-                Sound.bomberdie.play();
+                Sound.bomberdie.playy();
                 Sound.lose.play();
                 bomberman.kill();
                 bomberman.remove();
@@ -347,13 +348,13 @@ public final class Map {
 
     public static void setEnding(Group group) {
         if (ending) {
-            ImageView lose = new ImageView(new Image("EndState/2lose.png", 1000, 420, false, false));
+            ImageView lose = new ImageView(new Image("EndState/2lose.png", Game.width, Game.height, false, false));
             group.getChildren().add(lose);
         }
     }
 
     public static void setWin(Group group) {
-        ImageView win = new ImageView(new Image("EndState/2win.png", 1000, 420, false, false));
+        ImageView win = new ImageView(new Image("EndState/2win.png", Game.width, Game.height, false, false));
         group.getChildren().add(win);
     }
 

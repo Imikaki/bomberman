@@ -52,6 +52,9 @@ public class Sound {
             throw new RuntimeException("Sound: Line Unavailable Exception Error: " + e);
         }
     }
+    public void playy() {
+        clip.start();
+    }
     public void play(){
         clip.setFramePosition(0);  // Must always rewind!
         clip.start();
