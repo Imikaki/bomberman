@@ -48,10 +48,5 @@ public class Oneal extends Enemies {
         }
         return OnealDirection;
     }
-
-    @Override
-    public boolean isColliding(Entity other) {
-        return false;
-    }
 }
 
