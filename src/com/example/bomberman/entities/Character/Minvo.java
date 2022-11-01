@@ -16,7 +16,7 @@ public class Minvo extends Enemies {
 
     @Override
     public void update(Scene scene) {
-
+        super.update(scene);
     }
 
     @Override

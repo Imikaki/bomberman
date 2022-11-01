@@ -42,6 +42,12 @@ public class Bomber extends Character {
 
     public void handleEvent(Scene scene) {
         scene.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.DIGIT0) {
+                Sound.playGame.stop();
+            }
+            if (event.getCode() == KeyCode.DIGIT1) {
+                Sound.playGame.loop();
+            }
             if (event.getCode() == KeyCode.SPACE) {
                 placeBomb();
                 run = true;

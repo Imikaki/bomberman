@@ -48,9 +48,4 @@ public class Balloom extends Enemies {
         }
         return BalloomDirection;
     }
-
-    @Override
-    public boolean isColliding(Entity other) {
-        return false;
-    }
 }
