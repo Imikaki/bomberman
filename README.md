@@ -12,7 +12,7 @@ Task
 
 Gói bắt buộc (+8đ)
 
-Thiết kế cây thừa kế cho các đối tượng game +2đ
+Thiết kế cây thừa kế cho các đối tượng game +2đ done
 
 Xây dựng bản đồ màn chơi từ tệp cấu hình (có mẫu tệp cấu hình, xem tại đây) +1đ done
 
@@ -24,7 +24,7 @@ Xử lý va chạm cho các đối tượng Bomber, Enemy, Wall, Brick, Bomb +1�
 
 Xử lý bom nổ +1đ done
 
-Xử lý khi Bomber sử dụng các Item và khi đi vào vị trí Portal +1đ
+Xử lý khi Bomber sử dụng các Item và khi đi vào vị trí Portal +1đ done
 
 Gói tùy chọn (tối đa +2đ)
 
@@ -34,7 +34,7 @@ Cài đặt thêm các loại Enemy khác: +0.25đ cho mỗi loại enemy * 4 do
 
 Cài đặt thuật toán AI cho Bomber (tự chơi) +1đ
 
-Xử lý hiệu ứng âm thanh (thêm music & sound effects) +1đ
+Xử lý hiệu ứng âm thanh (thêm music & sound effects) +1đ done
 
 Phát triển hệ thống server-client để nhiều người có thể cùng chơi qua mạng LAN hoặc Internet +1đ
 
