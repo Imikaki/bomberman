@@ -205,7 +205,6 @@ public class Bomber extends Character {
                 Bomb bomb = new Bomb(_x, _y, Sprite.bomb.getFxImage());
                 Map.bombs.add(bomb);
                 placedBomb++;
-                System.out.println("Placed bomb " + placedBomb);
             }
         }
     }
